@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "Venture Studio | Powered by CNIB",
@@ -29,11 +30,13 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        <Header />
-        <main id="main-content" className="flex-1" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
+        <Providers>
+          <Header />
+          <main id="main-content" className="flex-1" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

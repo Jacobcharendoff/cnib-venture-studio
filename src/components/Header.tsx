@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -13,6 +14,41 @@ const navLinks = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLElement>(null);
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+  /* Close menu on Escape — return focus to trigger button */
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape" && menuOpen) {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    },
+    [menuOpen],
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
+  /* Focus first link when mobile menu opens */
+  useEffect(() => {
+    if (menuOpen && menuRef.current) {
+      const firstLink = menuRef.current.querySelector("a");
+      requestAnimationFrame(() => firstLink?.focus());
+    }
+  }, [menuOpen]);
+
+  /* Close menu on route change */
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   return (
     <header
@@ -37,7 +73,7 @@ export default function Header() {
             </span>
             <span
               className="text-xs font-semibold tracking-[0.15em] uppercase hidden sm:inline"
-              style={{ color: "rgba(255,255,255,0.35)" }}
+              style={{ color: "var(--text-on-dark-subtle)" }}
             >
               CNIB
             </span>
@@ -52,20 +88,25 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-4 py-2 text-sm font-medium rounded-lg transition-colors no-underline"
-                style={{ color: "rgba(255,255,255,0.65)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--cnib-yellow)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.65)")}
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors no-underline nav-link ${
+                  isActive(link.href) ? "nav-link-active" : ""
+                }`}
+                aria-current={isActive(link.href) ? "page" : undefined}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button — 44×44 minimum touch target */}
           <button
-            className="md:hidden p-2 rounded-lg transition-colors text-white"
-            style={{ background: menuOpen ? "rgba(255,255,255,0.1)" : "transparent" }}
+            ref={menuButtonRef}
+            className="md:hidden p-2.5 rounded-lg transition-colors text-white flex items-center justify-center"
+            style={{
+              background: menuOpen ? "rgba(255,255,255,0.1)" : "transparent",
+              minWidth: 44,
+              minHeight: 44,
+            }}
             onClick={() => setMenuOpen(!menuOpen)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
@@ -100,6 +141,7 @@ export default function Header() {
         {/* Mobile Nav */}
         {menuOpen && (
           <nav
+            ref={menuRef}
             id="mobile-menu"
             className="md:hidden pb-4 border-t border-white/[0.06] pt-3"
             aria-label="Mobile navigation"
@@ -108,8 +150,11 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block px-4 py-3 text-base font-medium rounded-lg transition-colors no-underline"
-                style={{ color: "rgba(255,255,255,0.75)" }}
+                className={`flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors no-underline nav-link ${
+                  isActive(link.href) ? "nav-link-active" : ""
+                }`}
+                style={{ minHeight: 44 }}
+                aria-current={isActive(link.href) ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}

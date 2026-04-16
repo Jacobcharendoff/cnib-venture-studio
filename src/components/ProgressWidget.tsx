@@ -38,7 +38,9 @@ export default function ProgressWidget() {
       style={{
         background: "rgba(255,241,0,0.08)",
         border: "1px solid rgba(255,241,0,0.15)",
+        minHeight: 48,
       }}
+      aria-label={`${completed.length} of ${total} modules done — ${percent}% complete. View your progress.`}
     >
       {/* Mini ring */}
       <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
@@ -74,7 +76,7 @@ export default function ProgressWidget() {
           {completed.length}/{total} modules done
         </p>
         <p className="text-xs" style={{ color: "var(--text-on-dark-muted)" }}>
-          Continue where you left off →
+          Continue where you left off <span aria-hidden="true">\u2192</span>
         </p>
       </div>
     </Link>

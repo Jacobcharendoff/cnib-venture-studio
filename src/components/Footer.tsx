@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer
       className="border-t border-white/[0.06]"
-      style={{ background: "var(--cnib-black)", color: "var(--text-on-dark-muted)" }}
+      style={{ background: "var(--cnib-black)" }}
       role="contentinfo"
     >
       <div className="content-max py-16 sm:py-20">
@@ -16,11 +16,11 @@ export default function Footer() {
             </p>
             <p
               className="text-xs font-semibold tracking-[0.15em] uppercase mt-1"
-              style={{ color: "rgba(255,255,255,0.3)" }}
+              style={{ color: "var(--text-on-dark-subtle)" }}
             >
               Powered by CNIB
             </p>
-            <p className="mt-5 text-sm leading-relaxed max-w-xs">
+            <p className="mt-5 text-sm leading-relaxed max-w-xs" style={{ color: "var(--text-on-dark-muted)" }}>
               Turn your idea into your first dollar. An immersive entrepreneurial
               program for blind and low-vision founders.
             </p>
@@ -28,7 +28,7 @@ export default function Footer() {
 
           {/* Navigation */}
           <div>
-            <h3 className="eyebrow mb-5" style={{ color: "rgba(255,255,255,0.35)" }}>
+            <h3 className="eyebrow mb-5" style={{ color: "var(--text-on-dark-subtle)" }}>
               Navigate
             </h3>
             <ul className="space-y-2.5" role="list">
@@ -40,7 +40,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm hover:text-cnib-yellow transition-colors no-underline"
+                    className="text-sm hover:text-cnib-yellow focus-visible:text-cnib-yellow transition-colors no-underline inline-block py-1"
                     style={{ color: "var(--text-on-dark-muted)" }}
                   >
                     {link.label}
@@ -52,10 +52,10 @@ export default function Footer() {
 
           {/* Accessibility */}
           <div>
-            <h3 className="eyebrow mb-5" style={{ color: "rgba(255,255,255,0.35)" }}>
+            <h3 className="eyebrow mb-5" style={{ color: "var(--text-on-dark-subtle)" }}>
               Accessibility
             </h3>
-            <p className="text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
               This platform is built with accessibility at its core — screen
               reader compatible, keyboard navigable, and designed for everyone.
               All worksheets are provided in accessible .docx format.
@@ -65,27 +65,29 @@ export default function Footer() {
 
         <hr className="divider-gradient my-12" />
 
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs" style={{ color: "var(--text-on-dark-muted)" }}>
           <p>
             &copy; {new Date().getFullYear()} Venture Studio. Built by{" "}
             <a
               href="https://www.linkedin.com/in/jacob-charendoff/"
-              className="hover:text-cnib-yellow transition-colors underline"
+              className="hover:text-cnib-yellow focus-visible:text-cnib-yellow transition-colors underline"
               style={{ color: "var(--text-on-dark-muted)" }}
               target="_blank"
               rel="noopener noreferrer"
             >
               Jacob Charendoff
+              <span className="sr-only"> (opens in new tab)</span>
             </a>
           </p>
           <a
             href="https://www.cnib.ca"
-            className="hover:text-cnib-yellow transition-colors underline text-xs"
+            className="hover:text-cnib-yellow focus-visible:text-cnib-yellow transition-colors underline text-xs"
             style={{ color: "var(--text-on-dark-muted)" }}
             target="_blank"
             rel="noopener noreferrer"
           >
             cnib.ca
+            <span className="sr-only"> (opens in new tab)</span>
           </a>
         </div>
       </div>

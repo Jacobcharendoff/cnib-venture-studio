@@ -36,6 +36,7 @@ export default function CompletionToggle({
 }: Props) {
   const [done, setDone] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
 
   useEffect(() => {
     setDone(load().includes(moduleId));
@@ -48,11 +49,22 @@ export default function CompletionToggle({
     const prev = load();
     const next = done ? prev.filter((x) => x !== moduleId) : [...prev, moduleId];
     save(next);
-    setDone(!done);
+    const newDone = !done;
+    setDone(newDone);
+    setAnnouncement(
+      newDone
+        ? `${moduleTitle} marked as complete.${nextModuleTitle ? ` Next up: ${nextModuleTitle}.` : " All modules reviewed."}`
+        : `${moduleTitle} marked as incomplete.`
+    );
   };
 
   return (
     <div className="flex flex-col items-center gap-4">
+      {/* Live region for screen reader announcements */}
+      <div className="sr-only" role="status" aria-live="polite">
+        {announcement}
+      </div>
+
       <button
         onClick={toggle}
         className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold transition-all duration-300 cursor-pointer border-none"
@@ -60,11 +72,13 @@ export default function CompletionToggle({
           background: done ? "var(--cnib-yellow)" : "rgba(255,255,255,0.08)",
           color: done ? "var(--cnib-black)" : "white",
           border: done ? "none" : "2px solid rgba(255,255,255,0.15)",
+          minHeight: 48,
         }}
+        aria-pressed={done}
         aria-label={
           done
-            ? `Mark "${moduleTitle}" as incomplete`
-            : `Mark "${moduleTitle}" as complete`
+            ? `Mark \"${moduleTitle}\" as incomplete`
+            : `Mark \"${moduleTitle}\" as complete`
         }
       >
         {/* Checkmark circle */}
@@ -100,7 +114,7 @@ export default function CompletionToggle({
           className="text-sm font-medium no-underline transition-colors"
           style={{ color: "var(--cnib-yellow)" }}
         >
-          Next up: {nextModuleTitle} →
+          Next up: {nextModuleTitle} <span aria-hidden="true">\u2192</span>
         </Link>
       )}
       {done && !nextModuleId && (
@@ -109,7 +123,7 @@ export default function CompletionToggle({
           className="text-sm font-medium no-underline transition-colors"
           style={{ color: "var(--cnib-yellow)" }}
         >
-          View your progress →
+          View your progress <span aria-hidden="true">\u2192</span>
         </Link>
       )}
     </div>
