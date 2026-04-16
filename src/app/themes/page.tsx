@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { phases, getModulesByPhase, getAvailableModules } from "@/data/modules";
+import { FadeIn, Stagger, StaggerItem } from "@/components/Animate";
+import ModuleComplete from "@/components/ModuleComplete";
 
 export const metadata: Metadata = {
   title: "Themes | Venture Studio",
@@ -13,7 +15,7 @@ export default function ThemesPage() {
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────────── */}
+      {/* ── Hero ──────────────────────────────────────────── */}
       <section className="mesh-gradient-hero relative overflow-hidden section-padding pt-32 sm:pt-40">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -25,24 +27,30 @@ export default function ThemesPage() {
           aria-hidden="true"
         />
         <div className="content-max relative z-10">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="glow-dot" aria-hidden="true" />
-            <p className="caption text-cnib-yellow">The curriculum</p>
-          </div>
-          <h1 className="hero-heading text-white mb-8">
-            6 phases.
-            <br />
-            <span className="text-cnib-yellow">18 modules.</span>
-          </h1>
-          <p className="body-large max-w-2xl" style={{ color: "var(--text-on-dark-muted)" }}>
-            Each phase builds on the last. Each module gives you something
-            concrete — a tool, a framework, a deliverable. By the end,
-            you&rsquo;ll have everything you need to pitch your business.
-          </p>
+          <FadeIn delay={0.1}>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="glow-dot" aria-hidden="true" />
+              <p className="caption text-cnib-yellow">The curriculum</p>
+            </div>
+          </FadeIn>
+          <FadeIn delay={0.2}>
+            <h1 className="hero-heading text-white mb-8">
+              6 phases.
+              <br />
+              <span className="text-cnib-yellow">18 modules.</span>
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.35}>
+            <p className="body-large max-w-2xl" style={{ color: "var(--text-on-dark-muted)" }}>
+              Each phase builds on the last. Each module gives you something
+              concrete — a tool, a framework, a deliverable. By the end,
+              you&rsquo;ll have everything you need to pitch your business.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
-      {/* ── Phase Sections ────────────────────────────────────── */}
+      {/* ── Phase Sections ──────────────────────────────── */}
       {phases.map((phase, phaseIndex) => {
         const phaseModules = getModulesByPhase(phase.id);
         const isDark = phaseIndex % 2 === 0;
@@ -70,142 +78,159 @@ export default function ThemesPage() {
 
             <div className="content-max relative z-10">
               {/* Phase Header */}
-              <div className="flex items-start gap-6 mb-16">
-                <span
-                  className="number-accent hidden sm:block"
-                  aria-hidden="true"
-                  style={!isDark ? { WebkitTextStroke: "1.5px var(--cnib-yellow-dim)", opacity: 0.25 } : undefined}
-                >
-                  {String(phase.number).padStart(2, "0")}
-                </span>
-                <div className="pt-2 sm:pt-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    {isDark && <span className="glow-dot" aria-hidden="true" />}
-                    <span className={`eyebrow ${isDark ? "text-cnib-yellow" : "text-cnib-yellow-dim"}`}>
-                      Phase {phase.number}
-                    </span>
+              <FadeIn>
+                <div className="flex items-start gap-6 mb-16">
+                  <span
+                    className="number-accent hidden sm:block"
+                    aria-hidden="true"
+                    style={!isDark ? { WebkitTextStroke: "1.5px var(--cnib-yellow-dim)", opacity: 0.25 } : undefined}
+                  >
+                    {String(phase.number).padStart(2, "0")}
+                  </span>
+                  <div className="pt-2 sm:pt-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      {isDark && <span className="glow-dot" aria-hidden="true" />}
+                      <span className={`eyebrow ${isDark ? "text-cnib-yellow" : "text-cnib-yellow-dim"}`}>
+                        Phase {phase.number}
+                      </span>
+                    </div>
+                    <h2
+                      className={`text-3xl sm:text-4xl font-bold tracking-tight mb-3 ${
+                        isDark ? "text-white" : "text-cnib-black"
+                      }`}
+                    >
+                      {phase.name}
+                    </h2>
+                    <p
+                      className="text-lg"
+                      style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-secondary)" }}
+                    >
+                      {phase.tagline}
+                    </p>
                   </div>
-                  <h2
-                    className={`text-3xl sm:text-4xl font-bold tracking-tight mb-3 ${
-                      isDark ? "text-white" : "text-cnib-black"
-                    }`}
-                  >
-                    {phase.name}
-                  </h2>
-                  <p
-                    className="text-lg"
-                    style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-secondary)" }}
-                  >
-                    {phase.tagline}
-                  </p>
                 </div>
-              </div>
+              </FadeIn>
 
               {/* Module Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.1}>
                 {phaseModules.map((mod) => {
                   const isComingSoon = mod.title === "Coming Soon";
 
                   if (isComingSoon) {
                     return (
-                      <div
-                        key={mod.id}
-                        className={`rounded-2xl p-8 border ${
-                          isDark
-                            ? "bg-white/[0.03] border-white/[0.06]"
-                            : "bg-surface-elevated border-border-light"
-                        }`}
-                      >
-                        <span
-                          className={`badge ${isDark ? "badge-outline" : ""} mb-4`}
+                      <StaggerItem key={mod.id}>
+                        <div
+                          className={`rounded-2xl p-8 border ${
+                            isDark
+                              ? "bg-white/[0.03] border-white/[0.06]"
+                              : "bg-surface-elevated border-border-light"
+                          }`}
                         >
-                          Coming Soon
-                        </span>
-                        <p
-                          className="text-sm"
-                          style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-muted)" }}
-                        >
-                          New module being developed. Check back soon.
-                        </p>
-                      </div>
+                          <span
+                            className={`badge ${isDark ? "badge-outline" : ""} mb-4`}
+                          >
+                            Coming Soon
+                          </span>
+                          <p
+                            className="text-sm"
+                            style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-muted)" }}
+                          >
+                            New module being developed. Check back soon.
+                          </p>
+                        </div>
+                      </StaggerItem>
                     );
                   }
 
                   return (
-                    <Link
-                      key={mod.id}
-                      href={`/themes/${mod.id}`}
-                      className={`group no-underline ${
-                        isDark ? "glass-card" : "premium-card"
-                      }`}
-                    >
-                      <h3
-                        className={`text-xl font-bold mb-3 transition-colors ${
-                          isDark
-                            ? "text-white group-hover:text-cnib-yellow"
-                            : "text-cnib-black group-hover:text-cnib-blue"
+                    <StaggerItem key={mod.id}>
+                      <Link
+                        href={`/themes/${mod.id}`}
+                        className={`group no-underline block h-full ${
+                          isDark ? "glass-card" : "premium-card"
                         }`}
                       >
-                        {mod.title}
-                      </h3>
-                      <p
-                        className="text-sm mb-4"
-                        style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-secondary)" }}
-                      >
-                        {mod.subtitle}
-                      </p>
-                      <p
-                        className="text-sm leading-relaxed"
-                        style={{ color: isDark ? "rgba(255,255,255,0.45)" : "var(--text-muted)" }}
-                      >
-                        {mod.outcome}
-                      </p>
-
-                      {mod.stats && mod.stats.length > 0 && (
-                        <div className={`flex gap-6 mt-6 pt-6 border-t ${
-                          isDark ? "border-white/[0.06]" : "border-border-light"
-                        }`}>
-                          {mod.stats.slice(0, 2).map((stat) => (
-                            <div key={stat.label}>
-                              <p
-                                className={`text-lg font-bold ${
-                                  isDark ? "text-cnib-yellow" : "text-cnib-black"
-                                }`}
-                              >
-                                {stat.value}
-                              </p>
-                              <p
-                                className="text-xs"
-                                style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-muted)" }}
-                              >
-                                {stat.label}
-                              </p>
-                            </div>
-                          ))}
+                        {/* Completion badge */}
+                        <div className="flex items-center justify-between mb-1">
+                          <div /> {/* spacer */}
+                          <ModuleComplete moduleId={mod.id} />
                         </div>
-                      )}
-                    </Link>
+
+                        <h3
+                          className={`text-xl font-bold mb-3 transition-colors ${
+                            isDark
+                              ? "text-white group-hover:text-cnib-yellow"
+                              : "text-cnib-black group-hover:text-cnib-blue"
+                          }`}
+                        >
+                          {mod.title}
+                        </h3>
+                        <p
+                          className="text-sm mb-4"
+                          style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-secondary)" }}
+                        >
+                          {mod.subtitle}
+                        </p>
+                        <p
+                          className="text-sm leading-relaxed"
+                          style={{ color: isDark ? "rgba(255,255,255,0.45)" : "var(--text-muted)" }}
+                        >
+                          {mod.outcome}
+                        </p>
+
+                        {mod.stats && mod.stats.length > 0 && (
+                          <div className={`flex gap-6 mt-6 pt-6 border-t ${
+                            isDark ? "border-white/[0.06]" : "border-border-light"
+                          }`}>
+                            {mod.stats.slice(0, 2).map((stat) => (
+                              <div key={stat.label}>
+                                <p
+                                  className={`text-lg font-bold ${
+                                    isDark ? "text-cnib-yellow" : "text-cnib-black"
+                                  }`}
+                                >
+                                  {stat.value}
+                                </p>
+                                <p
+                                  className="text-xs"
+                                  style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-muted)" }}
+                                >
+                                  {stat.label}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </Link>
+                    </StaggerItem>
                   );
                 })}
-              </div>
+              </Stagger>
             </div>
           </section>
         );
       })}
 
-      {/* ── CTA ───────────────────────────────────────────────── */}
+      {/* ── CTA ───────────────────────────────────────────── */}
       <section className="section-yellow section-padding-sm">
         <div className="content-narrow text-center">
-          <h2 className="section-heading text-cnib-black mb-6">
-            Ready to start?
-          </h2>
-          <p className="body-large text-cnib-black/70 mb-10">
-            Grab the worksheets, listen to the podcasts, and follow along at
-            your own pace.
-          </p>
-          <Link href="/toolkit" className="btn-dark">
-            Go to the Toolkit
-          </Link>
+          <FadeIn>
+            <h2 className="section-heading text-cnib-black mb-6">
+              Ready to start?
+            </h2>
+            <p className="body-large text-cnib-black/70 mb-10">
+              Grab the worksheets, listen to the podcasts, and follow along at
+              your own pace.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/toolkit" className="btn-dark">
+                Go to the Toolkit
+              </Link>
+              <Link href="/progress" className="btn-dark" style={{ background: "transparent", border: "2px solid var(--cnib-black)", color: "var(--cnib-black)" }}>
+                Track your progress
+              </Link>
+            </div>
+          </FadeIn>
         </div>
       </section>
     </>

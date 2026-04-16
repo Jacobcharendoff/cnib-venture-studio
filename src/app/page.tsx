@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { phases, getModulesByPhase, getAvailableModules } from "@/data/modules";
+import { FadeIn, Stagger, StaggerItem, ScaleIn } from "@/components/Animate";
+import ProgressWidget from "@/components/ProgressWidget";
 
 export default function Home() {
   const availableCount = getAvailableModules().length;
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────────── */}
+      {/* ── Hero ──────────────────────────────────────────── */}
       <section className="mesh-gradient-hero relative overflow-hidden min-h-[100svh] flex items-center">
         {/* Decorative grid */}
         <div
@@ -27,34 +29,47 @@ export default function Home() {
 
         <div className="content-max relative z-10 py-32 sm:py-40">
           <div className="max-w-5xl">
-            <div className="flex items-center gap-3 mb-8">
-              <span className="glow-dot" aria-hidden="true" />
-              <p className="caption text-cnib-yellow">
-                CNIB Venture Studio
+            <FadeIn delay={0.1}>
+              <div className="flex items-center gap-3 mb-8">
+                <span className="glow-dot" aria-hidden="true" />
+                <p className="caption text-cnib-yellow">
+                  CNIB Venture Studio
+                </p>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.2}>
+              <h1 className="hero-heading text-white mb-8">
+                Turn your idea
+                <br />
+                into your{" "}
+                <span className="text-cnib-yellow">first dollar.</span>
+              </h1>
+            </FadeIn>
+
+            <FadeIn delay={0.35}>
+              <p className="body-large max-w-2xl mb-14" style={{ color: "var(--text-on-dark-muted)" }}>
+                An immersive entrepreneurial program for blind and low-vision
+                founders. No MBA required. Just a great idea and the will to
+                build it.
               </p>
-            </div>
+            </FadeIn>
 
-            <h1 className="hero-heading text-white mb-8">
-              Turn your idea
-              <br />
-              into your{" "}
-              <span className="text-cnib-yellow">first dollar.</span>
-            </h1>
+            <FadeIn delay={0.5}>
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <Link href="/themes" className="btn-primary pulse-glow">
+                  Explore the program
+                </Link>
+                <Link href="/toolkit" className="btn-secondary">
+                  Browse the toolkit
+                </Link>
+              </div>
+            </FadeIn>
 
-            <p className="body-large max-w-2xl mb-14" style={{ color: "var(--text-on-dark-muted)" }}>
-              An immersive entrepreneurial program for blind and low-vision
-              founders. No MBA required. Just a great idea and the will to
-              build it.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/themes" className="btn-primary pulse-glow">
-                Explore the program
-              </Link>
-              <Link href="/toolkit" className="btn-secondary">
-                Browse the toolkit
-              </Link>
-            </div>
+            {/* Progress widget — only visible if user has started */}
+            <FadeIn delay={0.6}>
+              <ProgressWidget />
+            </FadeIn>
           </div>
         </div>
 
@@ -66,40 +81,42 @@ export default function Home() {
         />
       </section>
 
-      {/* ── Stats Bar ─────────────────────────────────────────── */}
+      {/* ── Stats Bar ─────────────────────────────────────── */}
       <section className="section-yellow" aria-label="Program highlights">
         <div className="content-max py-12 sm:py-16">
-          <div className="stat-grid text-center">
+          <Stagger className="stat-grid text-center" staggerDelay={0.08}>
             {[
               { value: "18", label: "Modules" },
               { value: "6", label: "Phases" },
               { value: "90 min", label: "Per Session" },
               { value: "$0", label: "Cost to Members" },
             ].map((stat) => (
-              <div key={stat.label}>
+              <StaggerItem key={stat.label}>
                 <p className="stat-number text-cnib-black">{stat.value}</p>
                 <p className="stat-label text-cnib-black/70 mt-2">{stat.label}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
-      {/* ── Who This Is For ───────────────────────────────────── */}
+      {/* ── Who This Is For ─────────────────────────────── */}
       <section className="section-padding bg-white" aria-label="Who this program is for">
         <div className="content-narrow text-center">
-          <p className="caption text-cnib-yellow-dim mb-6">Built for you</p>
-          <h2 className="section-heading text-cnib-black mb-8">
-            For first-time entrepreneurs who have a great idea — and want to
-            know how to make it real.
-          </h2>
-          <p className="body-large text-text-secondary mb-16">
-            You don&rsquo;t need a business degree. You don&rsquo;t need
-            investors. You need clarity, structure, and someone who&rsquo;s
-            been where you are. This program gives you all three.
-          </p>
+          <FadeIn>
+            <p className="caption text-cnib-yellow-dim mb-6">Built for you</p>
+            <h2 className="section-heading text-cnib-black mb-8">
+              For first-time entrepreneurs who have a great idea — and want to
+              know how to make it real.
+            </h2>
+            <p className="body-large text-text-secondary mb-16">
+              You don&rsquo;t need a business degree. You don&rsquo;t need
+              investors. You need clarity, structure, and someone who&rsquo;s
+              been where you are. This program gives you all three.
+            </p>
+          </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+          <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left" staggerDelay={0.12}>
             {[
               {
                 num: "01",
@@ -117,25 +134,26 @@ export default function Home() {
                 desc: "Walk away with a 10-slide pitch deck and the confidence to deliver it to anyone.",
               },
             ].map((item) => (
-              <div key={item.num} className="premium-card">
-                <span className="eyebrow text-cnib-yellow-dim block mb-3">
-                  {item.num}
-                </span>
-                <h3 className="text-lg font-bold text-cnib-black mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-text-secondary leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
+              <StaggerItem key={item.num}>
+                <div className="premium-card">
+                  <span className="eyebrow text-cnib-yellow-dim block mb-3">
+                    {item.num}
+                  </span>
+                  <h3 className="text-lg font-bold text-cnib-black mb-3">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
-      {/* ── The 6 Phases ──────────────────────────────────────── */}
+      {/* ── The 6 Phases ────────────────────────────────── */}
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Program phases">
-        {/* Subtle grid texture */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -147,7 +165,7 @@ export default function Home() {
         />
 
         <div className="content-max relative z-10">
-          <div className="text-center mb-20">
+          <FadeIn className="text-center mb-20">
             <p className="caption text-cnib-yellow mb-6">The journey</p>
             <h2 className="section-heading text-white mb-6">
               6 phases. 18 modules.
@@ -158,60 +176,61 @@ export default function Home() {
               Each phase builds on the last, taking you from raw idea to
               investor-ready pitch.
             </p>
-          </div>
+          </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
             {phases.map((p) => {
               const phaseModules = getModulesByPhase(p.id);
               const available = phaseModules.filter(
                 (m) => m.title !== "Coming Soon"
               ).length;
               return (
-                <Link
-                  key={p.id}
-                  href={`/themes#${p.id}`}
-                  className="glass-card no-underline group"
-                >
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-cnib-yellow font-bold text-3xl font-mono tracking-tighter">
-                      {String(p.number).padStart(2, "0")}
-                    </span>
-                    <span className="eyebrow" style={{ color: "var(--text-on-dark-muted)" }}>
-                      {available}/{phaseModules.length} modules
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cnib-yellow transition-colors">
-                    {p.name}
-                  </h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
-                    {p.tagline}
-                  </p>
-                </Link>
+                <StaggerItem key={p.id}>
+                  <Link
+                    href={`/themes#${p.id}`}
+                    className="glass-card no-underline group block h-full"
+                  >
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-cnib-yellow font-bold text-3xl font-mono tracking-tighter">
+                        {String(p.number).padStart(2, "0")}
+                      </span>
+                      <span className="eyebrow" style={{ color: "var(--text-on-dark-muted)" }}>
+                        {available}/{phaseModules.length} modules
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cnib-yellow transition-colors">
+                      {p.name}
+                    </h3>
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
+                      {p.tagline}
+                    </p>
+                  </Link>
+                </StaggerItem>
               );
             })}
-          </div>
+          </Stagger>
 
-          <div className="text-center mt-16">
+          <FadeIn className="text-center mt-16">
             <Link href="/themes" className="btn-primary">
               View all {availableCount} modules
             </Link>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* ── How It Works ──────────────────────────────────────── */}
+      {/* ── How It Works ────────────────────────────────── */}
       <section className="section-warm section-padding" aria-label="How the program works">
         <div className="content-max">
-          <div className="text-center mb-20">
+          <FadeIn className="text-center mb-20">
             <p className="caption text-cnib-yellow-dim mb-6">How it works</p>
             <h2 className="section-heading text-cnib-black">
               Built around your life,
               <br />
               not around a classroom.
             </h2>
-          </div>
+          </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-12" staggerDelay={0.15}>
             {[
               {
                 num: "01",
@@ -229,7 +248,7 @@ export default function Home() {
                 desc: "The program ends with a Final Pitch Showcase — your chance to present your business to mentors and business leaders.",
               },
             ].map((item) => (
-              <div key={item.num} className="relative">
+              <StaggerItem key={item.num}>
                 <span className="number-accent block mb-4" aria-hidden="true">
                   {item.num}
                 </span>
@@ -239,49 +258,51 @@ export default function Home() {
                 <p className="text-text-secondary leading-relaxed">
                   {item.desc}
                 </p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
-      {/* ── Meet Your Instructor ──────────────────────────────── */}
+      {/* ── Meet Your Instructor ────────────────────────── */}
       <section className="section-padding bg-white" aria-label="Meet your instructor">
         <div className="content-narrow">
-          <div className="text-center mb-12">
+          <FadeIn className="text-center mb-12">
             <p className="caption text-cnib-yellow-dim mb-6">Your instructor</p>
             <h2 className="section-heading text-cnib-black mb-8">
               Jacob Charendoff
             </h2>
-          </div>
+          </FadeIn>
 
-          <div className="relative">
-            <div className="absolute -left-4 top-0 bottom-0 w-1 bg-cnib-yellow rounded-full" aria-hidden="true" />
-            <div className="pl-8 space-y-6">
-              <p className="body-large text-text-secondary">
-                A legally blind entrepreneur who has built businesses across
-                industries — from luxury hospitality in the mountains of Peru, to
-                boutique eCommerce brands trusted by global music retailers, to
-                AI-powered healthtech platforms that personalize care.
-              </p>
-              <p className="text-text-secondary">
-                This program isn&rsquo;t based on theory. It&rsquo;s based on
-                experience — raw, real, and full of hard-won lessons. Jacob
-                didn&rsquo;t start with connections or capital, just curiosity,
-                resilience, and a bias for action.
-              </p>
+          <FadeIn delay={0.15}>
+            <div className="relative">
+              <div className="absolute -left-4 top-0 bottom-0 w-1 bg-cnib-yellow rounded-full" aria-hidden="true" />
+              <div className="pl-8 space-y-6">
+                <p className="body-large text-text-secondary">
+                  A legally blind entrepreneur who has built businesses across
+                  industries — from luxury hospitality in the mountains of Peru, to
+                  boutique eCommerce brands trusted by global music retailers, to
+                  AI-powered healthtech platforms that personalize care.
+                </p>
+                <p className="text-text-secondary">
+                  This program isn&rsquo;t based on theory. It&rsquo;s based on
+                  experience — raw, real, and full of hard-won lessons. Jacob
+                  didn&rsquo;t start with connections or capital, just curiosity,
+                  resilience, and a bias for action.
+                </p>
+              </div>
             </div>
-          </div>
+          </FadeIn>
 
-          <div className="text-center mt-12">
+          <FadeIn className="text-center mt-12" delay={0.25}>
             <Link href="/about" className="btn-dark">
               Read Jacob&rsquo;s story
             </Link>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────────── */}
+      {/* ── CTA ───────────────────────────────────────────── */}
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Call to action">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -292,21 +313,23 @@ export default function Home() {
           aria-hidden="true"
         />
         <div className="content-narrow text-center relative z-10">
-          <p className="caption text-cnib-yellow mb-6">Start now</p>
-          <h2 className="section-heading text-white mb-6">
-            Your first sale is waiting.
-          </h2>
-          <p className="body-large mb-12" style={{ color: "var(--text-on-dark-muted)" }}>
-            Real business. Real skills. Real outcomes.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/themes" className="btn-primary">
-              Start learning
-            </Link>
-            <Link href="/toolkit" className="btn-secondary">
-              Get the worksheets
-            </Link>
-          </div>
+          <ScaleIn>
+            <p className="caption text-cnib-yellow mb-6">Start now</p>
+            <h2 className="section-heading text-white mb-6">
+              Your first sale is waiting.
+            </h2>
+            <p className="body-large mb-12" style={{ color: "var(--text-on-dark-muted)" }}>
+              Real business. Real skills. Real outcomes.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/themes" className="btn-primary">
+                Start learning
+              </Link>
+              <Link href="/toolkit" className="btn-secondary">
+                Get the worksheets
+              </Link>
+            </div>
+          </ScaleIn>
         </div>
       </section>
     </>
