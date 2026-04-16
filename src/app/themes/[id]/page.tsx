@@ -23,6 +23,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+const exampleLabels = {
+  bad: { text: "What doesn\u2019t work", color: "#EF4444", bg: "rgba(239,68,68,0.08)", border: "rgba(239,68,68,0.2)" },
+  good: { text: "Getting warmer", color: "#F59E0B", bg: "rgba(245,158,11,0.08)", border: "rgba(245,158,11,0.2)" },
+  great: { text: "This is the standard", color: "#22C55E", bg: "rgba(34,197,94,0.08)", border: "rgba(34,197,94,0.2)" },
+};
+
 export default async function ModulePage({ params }: PageProps) {
   const { id } = await params;
   const mod = getModuleById(id);
@@ -35,6 +41,7 @@ export default async function ModulePage({ params }: PageProps) {
     (m) => m.title !== "Coming Soon"
   );
   const currentIndex = modules.findIndex((m) => m.id === id);
+  const moduleNumber = modules.filter((m) => m.title !== "Coming Soon").findIndex((m) => m.id === id) + 1;
   const prevModule =
     currentIndex > 0
       ? modules
@@ -77,7 +84,7 @@ export default async function ModulePage({ params }: PageProps) {
           <div className="flex items-center gap-3 mb-8">
             <span className="glow-dot" aria-hidden="true" />
             <span className="badge badge-outline">
-              Phase {mod.phase.number}: {mod.phase.name}
+              Module {moduleNumber} &middot; Phase {mod.phase.number}: {mod.phase.name}
             </span>
           </div>
 
@@ -104,8 +111,8 @@ export default async function ModulePage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* ── Module Content ────────────────────────────────────── */}
-      <section className="section-padding bg-white" aria-label="Module content">
+      {/* ── What You'll Learn ─────────────────────────────────── */}
+      <section className="section-padding bg-white" aria-label="What you will learn">
         <div className="content-max">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
             {/* Main Content */}
@@ -153,14 +160,6 @@ export default async function ModulePage({ params }: PageProps) {
                   Case Study: {mod.caseStudy.company}
                 </h3>
                 <p className="text-text-secondary leading-relaxed">{mod.caseStudy.insight}</p>
-              </div>
-
-              {/* Assignment */}
-              <div className="mesh-gradient-dark rounded-2xl p-8 relative overflow-hidden">
-                <p className="caption text-cnib-yellow mb-4">Your assignment</p>
-                <p className="text-lg font-medium" style={{ color: "var(--text-on-dark)" }}>
-                  {mod.assignment}
-                </p>
               </div>
             </div>
 
@@ -210,6 +209,95 @@ export default async function ModulePage({ params }: PageProps) {
                 </nav>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Real-World Examples (Bad / Good / Great) ──────────── */}
+      {mod.realWorldExamples && mod.realWorldExamples.length > 0 && (
+        <section className="section-warm section-padding" aria-label="Real-world examples">
+          <div className="content-max">
+            <div className="text-center mb-16">
+              <p className="caption text-cnib-yellow-dim mb-4">See the difference</p>
+              <h2 className="section-heading text-cnib-black">
+                What does this look like in practice?
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {mod.realWorldExamples.map((example) => {
+                const style = exampleLabels[example.label];
+                return (
+                  <div
+                    key={example.label}
+                    className="rounded-2xl p-8 relative overflow-hidden"
+                    style={{
+                      background: style.bg,
+                      border: `1px solid ${style.border}`,
+                    }}
+                  >
+                    <div
+                      className="absolute top-0 left-0 right-0 h-[3px]"
+                      style={{ background: style.color }}
+                      aria-hidden="true"
+                    />
+                    <span
+                      className="inline-block text-xs font-bold tracking-widest uppercase mb-5 px-3 py-1.5 rounded-full"
+                      style={{ color: style.color, background: `${style.color}15` }}
+                    >
+                      {style.text}
+                    </span>
+                    <h3 className="text-base font-bold text-cnib-black mb-4 leading-snug">
+                      {example.title}
+                    </h3>
+                    <p className="text-sm text-text-secondary leading-relaxed">
+                      {example.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Key Takeaway ──────────────────────────────────────── */}
+      {mod.keyTakeaway && (
+        <section className="bg-white section-padding-sm" aria-label="Key takeaway">
+          <div className="content-narrow text-center">
+            <div className="relative inline-block">
+              <div className="absolute -left-6 -top-4 text-6xl font-bold text-cnib-yellow/20 select-none" aria-hidden="true">
+                &ldquo;
+              </div>
+              <p className="text-2xl sm:text-3xl font-bold text-cnib-black leading-snug tracking-tight">
+                {mod.keyTakeaway}
+              </p>
+              <div className="absolute -right-4 -bottom-6 text-6xl font-bold text-cnib-yellow/20 select-none" aria-hidden="true">
+                &rdquo;
+              </div>
+            </div>
+            <p className="eyebrow text-text-muted mt-8">Key takeaway</p>
+          </div>
+        </section>
+      )}
+
+      {/* ── Assignment ────────────────────────────────────────── */}
+      <section className="mesh-gradient-dark section-padding-sm relative overflow-hidden" aria-label="Your assignment">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+          aria-hidden="true"
+        />
+        <div className="content-narrow relative z-10">
+          <div className="glass-card text-center" style={{ cursor: "default" }}>
+            <p className="caption text-cnib-yellow mb-6">Your assignment</p>
+            <p className="text-lg sm:text-xl font-medium leading-relaxed" style={{ color: "var(--text-on-dark)" }}>
+              {mod.assignment}
+            </p>
           </div>
         </div>
       </section>
