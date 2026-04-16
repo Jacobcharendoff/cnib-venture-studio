@@ -23,10 +23,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+// WCAG AA compliant: all label text ≥ 4.5:1 contrast against card background
 const exampleLabels = {
-  bad: { text: "What doesn\u2019t work", color: "#EF4444", bg: "rgba(239,68,68,0.08)", border: "rgba(239,68,68,0.2)" },
-  good: { text: "Getting warmer", color: "#F59E0B", bg: "rgba(245,158,11,0.08)", border: "rgba(245,158,11,0.2)" },
-  great: { text: "This is the standard", color: "#22C55E", bg: "rgba(34,197,94,0.08)", border: "rgba(34,197,94,0.2)" },
+  bad: { text: "What doesn\u2019t work", color: "#991B1B", accent: "#EF4444", bg: "#FEF2F2", border: "#FECACA" },
+  good: { text: "Getting warmer", color: "#92400E", accent: "#F59E0B", bg: "#FFFBEB", border: "#FDE68A" },
+  great: { text: "This is the standard", color: "#166534", accent: "#22C55E", bg: "#F0FDF4", border: "#BBF7D0" },
 };
 
 export default async function ModulePage({ params }: PageProps) {
@@ -57,7 +58,7 @@ export default async function ModulePage({ params }: PageProps) {
       : null;
 
   return (
-    <>
+    <main id="module-content" aria-label={`Module ${moduleNumber}: ${mod.title}`}>
       {/* ── Module Hero ───────────────────────────────────────── */}
       <section className="mesh-gradient-hero relative overflow-hidden section-padding pt-32 sm:pt-40">
         <div
@@ -71,21 +72,39 @@ export default async function ModulePage({ params }: PageProps) {
         />
 
         <div className="content-max relative z-10">
-          <div className="mb-8">
-            <Link
-              href="/themes"
-              className="inline-flex items-center gap-2 text-sm no-underline transition-colors"
-              style={{ color: "var(--text-on-dark-muted)" }}
-            >
-              <span aria-hidden="true">&larr;</span> All Themes
-            </Link>
-          </div>
+          {/* Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="mb-8">
+            <ol className="flex items-center gap-2 text-sm" style={{ color: "var(--text-on-dark-muted)" }}>
+              <li>
+                <Link href="/themes" className="no-underline transition-colors hover:text-white" style={{ color: "var(--text-on-dark-muted)" }}>
+                  All Themes
+                </Link>
+              </li>
+              <li aria-hidden="true" className="select-none">/</li>
+              <li>
+                <Link href="/themes" className="no-underline transition-colors hover:text-white" style={{ color: "var(--text-on-dark-muted)" }}>
+                  Phase {mod.phase.number}: {mod.phase.name}
+                </Link>
+              </li>
+              <li aria-hidden="true" className="select-none">/</li>
+              <li aria-current="page" className="text-white font-medium truncate max-w-[200px]">
+                {mod.title}
+              </li>
+            </ol>
+          </nav>
 
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-4">
             <span className="glow-dot" aria-hidden="true" />
             <span className="badge badge-outline">
-              Module {moduleNumber} &middot; Phase {mod.phase.number}: {mod.phase.name}
+              Module {moduleNumber} of {modules.filter((m) => m.title !== "Coming Soon").length} &middot; Phase {mod.phase.number}: {mod.phase.name}
             </span>
+          </div>
+
+          {/* Progress bar */}
+          <div className="mb-8" role="progressbar" aria-valuenow={moduleNumber} aria-valuemin={1} aria-valuemax={modules.filter((m) => m.title !== "Coming Soon").length} aria-label={`Module ${moduleNumber} of ${modules.filter((m) => m.title !== "Coming Soon").length}`}>
+            <div className="w-full max-w-xs h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
+              <div className="h-full rounded-full bg-cnib-yellow transition-all" style={{ width: `${(moduleNumber / modules.filter((m) => m.title !== "Coming Soon").length) * 100}%` }} />
+            </div>
           </div>
 
           <h1 className="hero-heading text-white mb-6">{mod.title}</h1>
@@ -95,7 +114,7 @@ export default async function ModulePage({ params }: PageProps) {
 
           {/* Stats */}
           {mod.stats && mod.stats.length > 0 && (
-            <div className="flex flex-wrap gap-10 mt-12 pt-10 border-t border-white/10">
+            <div className="flex flex-wrap gap-10 mt-12 pt-10 border-t border-white/10" role="group" aria-label="Module statistics">
               {mod.stats.map((stat) => (
                 <div key={stat.label}>
                   <p className="stat-number text-cnib-yellow" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
@@ -164,7 +183,7 @@ export default async function ModulePage({ params }: PageProps) {
             </div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-1">
+            <aside className="lg:col-span-1" aria-label="Module tools and navigation">
               {/* Interactive Tool */}
               {mod.interactiveElement && (
                 <div className="premium-card mb-8">
@@ -208,7 +227,7 @@ export default async function ModulePage({ params }: PageProps) {
                   </ul>
                 </nav>
               </div>
-            </div>
+            </aside>
           </div>
         </div>
       </section>
@@ -238,12 +257,12 @@ export default async function ModulePage({ params }: PageProps) {
                   >
                     <div
                       className="absolute top-0 left-0 right-0 h-[3px]"
-                      style={{ background: style.color }}
+                      style={{ background: style.accent }}
                       aria-hidden="true"
                     />
                     <span
                       className="inline-block text-xs font-bold tracking-widest uppercase mb-5 px-3 py-1.5 rounded-full"
-                      style={{ color: style.color, background: `${style.color}15` }}
+                      style={{ color: style.color, background: `${style.accent}18` }}
                     >
                       {style.text}
                     </span>
@@ -314,7 +333,7 @@ export default async function ModulePage({ params }: PageProps) {
                 Previous
               </span>
               <p className="text-lg font-bold mt-1 group-hover:translate-x-[-4px] transition-transform">
-                &larr; {prevModule.title}
+                <span aria-hidden="true">&larr;</span> {prevModule.title}
               </p>
             </Link>
           ) : (
@@ -329,7 +348,7 @@ export default async function ModulePage({ params }: PageProps) {
                 Next
               </span>
               <p className="text-lg font-bold mt-1 group-hover:translate-x-1 transition-transform">
-                {nextModule.title} &rarr;
+                {nextModule.title} <span aria-hidden="true">&rarr;</span>
               </p>
             </Link>
           ) : (
@@ -337,6 +356,6 @@ export default async function ModulePage({ params }: PageProps) {
           )}
         </div>
       </section>
-    </>
+    </main>
   );
 }

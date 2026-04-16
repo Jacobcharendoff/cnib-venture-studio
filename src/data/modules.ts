@@ -233,9 +233,9 @@ export const modules: Module[] = [
       "Empathy Mapping",
     ],
     caseStudy: {
-      company: "Zappos",
+      company: "Knix (Toronto)",
       insight:
-        "Before building anything, Nick Swinmurn tested demand by photographing shoes at local stores and listing them online. When someone ordered, he bought the shoes at retail and shipped them. Zero inventory, pure validation.",
+        "Joanna Griffiths spent months interviewing over 3,000 women about their underwear frustrations before designing a single product. That obsessive customer research led her to build Knix, a Canadian intimate apparel company that grew to over $100 million in revenue. She didn't guess what customers wanted — she asked until the answer was undeniable.",
     },
     realWorldExamples: [
       {
@@ -400,6 +400,7 @@ export const modules: Module[] = [
       "Value-Based Pricing vs. Cost-Plus Pricing",
       "Break-Even Analysis",
       "Lean Financial Modeling",
+      "Canadian Tax Basics for Pricing — HST/GST, provincial sales tax, and how they affect your margins",
     ],
     caseStudy: {
       company: "Mailchimp",
@@ -459,6 +460,7 @@ export const modules: Module[] = [
       "Business Entity Types in Canada (Sole Proprietorship, Partnership, Corporation)",
       "Basic Intellectual Property Protection",
       "CRA Business Registration & HST/GST",
+      "Disability Tax Credit (DTC) & ODSP Self-Employment Rules — what you can earn and keep",
     ],
     caseStudy: {
       company: "Shopify",
@@ -568,6 +570,7 @@ export const modules: Module[] = [
     frameworks: [
       "Lean Website Strategy — one-page sites that convert",
       "WCAG Accessibility Basics for Business Owners",
+      "AODA & Canadian Provincial Accessibility Standards — legal requirements for digital businesses",
       "Google Business Profile & Local SEO",
       "Social Media Platform Selection (where your customers actually are)",
     ],
@@ -632,9 +635,9 @@ export const modules: Module[] = [
       "The Marketing Funnel (Awareness → Interest → Decision → Action)",
     ],
     caseStudy: {
-      company: "Glossier",
+      company: "Endy (Canada)",
       insight:
-        "Emily Weiss built a $1.8 billion beauty brand by starting with a blog (Into The Gloss) that built a passionate community before she ever sold a single product. She didn't outspend competitors — she out-listened them.",
+        "Endy, a Canadian mattress-in-a-box company, grew to $50 million in revenue using almost exclusively content marketing and word of mouth. They didn't have a massive ad budget — they had genuine customer stories, clever social media, and a referral program that turned every buyer into a marketer. They proved you don't need to outspend competitors if you out-care them.",
     },
     realWorldExamples: [
       {
@@ -743,9 +746,9 @@ export const modules: Module[] = [
       "Service Recovery Paradox — handling complaints well builds loyalty",
     ],
     caseStudy: {
-      company: "Chewy",
+      company: "Drake General Store (Toronto)",
       insight:
-        "Chewy.com became the most beloved pet supply company by doing things that don't scale: handwritten holiday cards, surprise pet portraits, and flowers sent when a customer's pet passed away. They built a $8.9B business on customer obsession, not ad spend.",
+        "Drake General Store grew from a single shop in the Drake Hotel to a Canadian retail brand by treating every customer interaction as relationship-building. Handwritten thank-you notes with online orders, personalized product recommendations for returning customers, and a loyalty program that felt like a club, not a points scheme. They proved that a small Canadian retailer can out-care any big-box competitor.",
     },
     realWorldExamples: [
       {
@@ -768,7 +771,7 @@ export const modules: Module[] = [
       },
     ],
     keyTakeaway:
-      "Your best marketing channel is a happy customer. Build the relationship after the sale with the same energy you used to make it.",
+      "The sale isn't the finish line — it's the starting line. The 60 days after someone pays you determines whether they tell 3 friends or tell nobody.",
     assignment:
       "Design your customer experience: map the journey from first contact to repeat purchase. Identify 3 moments where you can exceed expectations. Write a follow-up email template and a referral ask.",
     interactiveElement: {
@@ -803,16 +806,16 @@ export const modules: Module[] = [
       "Process Mapping — document what you do so someone else can do it",
     ],
     caseStudy: {
-      company: "Notion",
+      company: "Fresh Prep (Vancouver)",
       insight:
-        "Ivan Zhao built Notion into a $10B company with a tiny team by obsessing over systems. The product itself is a system for building systems. They automated everything they could, documented everything they couldn't, and grew faster with 50 people than most companies do with 500.",
+        "Fresh Prep, a Vancouver meal-kit company, scaled from a two-person kitchen operation to a regional business by ruthlessly systematizing every step: ingredient sourcing, recipe portioning, delivery routing, and customer communication. They documented every process so new hires could be productive in days, not weeks. Systems let two founders run an operation that competitors needed 20 people for.",
     },
     realWorldExamples: [
       {
         label: "bad",
         title: "Doing everything yourself because \"nobody can do it as well as I can\"",
         description:
-          "You're the bottleneck. If you get sick for a week, your business stops. You're not building a business — you're building a job that owns you.",
+          "You're the bottleneck. If you need a week off — for any reason — your business stops. You're not building a business — you're building a job that owns you. Sustainable businesses run whether or not you're at the desk.",
       },
       {
         label: "good",
@@ -828,7 +831,7 @@ export const modules: Module[] = [
       },
     ],
     keyTakeaway:
-      "You should only be doing work that requires you specifically. Everything else should be automated, delegated, or eliminated.",
+      "If your business can't run for 48 hours without you personally doing everything, you don't have a business — you have a job you created for yourself.",
     assignment:
       "Audit your current workflow: list every task you do in a week, categorize each as automate, delegate, or keep. Set up one automation using a free tool.",
     interactiveElement: {
@@ -854,14 +857,15 @@ export const modules: Module[] = [
       "Not every business needs outside money, and not all money is equal. This module helps you understand your options: bootstrapping (using revenue to grow), grants (especially those available to entrepreneurs with disabilities in Canada), microloans, crowdfunding, and venture capital. You'll learn when each makes sense, what investors actually look for, and how to fund your growth without giving away your company.",
     frameworks: [
       "Bootstrapping vs. External Funding — the trade-offs",
-      "Canadian Grant Landscape for Entrepreneurs with Disabilities",
+      "Canadian Grant Landscape for Entrepreneurs with Disabilities (EDP, CEED, provincial programs)",
+      "BDC Microloans & Community Futures — Canadian small business lending",
       "Crowdfunding Models (Kickstarter, Indiegogo, community campaigns)",
       "What Investors Look For — the fundamentals",
     ],
     caseStudy: {
-      company: "MailChimp",
+      company: "Lime Connect & Canada's Entrepreneurs with Disabilities Program",
       insight:
-        "Ben Chestnut and Dan Kurzius bootstrapped Mailchimp for 20 years, turning down every investor who came knocking. They eventually sold for $12 billion — and still owned the whole company. Not every business needs to raise money. Some are better off without it.",
+        "Thousands of Canadian entrepreneurs with disabilities have launched businesses using the Entrepreneurs with Disabilities Program — a grant of up to $75,000 that doesn't require equity or repayment on the grant portion. Combined with BDC microloans and provincial programs, Canadian founders have funding paths that don't exist in most countries. The best-funded founders matched free money first, then layered revenue on top.",
     },
     realWorldExamples: [
       {
@@ -911,8 +915,9 @@ export const modules: Module[] = [
     frameworks: [
       "Assistive Technology Ecosystem for Entrepreneurs (JAWS, NVDA, VoiceOver, Seeing AI, Be My Eyes, Aira)",
       "Accessibility as Competitive Advantage — the $13 trillion disability market",
-      "Canadian Disability Entrepreneurship Resources (ODSP Self-Employment, Entrepreneurs with Disabilities Program, CEED grants)",
+      "Canadian Disability Entrepreneurship Resources (ODSP Self-Employment earnings rules, EDP grants up to $75K, CEED, DTC)",
       "Universal Design Principles — building for everyone benefits everyone",
+      "Accessible Business Tool Selection — choosing platforms that work with your assistive tech stack",
     ],
     caseStudy: {
       company: "Disability:IN",
@@ -940,7 +945,7 @@ export const modules: Module[] = [
       },
     ],
     keyTakeaway:
-      "You don't have a disability that limits your entrepreneurship. You have a perspective that most founders would pay to access. Use it.",
+      "Accessibility isn't a feature you add — it's a market you already understand. That knowledge is worth more than any MBA.",
     assignment:
       "Complete an accessibility audit of your own business: What assistive tech do you use daily? What tools could make your workflow more efficient? Identify one Canadian disability grant you're eligible for and draft an application outline.",
     interactiveElement: {
@@ -974,9 +979,9 @@ export const modules: Module[] = [
       "Data Visualization for Non-Designers",
     ],
     caseStudy: {
-      company: "Airbnb",
+      company: "Wealthsimple",
       insight:
-        "Airbnb's original pitch deck is legendary — simple, clear, and impossible to say no to. It didn't have fancy design. It had a clear problem, a clear solution, clear numbers, and a clear ask. That's all a pitch deck needs.",
+        "Michael Katchen's pitch deck for Wealthsimple worked because it told one clear story: investing is broken for regular people, and we fixed it. A Canadian fintech that grew from a Toronto apartment to a $5 billion valuation — because the deck made you feel the problem before showing the solution.",
     },
     realWorldExamples: [
       {
@@ -1126,7 +1131,7 @@ export const modules: Module[] = [
   },
 ];
 
-// ── Helpers ─────────────────����────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────
 
 export function getModulesByPhase(phaseId: string): Module[] {
   return modules.filter((m) => m.phase.id === phaseId);
