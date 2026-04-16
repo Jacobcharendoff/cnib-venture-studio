@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { phases, modules, getModulesByPhase, getAvailableModules } from "@/data/modules";
+import { phases, getModulesByPhase, getAvailableModules } from "@/data/modules";
 
 export const metadata: Metadata = {
   title: "Themes | Venture Studio",
@@ -13,16 +13,28 @@ export default function ThemesPage() {
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────── */}
-      <section className="section-dark section-padding pt-32 sm:pt-40">
-        <div className="content-max">
-          <p className="caption text-cnib-yellow mb-4">The curriculum</p>
-          <h1 className="hero-heading text-white mb-6">
+      {/* ── Hero ──────────────────────────────────────────────── */}
+      <section className="mesh-gradient-hero relative overflow-hidden section-padding pt-32 sm:pt-40">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+          aria-hidden="true"
+        />
+        <div className="content-max relative z-10">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="glow-dot" aria-hidden="true" />
+            <p className="caption text-cnib-yellow">The curriculum</p>
+          </div>
+          <h1 className="hero-heading text-white mb-8">
             6 phases.
             <br />
             <span className="text-cnib-yellow">18 modules.</span>
           </h1>
-          <p className="body-large text-white/50 max-w-2xl">
+          <p className="body-large max-w-2xl" style={{ color: "var(--text-on-dark-muted)" }}>
             Each phase builds on the last. Each module gives you something
             concrete — a tool, a framework, a deliverable. By the end,
             you&rsquo;ll have everything you need to pitch your business.
@@ -30,39 +42,59 @@ export default function ThemesPage() {
         </div>
       </section>
 
-      {/* ── Phase Sections ────────────────────────────────── */}
-      {phases.map((phase) => {
+      {/* ── Phase Sections ────────────────────────────────────── */}
+      {phases.map((phase, phaseIndex) => {
         const phaseModules = getModulesByPhase(phase.id);
-        const isDark = phase.number % 2 === 0;
+        const isDark = phaseIndex % 2 === 0;
 
         return (
           <section
             key={phase.id}
             id={phase.id}
-            className={`section-padding ${isDark ? "section-dark" : "bg-white"}`}
+            className={`section-padding relative overflow-hidden ${
+              isDark ? "mesh-gradient-dark" : "bg-white"
+            }`}
+            aria-label={`Phase ${phase.number}: ${phase.name}`}
           >
-            <div className="content-max">
+            {isDark && (
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
+                  backgroundSize: "60px 60px",
+                }}
+                aria-hidden="true"
+              />
+            )}
+
+            <div className="content-max relative z-10">
               {/* Phase Header */}
-              <div className="flex items-start gap-6 mb-12">
+              <div className="flex items-start gap-6 mb-16">
                 <span
-                  className={`text-5xl sm:text-6xl font-bold font-mono ${
-                    isDark ? "text-cnib-yellow" : "text-cnib-yellow-dim"
-                  }`}
+                  className="number-accent hidden sm:block"
+                  aria-hidden="true"
+                  style={!isDark ? { WebkitTextStroke: "1.5px var(--cnib-yellow-dim)", opacity: 0.25 } : undefined}
                 >
                   {String(phase.number).padStart(2, "0")}
                 </span>
-                <div>
+                <div className="pt-2 sm:pt-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    {isDark && <span className="glow-dot" aria-hidden="true" />}
+                    <span className={`eyebrow ${isDark ? "text-cnib-yellow" : "text-cnib-yellow-dim"}`}>
+                      Phase {phase.number}
+                    </span>
+                  </div>
                   <h2
-                    className={`text-3xl sm:text-4xl font-bold mb-2 ${
+                    className={`text-3xl sm:text-4xl font-bold tracking-tight mb-3 ${
                       isDark ? "text-white" : "text-cnib-black"
                     }`}
                   >
                     {phase.name}
                   </h2>
                   <p
-                    className={`text-lg ${
-                      isDark ? "text-white/40" : "text-text-secondary"
-                    }`}
+                    className="text-lg"
+                    style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-secondary)" }}
                   >
                     {phase.tagline}
                   </p>
@@ -80,19 +112,18 @@ export default function ThemesPage() {
                         key={mod.id}
                         className={`rounded-2xl p-8 border ${
                           isDark
-                            ? "bg-white/5 border-white/5"
+                            ? "bg-white/[0.03] border-white/[0.06]"
                             : "bg-surface-elevated border-border-light"
                         }`}
                       >
                         <span
-                          className={`badge ${isDark ? "badge-dark" : ""} mb-4`}
+                          className={`badge ${isDark ? "badge-outline" : ""} mb-4`}
                         >
                           Coming Soon
                         </span>
                         <p
-                          className={`text-sm ${
-                            isDark ? "text-white/30" : "text-text-muted"
-                          }`}
+                          className="text-sm"
+                          style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-muted)" }}
                         >
                           New module being developed. Check back soon.
                         </p>
@@ -104,14 +135,12 @@ export default function ThemesPage() {
                     <Link
                       key={mod.id}
                       href={`/themes/${mod.id}`}
-                      className={`group rounded-2xl p-8 border transition-all no-underline ${
-                        isDark
-                          ? "bg-cnib-dark/50 border-white/5 hover:border-cnib-yellow/30"
-                          : "bg-white border-border-light hover:border-cnib-yellow hover:shadow-lg"
+                      className={`group no-underline ${
+                        isDark ? "glass-card" : "premium-card"
                       }`}
                     >
                       <h3
-                        className={`text-xl font-bold mb-2 transition-colors ${
+                        className={`text-xl font-bold mb-3 transition-colors ${
                           isDark
                             ? "text-white group-hover:text-cnib-yellow"
                             : "text-cnib-black group-hover:text-cnib-blue"
@@ -120,22 +149,22 @@ export default function ThemesPage() {
                         {mod.title}
                       </h3>
                       <p
-                        className={`text-sm mb-4 ${
-                          isDark ? "text-white/40" : "text-text-secondary"
-                        }`}
+                        className="text-sm mb-4"
+                        style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-secondary)" }}
                       >
                         {mod.subtitle}
                       </p>
                       <p
-                        className={`text-sm leading-relaxed ${
-                          isDark ? "text-white/30" : "text-text-muted"
-                        }`}
+                        className="text-sm leading-relaxed"
+                        style={{ color: isDark ? "rgba(255,255,255,0.45)" : "var(--text-muted)" }}
                       >
                         {mod.outcome}
                       </p>
 
                       {mod.stats && mod.stats.length > 0 && (
-                        <div className="flex gap-6 mt-6 pt-6 border-t border-white/5">
+                        <div className={`flex gap-6 mt-6 pt-6 border-t ${
+                          isDark ? "border-white/[0.06]" : "border-border-light"
+                        }`}>
                           {mod.stats.slice(0, 2).map((stat) => (
                             <div key={stat.label}>
                               <p
@@ -146,9 +175,8 @@ export default function ThemesPage() {
                                 {stat.value}
                               </p>
                               <p
-                                className={`text-xs ${
-                                  isDark ? "text-white/30" : "text-text-muted"
-                                }`}
+                                className="text-xs"
+                                style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-muted)" }}
                               >
                                 {stat.label}
                               </p>
@@ -165,13 +193,13 @@ export default function ThemesPage() {
         );
       })}
 
-      {/* ── CTA ───────────────────────────────────────────── */}
-      <section className="section-yellow section-padding">
+      {/* ── CTA ───────────────────────────────────────────────── */}
+      <section className="section-yellow section-padding-sm">
         <div className="content-narrow text-center">
           <h2 className="section-heading text-cnib-black mb-6">
             Ready to start?
           </h2>
-          <p className="body-large text-cnib-black/60 mb-10">
+          <p className="body-large text-cnib-black/70 mb-10">
             Grab the worksheets, listen to the podcasts, and follow along at
             your own pace.
           </p>

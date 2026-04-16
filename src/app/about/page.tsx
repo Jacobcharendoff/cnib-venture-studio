@@ -26,68 +26,83 @@ const experiences = [
 export default function AboutPage() {
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────── */}
-      <section className="section-dark section-padding pt-32 sm:pt-40">
-        <div className="content-max">
-          <p className="caption text-cnib-yellow mb-4">Your instructor</p>
-          <h1 className="hero-heading text-white mb-6">
+      {/* ── Hero ──────────────────────────────────────────────── */}
+      <section className="mesh-gradient-hero relative overflow-hidden section-padding pt-32 sm:pt-40">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+          aria-hidden="true"
+        />
+        <div className="content-max relative z-10">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="glow-dot" aria-hidden="true" />
+            <p className="caption text-cnib-yellow">Your instructor</p>
+          </div>
+          <h1 className="hero-heading text-white mb-8">
             Jacob Charendoff
           </h1>
-          <p className="body-large text-white/50 max-w-2xl">
+          <p className="body-large max-w-2xl" style={{ color: "var(--text-on-dark-muted)" }}>
             A legally blind entrepreneur who didn&rsquo;t start with connections
             or capital — just curiosity, resilience, and a bias for action.
           </p>
         </div>
       </section>
 
-      {/* ── Stats ─────────────────────────────────────────── */}
-      <section className="section-yellow py-10 sm:py-14">
-        <div className="content-max">
+      {/* ── Stats ─────────────────────────────────────────────── */}
+      <section className="section-yellow" aria-label="Career highlights">
+        <div className="content-max py-12 sm:py-16">
           <div className="stat-grid text-center">
             {highlights.map((h) => (
               <div key={h.label}>
                 <p className="stat-number text-cnib-black">{h.value}</p>
-                <p className="stat-label text-cnib-black/60">{h.label}</p>
+                <p className="stat-label text-cnib-black/70 mt-2">{h.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Story ─────────────────────────────────────────── */}
-      <section className="section-padding bg-white">
+      {/* ── Story ─────────────────────────────────────────────── */}
+      <section className="section-padding bg-white" aria-label="Jacob's story">
         <div className="content-narrow">
-          <h2 className="section-heading text-cnib-black mb-8">
+          <h2 className="section-heading text-cnib-black mb-10">
             Turning adversity into opportunity
           </h2>
-          <div className="space-y-6 body-large text-text-secondary">
-            <p>
-              Jacob has built businesses across industries — from luxury
-              hospitality in the mountains of Peru to boutique eCommerce brands
-              trusted by global music retailers, to AI-powered healthtech
-              platforms that personalize care.
-            </p>
-            <p>
-              His journey is raw, real, and full of hard-won lessons. Over the
-              past decade, he&rsquo;s taken impossible ideas and turned them into
-              revenue-generating ventures with global reach and seven-figure
-              exits.
-            </p>
-            <p>
-              Along the way, he&rsquo;s led remote teams, built from the ground
-              up, and learned how to create clarity in chaos. His unique
-              perspective — shaped by a lifelong visual impairment — has allowed
-              him to think differently, innovate beyond limitations, and inspire
-              others to take bold action.
-            </p>
+          <div className="relative">
+            <div className="absolute -left-4 top-0 bottom-0 w-1 bg-cnib-yellow rounded-full hidden sm:block" aria-hidden="true" />
+            <div className="sm:pl-8 space-y-6 body-large text-text-secondary">
+              <p>
+                Jacob has built businesses across industries — from luxury
+                hospitality in the mountains of Peru to boutique eCommerce brands
+                trusted by global music retailers, to AI-powered healthtech
+                platforms that personalize care.
+              </p>
+              <p>
+                His journey is raw, real, and full of hard-won lessons. Over the
+                past decade, he&rsquo;s taken impossible ideas and turned them into
+                revenue-generating ventures with global reach and seven-figure
+                exits.
+              </p>
+              <p>
+                Along the way, he&rsquo;s led remote teams, built from the ground
+                up, and learned how to create clarity in chaos. His unique
+                perspective — shaped by a lifelong visual impairment — has allowed
+                him to think differently, innovate beyond limitations, and inspire
+                others to take bold action.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Why This Program ──────────────────────────────── */}
-      <section className="section-warm section-padding">
+      {/* ── Why This Program ──────────────────────────────────── */}
+      <section className="section-warm section-padding" aria-label="Why this program exists">
         <div className="content-narrow">
-          <h2 className="section-heading text-cnib-black mb-8">
+          <h2 className="section-heading text-cnib-black mb-10">
             Why this program exists
           </h2>
           <div className="space-y-6 body-large text-text-secondary">
@@ -112,33 +127,45 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Experience Grid ───────────────────────────────── */}
-      <section className="section-dark section-padding">
-        <div className="content-max">
+      {/* ── Experience Grid ───────────────────────────────────── */}
+      <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Where Jacob has built">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+          aria-hidden="true"
+        />
+        <div className="content-max relative z-10">
           <p className="caption text-cnib-yellow mb-4">Experience</p>
           <h2 className="section-heading text-white mb-12">
             Where Jacob has built
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" role="list">
             {experiences.map((item) => (
-              <div
+              <li
                 key={item}
-                className="bg-cnib-dark/50 border border-white/5 rounded-xl px-6 py-5 flex items-start gap-3"
+                className="glass-card flex items-start gap-3"
+                style={{ cursor: "default" }}
               >
-                <span className="text-cnib-yellow mt-0.5" aria-hidden="true">
+                <span className="text-cnib-yellow mt-0.5 shrink-0" aria-hidden="true">
                   &#9656;
                 </span>
-                <span className="text-white/70 text-sm">{item}</span>
-              </div>
+                <span style={{ color: "var(--text-on-dark)" }} className="text-sm">
+                  {item}
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* ── CNIB Community ────────────────────────────────── */}
-      <section className="section-padding bg-white">
+      {/* ── CNIB Community ────────────────────────────────────── */}
+      <section className="section-padding bg-white" aria-label="CNIB community">
         <div className="content-narrow">
-          <h2 className="section-heading text-cnib-black mb-8">
+          <h2 className="section-heading text-cnib-black mb-10">
             A unique opportunity for the CNIB community
           </h2>
           <div className="space-y-6 body-large text-text-secondary">
@@ -159,10 +186,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────── */}
-      <section className="section-yellow section-padding">
+      {/* ── CTA ───────────────────────────────────────────────── */}
+      <section className="section-yellow section-padding-sm" aria-label="Call to action">
         <div className="content-narrow text-center">
-          <h2 className="section-heading text-cnib-black mb-6">
+          <h2 className="section-heading text-cnib-black mb-8">
             Ready to build?
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -171,7 +198,7 @@ export default function AboutPage() {
             </Link>
             <Link
               href="/toolkit"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-transparent border-2 border-cnib-black text-cnib-black font-bold rounded-full no-underline hover:bg-cnib-black hover:text-cnib-yellow transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-transparent border-2 border-cnib-black text-cnib-black font-bold rounded-full no-underline hover:bg-cnib-black hover:text-cnib-yellow transition-colors"
             >
               Get the toolkit
             </Link>

@@ -2,16 +2,25 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-cnib-black text-white/60 border-t border-white/5" role="contentinfo">
-      <div className="content-max py-16">
+    <footer
+      className="border-t border-white/[0.06]"
+      style={{ background: "var(--cnib-black)", color: "var(--text-on-dark-muted)" }}
+      role="contentinfo"
+    >
+      <div className="content-max py-16 sm:py-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <p className="text-cnib-yellow font-bold text-lg">Venture Studio</p>
-            <p className="text-white/30 text-xs font-medium tracking-widest uppercase mt-1">
+            <p className="text-cnib-yellow font-bold text-lg tracking-tight">
+              Venture Studio
+            </p>
+            <p
+              className="text-xs font-semibold tracking-[0.15em] uppercase mt-1"
+              style={{ color: "rgba(255,255,255,0.3)" }}
+            >
               Powered by CNIB
             </p>
-            <p className="mt-4 text-sm leading-relaxed max-w-xs">
+            <p className="mt-5 text-sm leading-relaxed max-w-xs">
               Turn your idea into your first dollar. An immersive entrepreneurial
               program for blind and low-vision founders.
             </p>
@@ -19,10 +28,10 @@ export default function Footer() {
 
           {/* Navigation */}
           <div>
-            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+            <h3 className="eyebrow mb-5" style={{ color: "rgba(255,255,255,0.35)" }}>
               Navigate
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5" role="list">
               {[
                 { href: "/themes", label: "Themes" },
                 { href: "/toolkit", label: "Toolkit" },
@@ -31,7 +40,8 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/50 hover:text-cnib-yellow transition-colors no-underline"
+                    className="text-sm hover:text-cnib-yellow transition-colors no-underline"
+                    style={{ color: "var(--text-on-dark-muted)" }}
                   >
                     {link.label}
                   </Link>
@@ -42,7 +52,7 @@ export default function Footer() {
 
           {/* Accessibility */}
           <div>
-            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+            <h3 className="eyebrow mb-5" style={{ color: "rgba(255,255,255,0.35)" }}>
               Accessibility
             </h3>
             <p className="text-sm leading-relaxed">
@@ -53,12 +63,15 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/5 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-white/30">
+        <hr className="divider-gradient my-12" />
+
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
           <p>
             &copy; {new Date().getFullYear()} Venture Studio. Built by{" "}
             <a
               href="https://www.linkedin.com/in/jacob-charendoff/"
-              className="text-white/50 hover:text-cnib-yellow transition-colors underline"
+              className="hover:text-cnib-yellow transition-colors underline"
+              style={{ color: "var(--text-on-dark-muted)" }}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -67,7 +80,8 @@ export default function Footer() {
           </p>
           <a
             href="https://www.cnib.ca"
-            className="text-white/50 hover:text-cnib-yellow transition-colors underline text-xs"
+            className="hover:text-cnib-yellow transition-colors underline text-xs"
+            style={{ color: "var(--text-on-dark-muted)" }}
             target="_blank"
             rel="noopener noreferrer"
           >
