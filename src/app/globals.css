@@ -1,83 +1,352 @@
 @import "tailwindcss";
 
+/* ============================================================
+   CNIB Venture Studio — Design System
+   Apple-caliber editorial design meets WCAG 2.1 AA accessibility
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #0f0f0f;
+  /* ── CNIB Brand ──────────────────────────────────────── */
   --cnib-yellow: #FFF100;
   --cnib-yellow-soft: #FFF85C;
-  --cnib-black: #0f0f0f;
-  --cnib-dark: #1a1a1a;
-  --cnib-brown: #2f2b2a;
+  --cnib-yellow-dim: #E6D900;
+  --cnib-black: #0F0F0F;
+  --cnib-dark: #1A1A1A;
+  --cnib-brown: #2F2B2A;
   --cnib-blue: #0061CB;
-  --cnib-warm: #faf9f5;
+  --cnib-warm: #FAF9F5;
+  --cnib-white: #FFFFFF;
+
+  /* ── Semantic Colors ─────────────────────────────────── */
+  --background: #FFFFFF;
+  --foreground: #0F0F0F;
+  --text-primary: #0F0F0F;
   --text-secondary: #555555;
-  --border-light: #e5e5e5;
+  --text-muted: #888888;
+  --border-light: #E5E5E5;
+  --border-dark: #333333;
+  --surface-elevated: #F5F5F5;
+
+  /* ── Typography Scale (Apple-style) ──────────────────── */
+  --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
+
+  /* ── Spacing ───────────────────────────────────────── */
+  --section-padding: clamp(4rem, 8vw, 8rem);
+  --content-max: 1200px;
+  --content-narrow: 800px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --color-cnib-yellow: var(--cnib-yellow);
   --color-cnib-yellow-soft: var(--cnib-yellow-soft);
+  --color-cnib-yellow-dim: var(--cnib-yellow-dim);
   --color-cnib-black: var(--cnib-black);
   --color-cnib-dark: var(--cnib-dark);
   --color-cnib-brown: var(--cnib-brown);
   --color-cnib-blue: var(--cnib-blue);
   --color-cnib-warm: var(--cnib-warm);
+  --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
   --color-border-light: var(--border-light);
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
+  --color-border-dark: var(--border-dark);
+  --color-surface-elevated: var(--surface-elevated);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
+
+/* ── Base ────────────────────────────────────────────── */
 
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-body);
+  line-height: 1.6;
 }
 
-/* Focus styles for accessibility */
+/* ── Typography ────────────────────────────────────────── */
+
+.hero-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.section-subheading {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text-secondary);
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.body-large {
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  line-height: 1.65;
+}
+
+.caption {
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ── Accessibility ─────────────────────────────────────── */
+
 *:focus-visible {
   outline: 3px solid var(--cnib-yellow);
-  outline-offset: 2px;
+  outline-offset: 3px;
   border-radius: 2px;
 }
 
-/* Skip to content link */
+/* High contrast focus on light backgrounds */
+.bg-white *:focus-visible,
+.bg-cnib-warm *:focus-visible,
+[data-theme="light"] *:focus-visible {
+  outline-color: var(--cnib-black);
+}
+
 .skip-link {
   position: absolute;
   top: -100%;
   left: 16px;
   z-index: 100;
-  padding: 8px 16px;
-  background: var(--cnib-black);
-  color: var(--cnib-yellow);
-  border-radius: 0 0 4px 4px;
-  font-weight: 600;
+  padding: 12px 24px;
+  background: var(--cnib-yellow);
+  color: var(--cnib-black);
+  font-weight: 700;
+  font-size: 1rem;
   text-decoration: none;
+  border-radius: 0 0 8px 8px;
 }
 
 .skip-link:focus {
   top: 0;
 }
 
-/* Apple-style large heading utility */
-.hero-heading {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+/* Respect motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-.section-heading {
-  font-size: clamp(1.75rem, 4vw, 3rem);
+/* ── Section Utilities ─────────────────────────────────── */
+
+.section-dark {
+  background: var(--cnib-black);
+  color: var(--cnib-white);
+}
+
+.section-warm {
+  background: var(--cnib-warm);
+  color: var(--cnib-black);
+}
+
+.section-yellow {
+  background: var(--cnib-yellow);
+  color: var(--cnib-black);
+}
+
+.section-padding {
+  padding-top: var(--section-padding);
+  padding-bottom: var(--section-padding);
+}
+
+.content-max {
+  max-width: var(--content-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 4vw, 3rem);
+  padding-right: clamp(1.25rem, 4vw, 3rem);
+}
+
+.content-narrow {
+  max-width: var(--content-narrow);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 4vw, 3rem);
+  padding-right: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* ── Animated Gradient Line (decorative) ─────────────────── */
+
+.gradient-line {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--cnib-yellow) 0%,
+    var(--cnib-yellow-soft) 50%,
+    var(--cnib-yellow) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* ── Phase Cards ─────────────────────────────────────── */
+
+.phase-card {
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.phase-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.phase-card:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Module Card ─────────────────────────────────────── */
+
+.module-card {
+  background: var(--cnib-white);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: clamp(1.25rem, 2vw, 2rem);
+  transition: all 0.2s ease;
+}
+
+.module-card:hover {
+  border-color: var(--cnib-yellow);
+  box-shadow: 0 4px 20px rgba(255, 241, 0, 0.1);
+}
+
+/* ── Stat Grid ───────────────────────────────────────── */
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+/* ── Button Styles ───────────────────────────────────── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: var(--cnib-yellow);
+  color: var(--cnib-black);
   font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
+  font-size: 1rem;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--cnib-yellow-soft);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 241, 0, 0.3);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: transparent;
+  color: var(--cnib-white);
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  border-color: var(--cnib-yellow);
+  color: var(--cnib-yellow);
+}
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: var(--cnib-black);
+  color: var(--cnib-white);
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-dark:hover {
+  background: var(--cnib-dark);
+  transform: translateY(-1px);
+}
+
+/* ── Badge ───────────────────────────────────────────── */
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 241, 0, 0.15);
+  color: var(--cnib-yellow-dim);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 100px;
+}
+
+.badge-dark {
+  background: rgba(255, 241, 0, 0.1);
+  color: var(--cnib-yellow);
 }
