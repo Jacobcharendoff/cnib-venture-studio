@@ -2,41 +2,49 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1a1a2e;
-  --cnib-blue: #003478;
-  --cnib-blue-dark: #002255;
-  --cnib-orange: #e87722;
-  --cnib-orange-light: #f59b4b;
-  --venture-gold: #d4a843;
-  --venture-warm: #fef9f0;
-  --text-muted: #5a5a7a;
-  --border-light: #e5e7eb;
+  --foreground: #0f0f0f;
+  --cnib-yellow: #FFF100;
+  --cnib-yellow-soft: #FFF85C;
+  --cnib-black: #0f0f0f;
+  --cnib-dark: #1a1a1a;
+  --cnib-brown: #2f2b2a;
+  --cnib-blue: #0061CB;
+  --cnib-warm: #faf9f5;
+  --text-secondary: #555555;
+  --border-light: #e5e5e5;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-cnib-yellow: var(--cnib-yellow);
+  --color-cnib-yellow-soft: var(--cnib-yellow-soft);
+  --color-cnib-black: var(--cnib-black);
+  --color-cnib-dark: var(--cnib-dark);
+  --color-cnib-brown: var(--cnib-brown);
   --color-cnib-blue: var(--cnib-blue);
-  --color-cnib-blue-dark: var(--cnib-blue-dark);
-  --color-cnib-orange: var(--cnib-orange);
-  --color-cnib-orange-light: var(--cnib-orange-light);
-  --color-venture-gold: var(--venture-gold);
-  --color-venture-warm: var(--venture-warm);
-  --color-text-muted: var(--text-muted);
+  --color-cnib-warm: var(--cnib-warm);
+  --color-text-secondary: var(--text-secondary);
   --color-border-light: var(--border-light);
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Focus styles for accessibility */
 *:focus-visible {
-  outline: 3px solid var(--cnib-orange);
+  outline: 3px solid var(--cnib-yellow);
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -48,8 +56,8 @@ body {
   left: 16px;
   z-index: 100;
   padding: 8px 16px;
-  background: var(--cnib-blue);
-  color: white;
+  background: var(--cnib-black);
+  color: var(--cnib-yellow);
   border-radius: 0 0 4px 4px;
   font-weight: 600;
   text-decoration: none;
@@ -57,4 +65,19 @@ body {
 
 .skip-link:focus {
   top: 0;
+}
+
+/* Apple-style large heading utility */
+.hero-heading {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.section-heading {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
 }
