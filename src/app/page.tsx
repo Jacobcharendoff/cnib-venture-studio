@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────── */}
+      {/* ── Hero ────────────────────────────────────────────── */}
       <section className="mesh-gradient-hero relative overflow-hidden min-h-[100svh] flex items-center">
         {/* Decorative grid */}
         <div
@@ -81,7 +81,7 @@ export default function Home() {
         />
       </section>
 
-      {/* ── Stats Bar ─────────────────────────────────────── */}
+      {/* ── Stats Bar ───────────────────────────────────────── */}
       <section className="section-yellow" aria-label="Program highlights">
         <div className="content-max py-12 sm:py-16">
           <Stagger className="stat-grid text-center" staggerDelay={0.08}>
@@ -104,9 +104,9 @@ export default function Home() {
       <section className="section-padding bg-white" aria-label="Who this program is for">
         <div className="content-narrow text-center">
           <FadeIn>
-            <p className="caption text-cnib-yellow-dim mb-6">Built for you</p>
+            <p className="caption text-cnib-yellow-on-light mb-6">Built for you</p>
             <h2 className="section-heading text-cnib-black mb-8">
-              For first-time entrepreneurs who have a great idea — and want to
+              For first-time entrepreneurs who have a great idea &mdash; and want to
               know how to make it real.
             </h2>
             <p className="body-large text-text-secondary mb-16">
@@ -121,7 +121,7 @@ export default function Home() {
               {
                 num: "01",
                 title: "Your idea, validated",
-                desc: "Learn if your idea solves a real problem — before you spend a dollar building it.",
+                desc: "Learn if your idea solves a real problem \u2014 before you spend a dollar building it.",
               },
               {
                 num: "02",
@@ -136,7 +136,7 @@ export default function Home() {
             ].map((item) => (
               <StaggerItem key={item.num}>
                 <div className="premium-card">
-                  <span className="eyebrow text-cnib-yellow-dim block mb-3">
+                  <span className="eyebrow text-cnib-yellow-on-light block mb-3">
                     {item.num}
                   </span>
                   <h3 className="text-lg font-bold text-cnib-black mb-3">
@@ -222,7 +222,7 @@ export default function Home() {
       <section className="section-warm section-padding" aria-label="How the program works">
         <div className="content-max">
           <FadeIn className="text-center mb-20">
-            <p className="caption text-cnib-yellow-dim mb-6">How it works</p>
+            <p className="caption text-cnib-yellow-on-light mb-6">How it works</p>
             <h2 className="section-heading text-cnib-black">
               Built around your life,
               <br />
@@ -245,7 +245,7 @@ export default function Home() {
               {
                 num: "03",
                 title: "Pitch to a live panel",
-                desc: "The program ends with a Final Pitch Showcase — your chance to present your business to mentors and business leaders.",
+                desc: "The program ends with a Final Pitch Showcase \u2014 your chance to present your business to mentors and business leaders.",
               },
             ].map((item) => (
               <StaggerItem key={item.num}>
@@ -264,11 +264,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Meet Your Instructor ────────────────────────── */}
+      {/* ── Meet Your Instructor ──────────────────────────── */}
       <section className="section-padding bg-white" aria-label="Meet your instructor">
         <div className="content-narrow">
           <FadeIn className="text-center mb-12">
-            <p className="caption text-cnib-yellow-dim mb-6">Your instructor</p>
+            <p className="caption text-cnib-yellow-on-light mb-6">Your instructor</p>
             <h2 className="section-heading text-cnib-black mb-8">
               Jacob Charendoff
             </h2>
@@ -280,13 +280,13 @@ export default function Home() {
               <div className="pl-8 space-y-6">
                 <p className="body-large text-text-secondary">
                   A legally blind entrepreneur who has built businesses across
-                  industries — from luxury hospitality in the mountains of Peru, to
+                  industries &mdash; from luxury hospitality in the mountains of Peru, to
                   boutique eCommerce brands trusted by global music retailers, to
                   AI-powered healthtech platforms that personalize care.
                 </p>
                 <p className="text-text-secondary">
                   This program isn&rsquo;t based on theory. It&rsquo;s based on
-                  experience — raw, real, and full of hard-won lessons. Jacob
+                  experience &mdash; raw, real, and full of hard-won lessons. Jacob
                   didn&rsquo;t start with connections or capital, just curiosity,
                   resilience, and a bias for action.
                 </p>
@@ -302,7 +302,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────── */}
+      {/* ── CTA ───────────────────────────────────────────────── */}
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Call to action">
         <div
           className="absolute inset-0 pointer-events-none"

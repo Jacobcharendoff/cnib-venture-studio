@@ -7,7 +7,7 @@ import ModuleComplete from "@/components/ModuleComplete";
 export const metadata: Metadata = {
   title: "Themes | Venture Studio",
   description:
-    "Explore the 18-module curriculum organized across 6 phases — from discovering your idea to pitching it live.",
+    "Explore the 18-module curriculum organized across 6 phases \u2014 from discovering your idea to pitching it live.",
 };
 
 export default function ThemesPage() {
@@ -15,7 +15,7 @@ export default function ThemesPage() {
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────── */}
+      {/* ── Hero ────────────────────────────────────────────── */}
       <section className="mesh-gradient-hero relative overflow-hidden section-padding pt-32 sm:pt-40">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -43,14 +43,14 @@ export default function ThemesPage() {
           <FadeIn delay={0.35}>
             <p className="body-large max-w-2xl" style={{ color: "var(--text-on-dark-muted)" }}>
               Each phase builds on the last. Each module gives you something
-              concrete — a tool, a framework, a deliverable. By the end,
+              concrete \u2014 a tool, a framework, a deliverable. By the end,
               you&rsquo;ll have everything you need to pitch your business.
             </p>
           </FadeIn>
         </div>
       </section>
 
-      {/* ── Phase Sections ──────────────────────────────── */}
+      {/* ── Phase Sections ────────────────────────────────── */}
       {phases.map((phase, phaseIndex) => {
         const phaseModules = getModulesByPhase(phase.id);
         const isDark = phaseIndex % 2 === 0;
@@ -90,7 +90,7 @@ export default function ThemesPage() {
                   <div className="pt-2 sm:pt-6">
                     <div className="flex items-center gap-3 mb-3">
                       {isDark && <span className="glow-dot" aria-hidden="true" />}
-                      <span className={`eyebrow ${isDark ? "text-cnib-yellow" : "text-cnib-yellow-dim"}`}>
+                      <span className={`eyebrow ${isDark ? "text-cnib-yellow" : "text-cnib-yellow-on-light"}`}>
                         Phase {phase.number}
                       </span>
                     </div>
@@ -173,7 +173,7 @@ export default function ThemesPage() {
                         </p>
                         <p
                           className="text-sm leading-relaxed"
-                          style={{ color: isDark ? "rgba(255,255,255,0.45)" : "var(--text-muted)" }}
+                          style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-muted)" }}
                         >
                           {mod.outcome}
                         </p>
@@ -211,7 +211,7 @@ export default function ThemesPage() {
         );
       })}
 
-      {/* ── CTA ───────────────────────────────────────────── */}
+      {/* ── CTA ───────────────────────────────────────────────── */}
       <section className="section-yellow section-padding-sm">
         <div className="content-narrow text-center">
           <FadeIn>

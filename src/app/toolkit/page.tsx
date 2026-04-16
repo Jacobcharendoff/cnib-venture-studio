@@ -5,7 +5,7 @@ import { getAvailableModules } from "@/data/modules";
 export const metadata: Metadata = {
   title: "Toolkit | Venture Studio",
   description:
-    "Download worksheets, listen to podcasts, and access business tools — all designed for accessibility.",
+    "Download worksheets, listen to podcasts, and access business tools \u2014 all designed for accessibility.",
 };
 
 const toolkitResources = [
@@ -13,7 +13,7 @@ const toolkitResources = [
     id: "elevator-pitch",
     title: "Build Your First Elevator Pitch",
     description:
-      "A step-by-step worksheet to help you take your idea and turn it into something simple, clear, and easy to explain in 60–90 seconds.",
+      "A step-by-step worksheet to help you take your idea and turn it into something simple, clear, and easy to explain in 60\u201390 seconds.",
     type: "worksheet" as const,
     format: "PDF",
     fileName: "Elevator_Pitch_Worksheet.pdf",
@@ -53,7 +53,7 @@ const typeLabels: Record<string, string> = {
 export default function ToolkitPage() {
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────────── */}
+      {/* ── Hero ────────────────────────────────────────────────── */}
       <section className="mesh-gradient-hero relative overflow-hidden section-padding pt-32 sm:pt-40">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -75,7 +75,7 @@ export default function ToolkitPage() {
             <span className="text-cnib-yellow">All in one place.</span>
           </h1>
           <p className="body-large max-w-2xl" style={{ color: "var(--text-on-dark-muted)" }}>
-            Worksheets, guides, podcasts, and interactive tools — all designed
+            Worksheets, guides, podcasts, and interactive tools \u2014 all designed
             for accessibility. Download what you need. Build at your own pace.
           </p>
         </div>
@@ -85,7 +85,7 @@ export default function ToolkitPage() {
       <section className="section-padding bg-white" aria-label="Downloadable resources">
         <div className="content-max">
           <div className="mb-16">
-            <p className="caption text-cnib-yellow-dim mb-3">Downloads</p>
+            <p className="caption text-cnib-yellow-on-light mb-3">Downloads</p>
             <h2 className="section-heading text-cnib-black">
               Worksheets &amp; Guides
             </h2>
@@ -112,16 +112,16 @@ export default function ToolkitPage() {
                     href={resource.downloadUrl}
                     download={resource.fileName}
                     className="btn-primary text-sm py-2.5 px-6"
-                    aria-label={`Download ${resource.title}`}
+                    aria-label={`Download ${resource.title} (${resource.format})`}
                   >
                     Download
                   </a>
                   {resource.relatedModule && (
                     <Link
                       href={`/themes/${resource.relatedModule}`}
-                      className="text-sm text-cnib-blue hover:text-cnib-black no-underline transition-colors font-medium"
+                      className="text-sm text-cnib-blue hover:text-cnib-black focus-visible:text-cnib-black no-underline transition-colors font-medium"
                     >
-                      View module &rarr;
+                      View module <span aria-hidden="true">&rarr;</span>
                     </Link>
                   )}
                 </div>
@@ -140,22 +140,22 @@ export default function ToolkitPage() {
           </div>
 
           <div className="glass-card text-center py-16 px-8" style={{ cursor: "default" }}>
-            <span className="text-5xl mb-6 block" aria-hidden="true">🎙️</span>
+            <span className="text-5xl mb-6 block" role="img" aria-label="Microphone">\ud83c\udf99\ufe0f</span>
             <h3 className="text-xl font-bold text-white mb-4">Coming Soon</h3>
             <p className="max-w-md mx-auto" style={{ color: "var(--text-on-dark-muted)" }}>
               Podcast episodes walking through each module are in production.
-              They&rsquo;ll appear here as they&rsquo;re released — designed to
+              They&rsquo;ll appear here as they&rsquo;re released \u2014 designed to
               complement the live sessions and worksheets.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ── Interactive Tools Preview ─────────────────────────── */}
+      {/* ── Interactive Tools Preview ───────────────────────── */}
       <section className="section-warm section-padding" aria-label="Interactive tools">
         <div className="content-max">
           <div className="mb-16">
-            <p className="caption text-cnib-yellow-dim mb-3">Build</p>
+            <p className="caption text-cnib-yellow-on-light mb-3">Build</p>
             <h2 className="section-heading text-cnib-black">
               Interactive Tools
             </h2>
@@ -186,7 +186,7 @@ export default function ToolkitPage() {
         </div>
       </section>
 
-      {/* ── Accessibility Note ────────────────────────────────── */}
+      {/* ── Accessibility Note ──────────────────────────────── */}
       <section className="bg-white section-padding-sm" aria-label="Accessibility statement">
         <div className="content-narrow text-center">
           <hr className="divider-gradient mb-12" />
@@ -194,7 +194,7 @@ export default function ToolkitPage() {
             Accessibility First
           </h2>
           <p className="text-text-secondary body-large">
-            Every worksheet is available in accessible .docx format — designed
+            Every worksheet is available in accessible .docx format \u2014 designed
             to work with JAWS, NVDA, VoiceOver, and other screen readers.
             Podcasts provide an audio-first learning path. Interactive tools
             are fully keyboard navigable.
