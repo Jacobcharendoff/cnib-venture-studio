@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { modules, getModuleById, getModulesByPhase } from "@/data/modules";
+import CompletionToggle from "@/components/CompletionToggle";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -130,7 +131,7 @@ export default async function ModulePage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* ── What You'll Learn ─────────────────────────────────── */}
+      {/* ── What You'll Learn ───────────────────────────────── */}
       <section className="section-padding bg-white" aria-label="What you will learn">
         <div className="content-max">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
@@ -280,7 +281,7 @@ export default async function ModulePage({ params }: PageProps) {
         </section>
       )}
 
-      {/* ── Key Takeaway ──────────────────────────────────────── */}
+      {/* ── Key Takeaway ──────────────────────────────────── */}
       {mod.keyTakeaway && (
         <section className="bg-white section-padding-sm" aria-label="Key takeaway">
           <div className="content-narrow text-center">
@@ -300,7 +301,7 @@ export default async function ModulePage({ params }: PageProps) {
         </section>
       )}
 
-      {/* ── Assignment ────────────────────────────────────────── */}
+      {/* ── Assignment ────────────────────────────────────── */}
       <section className="mesh-gradient-dark section-padding-sm relative overflow-hidden" aria-label="Your assignment">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -318,10 +319,20 @@ export default async function ModulePage({ params }: PageProps) {
               {mod.assignment}
             </p>
           </div>
+
+          {/* Completion toggle */}
+          <div className="mt-10">
+            <CompletionToggle
+              moduleId={mod.id}
+              moduleTitle={mod.title}
+              nextModuleId={nextModule?.id}
+              nextModuleTitle={nextModule?.title}
+            />
+          </div>
         </div>
       </section>
 
-      {/* ── Prev / Next Navigation ────────────────────────────── */}
+      {/* ── Prev / Next Navigation ──────────────────────── */}
       <section className="bg-cnib-warm py-10 border-t border-border-light" aria-label="Module navigation">
         <div className="content-max flex flex-col sm:flex-row justify-between gap-6">
           {prevModule ? (
