@@ -2,13 +2,16 @@ import Link from "next/link";
 import { phases, getModulesByPhase, getAvailableModules } from "@/data/modules";
 import { FadeIn, Stagger, StaggerItem, ScaleIn } from "@/components/Animate";
 import ProgressWidget from "@/components/ProgressWidget";
+import HeroVisual from "@/components/HeroVisual";
+import PhaseIcon from "@/components/PhaseIcon";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 export default function Home() {
   const availableCount = getAvailableModules().length;
 
   return (
     <>
-      {/* ── Hero ────────────────────────────────────────────── */}
+      {/* ── Hero ────────────────────────────────────────────────── */}
       <section className="mesh-gradient-hero relative overflow-hidden min-h-[100svh] flex items-center">
         {/* Decorative grid */}
         <div
@@ -20,6 +23,9 @@ export default function Home() {
           }}
           aria-hidden="true"
         />
+
+        {/* Animated iris rings */}
+        <HeroVisual />
 
         {/* Yellow accent line */}
         <div
@@ -81,7 +87,7 @@ export default function Home() {
         />
       </section>
 
-      {/* ── Stats Bar ───────────────────────────────────────── */}
+      {/* ── Stats Bar ───────────────────────────────────────────── */}
       <section className="section-yellow" aria-label="Program highlights">
         <div className="content-max py-12 sm:py-16">
           <Stagger className="stat-grid text-center" staggerDelay={0.08}>
@@ -92,7 +98,9 @@ export default function Home() {
               { value: "$0", label: "Cost to Members" },
             ].map((stat) => (
               <StaggerItem key={stat.label}>
-                <p className="stat-number text-cnib-black">{stat.value}</p>
+                <p className="stat-number text-cnib-black">
+                  <AnimatedCounter value={stat.value} />
+                </p>
                 <p className="stat-label text-cnib-black/70 mt-2">{stat.label}</p>
               </StaggerItem>
             ))}
@@ -100,7 +108,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Who This Is For ─────────────────────────────── */}
+      {/* ── Who This Is For ─────────────────────────────────── */}
       <section className="section-padding bg-white" aria-label="Who this program is for">
         <div className="content-narrow text-center">
           <FadeIn>
@@ -152,7 +160,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── The 6 Phases ────────────────────────────────── */}
+      {/* ── The 6 Phases ────────────────────────────────────── */}
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Program phases">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -191,9 +199,12 @@ export default function Home() {
                     className="glass-card no-underline group block h-full"
                   >
                     <div className="flex items-center justify-between mb-6">
-                      <span className="text-cnib-yellow font-bold text-3xl font-mono tracking-tighter">
-                        {String(p.number).padStart(2, "0")}
-                      </span>
+                      <div className="flex items-center gap-3">
+                        <PhaseIcon phase={p.id} size={36} className="text-cnib-yellow" />
+                        <span className="text-cnib-yellow font-bold text-3xl font-mono tracking-tighter">
+                          {String(p.number).padStart(2, "0")}
+                        </span>
+                      </div>
                       <span className="eyebrow" style={{ color: "var(--text-on-dark-muted)" }}>
                         {available}/{phaseModules.length} modules
                       </span>
@@ -218,7 +229,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── How It Works ────────────────────────────────── */}
+      {/* ── How It Works ────────────────────────────────────── */}
       <section className="section-warm section-padding" aria-label="How the program works">
         <div className="content-max">
           <FadeIn className="text-center mb-20">
@@ -264,7 +275,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Meet Your Instructor ──────────────────────────── */}
+      {/* ── Meet Your Instructor ────────────────────────────── */}
       <section className="section-padding bg-white" aria-label="Meet your instructor">
         <div className="content-narrow">
           <FadeIn className="text-center mb-12">
@@ -302,7 +313,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────────── */}
+      {/* ── CTA ───────────────────────────────────────────────────── */}
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Call to action">
         <div
           className="absolute inset-0 pointer-events-none"
