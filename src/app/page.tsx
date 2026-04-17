@@ -3,6 +3,7 @@ import { phases, getModulesByPhase, getAvailableModules } from "@/data/modules";
 import { FadeIn, Stagger, StaggerItem, ScaleIn } from "@/components/Animate";
 import ProgressWidget from "@/components/ProgressWidget";
 import HeroVisual from "@/components/HeroVisual";
+import CursorGlow from "@/components/CursorGlow";
 import PhaseIcon from "@/components/PhaseIcon";
 import AnimatedCounter from "@/components/AnimatedCounter";
 
@@ -12,10 +13,18 @@ export default function Home() {
   return (
     <>
       {/* ── Hero ────────────────────────────────────────────────── */}
+      <CursorGlow>
       <section className="mesh-gradient-hero relative overflow-hidden min-h-[100svh] flex items-center">
         {/* Drifting dot grid */}
         <div
           className="absolute inset-0 pointer-events-none dot-grid-drift"
+          aria-hidden="true"
+        />
+
+        {/* Mobile simplified glow (replaces full iris on small screens) */}
+        <div
+          className="absolute top-1/3 right-0 w-48 h-48 rounded-full lg:hidden pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(255,241,0,0.1), transparent 70%)" }}
           aria-hidden="true"
         />
 
@@ -81,6 +90,7 @@ export default function Home() {
           aria-hidden="true"
         />
       </section>
+      </CursorGlow>
 
       {/* ── Stats Bar ───────────────────────────────────────────── */}
       <section className="section-yellow" aria-label="Program highlights">
@@ -323,6 +333,7 @@ export default function Home() {
       </div>
 
       {/* ── CTA ───────────────────────────────────────────────────── */}
+      <CursorGlow>
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Call to action">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -352,6 +363,7 @@ export default function Home() {
           </ScaleIn>
         </div>
       </section>
+      </CursorGlow>
     </>
   );
 }
