@@ -26,7 +26,7 @@ function saveProgress(ids: string[]) {
   }
 }
 
-// ── Helpers ─────────────────────────────────────────────────
+// ── Helpers ─────────────────────────────────────────────
 function getNextModule(completedIds: string[], allModules: Module[]): Module | null {
   return allModules.find((m) => !completedIds.includes(m.id)) ?? null;
 }
@@ -113,7 +113,7 @@ function ProgressRing({
   );
 }
 
-// ── Checkmark icon ──────────────────────────────────────────
+// ── Checkmark icon ────────────────────────────────────────
 function CheckIcon({ checked }: { checked: boolean }) {
   return (
     <span
@@ -142,11 +142,16 @@ function CheckIcon({ checked }: { checked: boolean }) {
 }
 
 // ── Small phase progress bar ────────────────────────────────
-function PhaseBar({ percent }: { percent: number }) {
+function PhaseBar({ percent, label }: { percent: number; label: string }) {
   return (
     <div
       className="w-full h-1.5 rounded-full overflow-hidden"
       style={{ background: "rgba(255,255,255,0.08)" }}
+      role="progressbar"
+      aria-valuenow={percent}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={label}
     >
       <div
         className="h-full rounded-full transition-all duration-500"
@@ -159,13 +164,14 @@ function PhaseBar({ percent }: { percent: number }) {
   );
 }
 
-// ── Page ────────────────────────────────────────────────────
+// ── Page ────────────────────────────────────────────────
 export default function ProgressPage() {
   const allModules = getAvailableModules();
   const totalModules = allModules.length;
 
   const [completed, setCompleted] = useState<string[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
 
   useEffect(() => {
     setCompleted(loadProgress());
@@ -173,14 +179,20 @@ export default function ProgressPage() {
   }, []);
 
   const toggle = useCallback(
-    (id: string) => {
+    (id: string, title: string) => {
       setCompleted((prev) => {
         const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
         saveProgress(next);
+        const wasDone = prev.includes(id);
+        setAnnouncement(
+          wasDone
+            ? `${title} marked as incomplete. ${prev.length - 1} of ${totalModules} modules done.`
+            : `${title} marked as complete. ${prev.length + 1} of ${totalModules} modules done.`
+        );
         return next;
       });
     },
-    [],
+    [totalModules],
   );
 
   const overallPercent = totalModules ? Math.round((completed.length / totalModules) * 100) : 0;
@@ -189,18 +201,23 @@ export default function ProgressPage() {
   // Don't flash content before hydration
   if (!hydrated) {
     return (
-      <main id="main-content" className="mesh-gradient-dark min-h-screen" aria-label="Your Progress">
+      <div className="mesh-gradient-dark min-h-screen">
         <div className="pt-32 pb-20 content-max text-center">
-          <p style={{ color: "var(--text-on-dark-muted)" }}>Loading your progress…</p>
+          <p style={{ color: "var(--text-on-dark-muted)" }}>Loading your progress\u2026</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main id="main-content" aria-label="Your Progress">
+    <>
+      {/* Screen reader announcements for toggle actions */}
+      <div className="sr-only" role="status" aria-live="polite">
+        {announcement}
+      </div>
+
       {/* ── Hero ───────────────────────────────────────────── */}
-      <section className="mesh-gradient-hero relative overflow-hidden pt-32 sm:pt-40 pb-20">
+      <section className="mesh-gradient-hero relative overflow-hidden pt-32 sm:pt-40 pb-20" aria-label="Your progress overview">
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -271,9 +288,9 @@ export default function ProgressPage() {
         </div>
       </section>
 
-      {/* ── Continue CTA ──────────────────────────────────── */}
+      {/* ── Continue CTA ────────────────────────────────── */}
       {nextModule && (
-        <section className="section-yellow py-6">
+        <section className="section-yellow py-6" aria-label="Continue learning">
           <div className="content-max flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -281,7 +298,7 @@ export default function ProgressPage() {
               </svg>
               <p className="text-sm font-semibold text-cnib-black">
                 Up next: <span className="font-bold">{nextModule.title}</span>
-                <span className="font-normal opacity-70"> — Phase {nextModule.phase.number}: {nextModule.phase.name}</span>
+                <span className="font-normal opacity-70"> \u2014 Phase {nextModule.phase.number}: {nextModule.phase.name}</span>
               </p>
             </div>
             <Link href={`/themes/${nextModule.id}`} className="btn-dark text-sm whitespace-nowrap">
@@ -291,7 +308,7 @@ export default function ProgressPage() {
         </section>
       )}
 
-      {/* ── Phase breakdown ───────────────────────────────── */}
+      {/* ── Phase breakdown ─────────────────────────────── */}
       {phases.map((phase, idx) => {
         const mods = getModulesByPhase(phase.id);
         const pp = getPhaseProgress(phase.id, completed);
@@ -302,7 +319,7 @@ export default function ProgressPage() {
             key={phase.id}
             className={`py-16 sm:py-20 relative overflow-hidden ${isDark ? "mesh-gradient-dark" : ""}`}
             style={!isDark ? { background: "var(--cnib-charcoal)" } : undefined}
-            aria-label={`Phase ${phase.number}: ${phase.name} — ${pp.done} of ${pp.total} complete`}
+            aria-label={`Phase ${phase.number}: ${phase.name} \u2014 ${pp.done} of ${pp.total} complete`}
           >
             {isDark && (
               <div
@@ -339,7 +356,7 @@ export default function ProgressPage() {
                 </p>
               </div>
 
-              <PhaseBar percent={pp.percent} />
+              <PhaseBar percent={pp.percent} label={`Phase ${phase.number}: ${phase.name} progress`} />
 
               {/* Module checklist */}
               <ul className="mt-8 space-y-3" role="list">
@@ -364,9 +381,10 @@ export default function ProgressPage() {
                       >
                         {/* Toggle button */}
                         <button
-                          onClick={() => toggle(mod.id)}
-                          aria-label={isDone ? `Mark "${mod.title}" as incomplete` : `Mark "${mod.title}" as complete`}
+                          onClick={() => toggle(mod.id, mod.title)}
+                          aria-label={isDone ? `Mark \"${mod.title}\" as incomplete` : `Mark \"${mod.title}\" as complete`}
                           className="cursor-pointer bg-transparent border-none p-0"
+                          style={{ minWidth: 28, minHeight: 28 }}
                         >
                           <CheckIcon checked={isDone} />
                         </button>
@@ -386,7 +404,7 @@ export default function ProgressPage() {
                               <span className="text-cnib-yellow-dim font-mono text-sm mr-2" aria-hidden="true">
                                 {String(globalIndex).padStart(2, "0")}
                               </span>
-                              <span className="group-hover/link:text-cnib-yellow transition-colors">
+                              <span className="group-hover/link:text-cnib-yellow group-focus-visible/link:text-cnib-yellow transition-colors">
                                 {mod.title}
                               </span>
                             </p>
@@ -396,13 +414,14 @@ export default function ProgressPage() {
                           </p>
                         </div>
 
-                        {/* Arrow to module */}
+                        {/* Arrow to module — decorative duplicate, remove from tab order */}
                         <Link
                           href={`/themes/${mod.id}`}
-                          className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                          aria-label={`Go to ${mod.title}`}
+                          className="shrink-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"
+                          aria-hidden="true"
+                          tabIndex={-1}
                         >
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path d="M7 4l6 6-6 6" stroke="var(--cnib-yellow)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </Link>
@@ -416,7 +435,7 @@ export default function ProgressPage() {
         );
       })}
 
-      {/* ── Bottom CTA ────────────────────────────────────── */}
+      {/* ── Bottom CTA ──────────────────────────────────── */}
       <section className="section-yellow section-padding-sm">
         <div className="content-narrow text-center">
           <h2 className="section-heading text-cnib-black mb-4">
@@ -425,7 +444,7 @@ export default function ProgressPage() {
           <p className="body-large text-cnib-black/70 mb-8">
             {completed.length === totalModules
               ? "You\u2019ve completed the entire curriculum. Time to take your business to the world."
-              : "Work through each module at your own pace. Check them off as you go — they\u2019ll stay saved right here."}
+              : "Work through each module at your own pace. Check them off as you go \u2014 they\u2019ll stay saved right here."}
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <Link href="/themes" className="btn-dark">
@@ -437,10 +456,11 @@ export default function ProgressPage() {
                   if (window.confirm("This will reset all your progress. Are you sure?")) {
                     setCompleted([]);
                     saveProgress([]);
+                    setAnnouncement("All progress has been reset.");
                   }
                 }}
                 className="text-sm font-medium px-4 py-2 rounded-lg transition-colors cursor-pointer bg-transparent border-none"
-                style={{ color: "var(--cnib-black)", opacity: 0.5 }}
+                style={{ color: "var(--cnib-black)", opacity: 0.7 }}
               >
                 Reset progress
               </button>
@@ -448,6 +468,6 @@ export default function ProgressPage() {
           </div>
         </div>
       </section>
-    </main>
+    </>
   );
 }
