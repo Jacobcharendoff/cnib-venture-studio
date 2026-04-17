@@ -201,8 +201,11 @@ export default function Home() {
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-3">
                         <PhaseIcon phase={p.id} size={36} className="text-cnib-yellow" />
-                        <span className="text-cnib-yellow font-bold text-3xl font-mono tracking-tighter">
-                          {String(p.number).padStart(2, "0")}
+                        <span className="relative inline-flex items-center justify-center w-12 h-12">
+                          <span className="absolute inset-0 rounded-full border-2 border-cnib-yellow/20 bg-cnib-yellow/5" aria-hidden="true" />
+                          <span className="relative text-cnib-yellow font-bold text-xl font-mono tracking-tighter">
+                            {String(p.number).padStart(2, "0")}
+                          </span>
                         </span>
                       </div>
                       <span className="eyebrow" style={{ color: "var(--text-on-dark-muted)" }}>

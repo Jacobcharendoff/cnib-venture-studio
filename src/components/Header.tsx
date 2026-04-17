@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -88,12 +89,19 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors no-underline nav-link ${
+                className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors no-underline nav-link ${
                   isActive(link.href) ? "nav-link-active" : ""
                 }`}
                 aria-current={isActive(link.href) ? "page" : undefined}
               >
                 {link.label}
+                {isActive(link.href) && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="absolute bottom-0 left-2 right-2 h-0.5 bg-cnib-yellow rounded-full"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
               </Link>
             ))}
           </nav>
@@ -138,30 +146,56 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Nav */}
-        {menuOpen && (
-          <nav
-            ref={menuRef}
-            id="mobile-menu"
-            className="md:hidden pb-4 border-t border-white/[0.06] pt-3"
-            aria-label="Mobile navigation"
-          >
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors no-underline nav-link ${
-                  isActive(link.href) ? "nav-link-active" : ""
-                }`}
-                style={{ minHeight: 44 }}
-                aria-current={isActive(link.href) ? "page" : undefined}
+        {/* Mobile Nav — slides from right */}
+        <AnimatePresence>
+          {menuOpen && (
+            <>
+              <motion.div
+                key="backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 top-16 md:hidden z-40"
+                style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(4px)" }}
                 onClick={() => setMenuOpen(false)}
+                aria-hidden="true"
+              />
+              <motion.nav
+                key="panel"
+                ref={menuRef}
+                id="mobile-menu"
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                className="fixed top-16 right-0 bottom-0 w-72 md:hidden z-50 border-l border-white/[0.06]"
+                style={{
+                  background: "rgba(10,10,10,0.95)",
+                  backdropFilter: "blur(24px)",
+                  WebkitBackdropFilter: "blur(24px)",
+                }}
+                aria-label="Mobile navigation"
               >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        )}
+                <div className="p-6 space-y-1">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors no-underline nav-link ${
+                        isActive(link.href) ? "nav-link-active" : ""
+                      }`}
+                      style={{ minHeight: 44 }}
+                      aria-current={isActive(link.href) ? "page" : undefined}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </motion.nav>
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );

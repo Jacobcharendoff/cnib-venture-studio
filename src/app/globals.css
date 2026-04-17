@@ -346,8 +346,8 @@ body {
 
 .glass-card {
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-lg);
   padding: clamp(1.5rem, 3vw, 2.5rem);
@@ -436,6 +436,21 @@ body {
   gap: clamp(2rem, 5vw, 4rem);
 }
 
+@media (min-width: 640px) {
+  .stat-grid > * + * {
+    position: relative;
+  }
+  .stat-grid > * + *::before {
+    content: "";
+    position: absolute;
+    left: calc(-1 * clamp(1rem, 2.5vw, 2rem));
+    top: 10%;
+    bottom: 10%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(10, 10, 10, 0.15), transparent);
+  }
+}
+
 /* ── Button Styles ───────────────────────────────────────────── */
 
 .btn-primary {
@@ -445,7 +460,9 @@ body {
   gap: 0.5rem;
   padding: 1rem 2.25rem;
   min-height: 48px;
-  background: var(--cnib-yellow);
+  background: linear-gradient(135deg, var(--cnib-yellow) 0%, var(--cnib-yellow-soft) 100%);
+  background-size: 200% 200%;
+  background-position: 0% 0%;
   color: var(--cnib-black);
   font-weight: 700;
   font-size: 0.9375rem;
@@ -469,8 +486,13 @@ body {
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: 0 4px 20px rgba(255, 241, 0, 0.35), 0 8px 30px rgba(255, 241, 0, 0.15);
+  background-position: 100% 100%;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 .btn-primary:hover::after {
@@ -499,8 +521,12 @@ body {
 .btn-secondary:hover {
   border-color: var(--cnib-yellow);
   color: var(--cnib-yellow);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: 0 0 20px rgba(255, 241, 0, 0.1);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
 }
 
 .btn-dark {
@@ -524,8 +550,12 @@ body {
 
 .btn-dark:hover {
   background: var(--cnib-dark);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: var(--shadow-medium);
+}
+
+.btn-dark:active {
+  transform: scale(0.98);
 }
 
 /* ── Badge ───────────────────────────────────────────────────── */
