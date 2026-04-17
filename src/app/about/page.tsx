@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { FadeIn, Stagger, StaggerItem } from "@/components/Animate";
 
 export const metadata: Metadata = {
   title: "About | Venture Studio",
@@ -139,26 +140,27 @@ export default function AboutPage() {
           aria-hidden="true"
         />
         <div className="content-max relative z-10">
-          <p className="caption text-cnib-yellow mb-4">Experience</p>
-          <h2 className="section-heading text-white mb-12">
-            Where Jacob has built
-          </h2>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" role="list">
-            {experiences.map((item) => (
-              <li
-                key={item}
-                className="glass-card flex items-start gap-3"
-                style={{ cursor: "default" }}
-              >
-                <span className="text-cnib-yellow mt-0.5 shrink-0" aria-hidden="true">
-                  &#9656;
-                </span>
-                <span style={{ color: "var(--text-on-dark)" }} className="text-sm">
-                  {item}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <FadeIn>
+            <p className="caption text-cnib-yellow mb-4">Experience</p>
+            <h2 className="section-heading text-white mb-12">
+              Where Jacob has built
+            </h2>
+          </FadeIn>
+          <div className="relative" role="list">
+            <div className="absolute left-[15px] top-2 bottom-2 w-px bg-gradient-to-b from-cnib-yellow/40 via-cnib-yellow/20 to-transparent" aria-hidden="true" />
+            <Stagger className="space-y-2" staggerDelay={0.1}>
+              {experiences.map((item) => (
+                <StaggerItem key={item}>
+                  <div className="relative pl-10 py-3" role="listitem">
+                    <span className="absolute left-[9px] top-5 w-3 h-3 rounded-full bg-cnib-yellow/20 border-2 border-cnib-yellow" aria-hidden="true" />
+                    <span style={{ color: "var(--text-on-dark)" }} className="text-sm leading-relaxed">
+                      {item}
+                    </span>
+                  </div>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </div>
         </div>
       </section>
 

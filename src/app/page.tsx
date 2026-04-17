@@ -13,14 +13,9 @@ export default function Home() {
     <>
       {/* ── Hero ────────────────────────────────────────────────── */}
       <section className="mesh-gradient-hero relative overflow-hidden min-h-[100svh] flex items-center">
-        {/* Decorative grid */}
+        {/* Drifting dot grid */}
         <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-          }}
+          className="absolute inset-0 pointer-events-none dot-grid-drift"
           aria-hidden="true"
         />
 
@@ -160,6 +155,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Section divider */}
+      <div className="relative h-px" aria-hidden="true">
+        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, rgba(255,241,0,0.3), transparent)" }} />
+      </div>
+
       {/* ── The 6 Phases ────────────────────────────────────── */}
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Program phases">
         <div
@@ -290,6 +290,7 @@ export default function Home() {
 
           <FadeIn delay={0.15}>
             <div className="relative">
+              <span className="quote-decoration -top-12 -left-6 hidden sm:block" aria-hidden="true">&ldquo;</span>
               <div className="absolute -left-4 top-0 bottom-0 w-1 bg-cnib-yellow rounded-full" aria-hidden="true" />
               <div className="pl-8 space-y-6">
                 <p className="body-large text-text-secondary">
@@ -315,6 +316,11 @@ export default function Home() {
           </FadeIn>
         </div>
       </section>
+
+      {/* Section divider */}
+      <div className="relative h-px" aria-hidden="true">
+        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, rgba(255,241,0,0.2), transparent)" }} />
+      </div>
 
       {/* ── CTA ───────────────────────────────────────────────────── */}
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Call to action">

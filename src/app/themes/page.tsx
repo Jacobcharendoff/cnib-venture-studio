@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { phases, getModulesByPhase, getAvailableModules } from "@/data/modules";
 import { FadeIn, Stagger, StaggerItem } from "@/components/Animate";
+import PhaseIcon from "@/components/PhaseIcon";
 import ModuleComplete from "@/components/ModuleComplete";
 
 export const metadata: Metadata = {
@@ -94,19 +95,31 @@ export default function ThemesPage() {
                         Phase {phase.number}
                       </span>
                     </div>
-                    <h2
-                      className={`text-3xl sm:text-4xl font-bold tracking-tight mb-3 ${
-                        isDark ? "text-white" : "text-cnib-black"
-                      }`}
-                    >
-                      {phase.name}
-                    </h2>
+                    <div className="flex items-center gap-3 mb-3">
+                      <PhaseIcon phase={phase.id} size={32} className={isDark ? "text-cnib-yellow" : "text-cnib-yellow-dim"} />
+                      <h2
+                        className={`text-3xl sm:text-4xl font-bold tracking-tight ${
+                          isDark ? "text-white" : "text-cnib-black"
+                        }`}
+                      >
+                        {phase.name}
+                      </h2>
+                    </div>
                     <p
                       className="text-lg"
                       style={{ color: isDark ? "var(--text-on-dark-muted)" : "var(--text-secondary)" }}
                     >
                       {phase.tagline}
                     </p>
+                    <div
+                      className="h-0.5 rounded-full mt-4"
+                      style={{
+                        background: "linear-gradient(90deg, var(--cnib-yellow), transparent)",
+                        width: `${((phaseIndex + 1) / phases.length) * 100}%`,
+                        opacity: 0.4,
+                      }}
+                      aria-hidden="true"
+                    />
                   </div>
                 </div>
               </FadeIn>
@@ -201,6 +214,14 @@ export default function ThemesPage() {
                             ))}
                           </div>
                         )}
+
+                        <div className={`card-hover-reveal mt-4 pt-4 border-t ${
+                          isDark ? "border-white/[0.06]" : "border-border-light"
+                        }`}>
+                          <span className={`text-sm font-semibold ${isDark ? "text-cnib-yellow" : "text-cnib-blue"}`}>
+                            View module <span aria-hidden="true">&rarr;</span>
+                          </span>
+                        </div>
                       </Link>
                     </StaggerItem>
                   );

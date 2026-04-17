@@ -154,7 +154,7 @@ function PhaseBar({ percent, label }: { percent: number; label: string }) {
       aria-label={label}
     >
       <div
-        className="h-full rounded-full transition-all duration-500"
+        className={`h-full rounded-full transition-all duration-500 ${percent === 100 ? "progress-bar-glow" : ""}`}
         style={{
           width: `${percent}%`,
           background: percent === 100 ? "var(--cnib-yellow)" : "var(--cnib-yellow-dim)",
@@ -334,6 +334,11 @@ export default function ProgressPage() {
             )}
 
             <div className="content-max relative z-10">
+              {/* Journey connector */}
+              {idx > 0 && (
+                <div className="journey-connector mb-8" aria-hidden="true" />
+              )}
+
               {/* Phase header */}
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
                 <div>

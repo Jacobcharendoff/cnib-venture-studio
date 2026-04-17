@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getAvailableModules } from "@/data/modules";
+import { FadeIn, Stagger, StaggerItem } from "@/components/Animate";
 
 export const metadata: Metadata = {
   title: "Toolkit | Venture Studio",
@@ -84,17 +85,17 @@ export default function ToolkitPage() {
       {/* ── Worksheets & Guides ───────────────────────────────── */}
       <section className="section-padding bg-white" aria-label="Downloadable resources">
         <div className="content-max">
-          <div className="mb-16">
+          <FadeIn className="mb-16">
             <p className="caption text-cnib-yellow-on-light mb-3">Downloads</p>
             <h2 className="section-heading text-cnib-black">
               Worksheets &amp; Guides
             </h2>
-          </div>
+          </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.1}>
             {toolkitResources.map((resource) => (
+              <StaggerItem key={resource.id}>
               <div
-                key={resource.id}
                 className="premium-card flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-5">
@@ -126,18 +127,19 @@ export default function ToolkitPage() {
                   )}
                 </div>
               </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* ── Podcasts ──────────────────────────────────────────── */}
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Podcast episodes">
         <div className="content-max relative z-10">
-          <div className="mb-16">
+          <FadeIn className="mb-16">
             <p className="caption text-cnib-yellow mb-3">Listen &amp; learn</p>
             <h2 className="section-heading text-white">Podcasts</h2>
-          </div>
+          </FadeIn>
 
           <div className="glass-card text-center py-16 px-8" style={{ cursor: "default" }}>
             <span className="text-5xl mb-6 block" role="img" aria-label="Microphone">\ud83c\udf99\ufe0f</span>
@@ -154,20 +156,20 @@ export default function ToolkitPage() {
       {/* ── Interactive Tools Preview ───────────────────────── */}
       <section className="section-warm section-padding" aria-label="Interactive tools">
         <div className="content-max">
-          <div className="mb-16">
+          <FadeIn className="mb-16">
             <p className="caption text-cnib-yellow-on-light mb-3">Build</p>
             <h2 className="section-heading text-cnib-black">
               Interactive Tools
             </h2>
-          </div>
+          </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.1}>
             {getAvailableModules()
               .filter((m) => m.interactiveElement)
               .slice(0, 6)
               .map((mod) => (
+                <StaggerItem key={mod.id}>
                 <Link
-                  key={mod.id}
                   href={`/themes/${mod.id}`}
                   className="premium-card no-underline group"
                 >
@@ -181,8 +183,9 @@ export default function ToolkitPage() {
                     {mod.interactiveElement!.description}
                   </p>
                 </Link>
+                </StaggerItem>
               ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
