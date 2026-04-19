@@ -6,6 +6,10 @@ import HeroVisual from "@/components/HeroVisual";
 import CursorGlow from "@/components/CursorGlow";
 import PhaseIcon from "@/components/PhaseIcon";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import SpotlightCard from "@/components/SpotlightCard";
+import TextGenerateEffect from "@/components/TextGenerateEffect";
+import BackgroundBeams from "@/components/BackgroundBeams";
+import BentoGrid, { BentoItem } from "@/components/BentoGrid";
 
 export default function Home() {
   const availableCount = getAvailableModules().length;
@@ -20,6 +24,9 @@ export default function Home() {
           className="absolute inset-0 pointer-events-none dot-grid-drift"
           aria-hidden="true"
         />
+
+        {/* Background beams */}
+        <BackgroundBeams />
 
         {/* Mobile simplified glow (replaces full iris on small screens) */}
         <div
@@ -48,16 +55,16 @@ export default function Home() {
               </div>
             </FadeIn>
 
-            <FadeIn delay={0.2}>
-              <h1 className="hero-heading text-white mb-8">
-                Turn your idea
-                <br />
-                into your{" "}
-                <span className="text-cnib-yellow">first dollar.</span>
-              </h1>
-            </FadeIn>
+            <h1 className="hero-heading text-white mb-8">
+              <TextGenerateEffect
+                highlightWords={["dollar."]}
+                staggerDelay={0.06}
+              >
+                Turn your idea into your first dollar.
+              </TextGenerateEffect>
+            </h1>
 
-            <FadeIn delay={0.35}>
+            <FadeIn delay={0.6}>
               <p className="body-large max-w-2xl mb-14" style={{ color: "var(--text-on-dark-muted)" }}>
                 An immersive entrepreneurial program for blind and low-vision
                 founders. No MBA required. Just a great idea and the will to
@@ -65,7 +72,7 @@ export default function Home() {
               </p>
             </FadeIn>
 
-            <FadeIn delay={0.5}>
+            <FadeIn delay={0.8}>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <Link href="/themes" className="btn-primary pulse-glow">
                   Explore the program
@@ -77,7 +84,7 @@ export default function Home() {
             </FadeIn>
 
             {/* Progress widget — only visible if user has started */}
-            <FadeIn delay={0.6}>
+            <FadeIn delay={0.9}>
               <ProgressWidget />
             </FadeIn>
           </div>
@@ -204,31 +211,34 @@ export default function Home() {
               ).length;
               return (
                 <StaggerItem key={p.id}>
-                  <Link
-                    href={`/themes#${p.id}`}
-                    className="glass-card no-underline group block h-full"
-                  >
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-3">
-                        <PhaseIcon phase={p.id} size={36} className="text-cnib-yellow" />
-                        <span className="relative inline-flex items-center justify-center w-12 h-12">
-                          <span className="absolute inset-0 rounded-full border-2 border-cnib-yellow/20 bg-cnib-yellow/5" aria-hidden="true" />
-                          <span className="relative text-cnib-yellow font-bold text-xl font-mono tracking-tighter">
-                            {String(p.number).padStart(2, "0")}
+                  <SpotlightCard className="rounded-2xl h-full" spotlightSize={300}>
+                    <Link
+                      href={`/themes#${p.id}`}
+                      className="glass-card no-underline group block h-full"
+                      style={{ transform: "none" }}
+                    >
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                          <PhaseIcon phase={p.id} size={36} className="text-cnib-yellow" />
+                          <span className="relative inline-flex items-center justify-center w-12 h-12">
+                            <span className="absolute inset-0 rounded-full border-2 border-cnib-yellow/20 bg-cnib-yellow/5" aria-hidden="true" />
+                            <span className="relative text-cnib-yellow font-bold text-xl font-mono tracking-tighter">
+                              {String(p.number).padStart(2, "0")}
+                            </span>
                           </span>
+                        </div>
+                        <span className="eyebrow" style={{ color: "var(--text-on-dark-muted)" }}>
+                          {available}/{phaseModules.length} modules
                         </span>
                       </div>
-                      <span className="eyebrow" style={{ color: "var(--text-on-dark-muted)" }}>
-                        {available}/{phaseModules.length} modules
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cnib-yellow transition-colors">
-                      {p.name}
-                    </h3>
-                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
-                      {p.tagline}
-                    </p>
-                  </Link>
+                      <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cnib-yellow transition-colors">
+                        {p.name}
+                      </h3>
+                      <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
+                        {p.tagline}
+                      </p>
+                    </Link>
+                  </SpotlightCard>
                 </StaggerItem>
               );
             })}
@@ -242,49 +252,130 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── How It Works ────────────────────────────────────── */}
-      <section className="section-warm section-padding" aria-label="How the program works">
-        <div className="content-max">
-          <FadeIn className="text-center mb-20">
-            <p className="caption text-cnib-yellow-on-light mb-6">How it works</p>
-            <h2 className="section-heading text-cnib-black">
+      {/* ── How It Works (Bento Grid) ───────────────────────── */}
+      <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="How the program works">
+        {/* Subtle grid texture */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)",
+            backgroundSize: "32px 32px",
+          }}
+          aria-hidden="true"
+        />
+
+        <div className="content-max relative z-10">
+          <FadeIn className="text-center mb-16">
+            <p className="caption text-cnib-yellow mb-6">How it works</p>
+            <h2 className="section-heading text-white">
               Built around your life,
               <br />
-              not around a classroom.
+              <span style={{ color: "var(--text-on-dark-muted)" }}>not around a classroom.</span>
             </h2>
           </FadeIn>
 
-          <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-12" staggerDelay={0.15}>
-            {[
-              {
-                num: "01",
-                title: "Live sessions, every two weeks",
-                desc: "90-minute bi-weekly sessions with real-world case studies, live discussion, and hands-on assignments. October through May.",
-              },
-              {
-                num: "02",
-                title: "Worksheets & podcasts per module",
-                desc: "Every module comes with a practical worksheet in accessible .docx format, plus podcast episodes that walk through each concept.",
-              },
-              {
-                num: "03",
-                title: "Pitch to a live panel",
-                desc: "The program ends with a Final Pitch Showcase \u2014 your chance to present your business to mentors and business leaders.",
-              },
-            ].map((item) => (
-              <StaggerItem key={item.num}>
-                <span className="number-accent block mb-4" aria-hidden="true">
-                  {item.num}
-                </span>
-                <h3 className="text-xl font-bold text-cnib-black mb-4">
-                  {item.title}
-                </h3>
-                <p className="text-text-secondary leading-relaxed">
-                  {item.desc}
+          <BentoGrid>
+            {/* Large feature card */}
+            <BentoItem colSpan={2} rowSpan={2}>
+              <div className="h-full flex flex-col justify-between">
+                <div>
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-cnib-yellow/10 text-cnib-yellow mb-6">
+                    Live Learning
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                    90-minute sessions, every two weeks
+                  </h3>
+                  <p className="text-base leading-relaxed max-w-lg" style={{ color: "var(--text-on-dark-muted)" }}>
+                    Real-world case studies, live discussion, and hands-on assignments.
+                    October through May &mdash; designed to fit around your schedule, not the other way around.
+                  </p>
+                </div>
+                <div className="flex items-center gap-4 mt-8">
+                  <div className="flex -space-x-2" aria-hidden="true">
+                    {[0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        className="w-8 h-8 rounded-full border-2 border-black/40"
+                        style={{ background: `hsl(${45 + i * 10}, 80%, ${55 + i * 8}%)` }}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm" style={{ color: "var(--text-on-dark-muted)" }}>Join founders just like you</span>
+                </div>
+              </div>
+            </BentoItem>
+
+            {/* Worksheets card */}
+            <BentoItem>
+              <div className="flex flex-col items-start">
+                <div className="w-10 h-10 rounded-xl bg-cnib-yellow/10 flex items-center justify-center mb-4" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cnib-yellow">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">Worksheets &amp; Podcasts</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
+                  Every module includes a practical .docx worksheet and podcast episodes walking you through each concept.
                 </p>
-              </StaggerItem>
-            ))}
-          </Stagger>
+              </div>
+            </BentoItem>
+
+            {/* Pitch card */}
+            <BentoItem>
+              <div className="flex flex-col items-start">
+                <div className="w-10 h-10 rounded-xl bg-cnib-yellow/10 flex items-center justify-center mb-4" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cnib-yellow">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">Final Pitch Showcase</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
+                  Present your business to mentors and business leaders in a live pitch event.
+                </p>
+              </div>
+            </BentoItem>
+
+            {/* Accessible card */}
+            <BentoItem colSpan={2}>
+              <div className="flex flex-col sm:flex-row items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-cnib-yellow/10 flex items-center justify-center shrink-0" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cnib-yellow">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="10" r="3" />
+                    <path d="M7 20.662V19a2 2 0 012-2h6a2 2 0 012 2v1.662" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-2">Fully Accessible. Always.</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
+                    Every worksheet, podcast, and resource is designed for screen readers, braille displays, and assistive tech from day one. No retrofitting. No afterthoughts.
+                  </p>
+                </div>
+              </div>
+            </BentoItem>
+
+            {/* Community card */}
+            <BentoItem>
+              <div className="flex flex-col items-start">
+                <div className="w-10 h-10 rounded-xl bg-cnib-yellow/10 flex items-center justify-center mb-4" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cnib-yellow">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                    <path d="M16 3.13a4 4 0 010 7.75" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">Peer Community</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
+                  Build alongside others who get it. Share wins, troubleshoot problems, grow together.
+                </p>
+              </div>
+            </BentoItem>
+          </BentoGrid>
         </div>
       </section>
 
@@ -335,6 +426,7 @@ export default function Home() {
       {/* ── CTA ───────────────────────────────────────────────────── */}
       <CursorGlow>
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Call to action">
+        <BackgroundBeams />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
