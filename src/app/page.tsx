@@ -28,19 +28,19 @@ export default function Home() {
         {/* Background beams */}
         <BackgroundBeams />
 
-        {/* Mobile simplified glow (replaces full iris on small screens) */}
+        {/* Mobile simplified glow */}
         <div
           className="absolute top-1/3 right-0 w-48 h-48 rounded-full lg:hidden pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(255,241,0,0.1), transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%)" }}
           aria-hidden="true"
         />
 
         {/* Animated iris rings */}
         <HeroVisual />
 
-        {/* Yellow accent line */}
+        {/* Thin accent line */}
         <div
-          className="absolute top-0 left-0 right-0 h-[3px] gradient-line"
+          className="absolute top-0 left-0 right-0 h-[2px] gradient-line"
           aria-hidden="true"
         />
 
@@ -49,7 +49,7 @@ export default function Home() {
             <FadeIn delay={0.1}>
               <div className="flex items-center gap-3 mb-8">
                 <span className="glow-dot" aria-hidden="true" />
-                <p className="caption text-cnib-yellow">
+                <p className="caption" style={{ color: "var(--text-on-dark-muted)" }}>
                   CNIB Venture Studio
                 </p>
               </div>
@@ -58,6 +58,7 @@ export default function Home() {
             <h1 className="hero-heading text-white mb-8">
               <TextGenerateEffect
                 highlightWords={["dollar."]}
+                highlightClassName="text-cnib-yellow"
                 staggerDelay={0.06}
               >
                 Turn your idea into your first dollar.
@@ -74,7 +75,7 @@ export default function Home() {
 
             <FadeIn delay={0.8}>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link href="/themes" className="btn-primary pulse-glow">
+                <Link href="/themes" className="btn-primary">
                   Explore the program
                 </Link>
                 <Link href="/toolkit" className="btn-secondary">
@@ -83,25 +84,29 @@ export default function Home() {
               </div>
             </FadeIn>
 
-            {/* Progress widget — only visible if user has started */}
             <FadeIn delay={0.9}>
               <ProgressWidget />
             </FadeIn>
           </div>
         </div>
 
-        {/* Bottom fade */}
+        {/* Bottom fade — clean dark transition */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-32"
-          style={{ background: "linear-gradient(transparent, var(--cnib-yellow))" }}
+          className="absolute bottom-0 left-0 right-0 h-40"
+          style={{ background: "linear-gradient(transparent, var(--cnib-charcoal))" }}
           aria-hidden="true"
         />
       </section>
       </CursorGlow>
 
-      {/* ── Stats Bar ───────────────────────────────────────────── */}
-      <section className="section-yellow" aria-label="Program highlights">
-        <div className="content-max py-12 sm:py-16">
+      {/* ── Stats Bar (dark, not yellow) ───────────────────── */}
+      <section className="section-charcoal relative" aria-label="Program highlights">
+        <div
+          className="absolute top-0 left-0 right-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(255,241,0,0.25), transparent)" }}
+          aria-hidden="true"
+        />
+        <div className="content-max py-14 sm:py-20">
           <Stagger className="stat-grid text-center" staggerDelay={0.08}>
             {[
               { value: "18", label: "Modules" },
@@ -110,10 +115,10 @@ export default function Home() {
               { value: "$0", label: "Cost to Members" },
             ].map((stat) => (
               <StaggerItem key={stat.label}>
-                <p className="stat-number text-cnib-black">
+                <p className="stat-number text-white">
                   <AnimatedCounter value={stat.value} />
                 </p>
-                <p className="stat-label text-cnib-black/70 mt-2">{stat.label}</p>
+                <p className="stat-label mt-2" style={{ color: "var(--text-on-dark-muted)" }}>{stat.label}</p>
               </StaggerItem>
             ))}
           </Stagger>
@@ -124,7 +129,7 @@ export default function Home() {
       <section className="section-padding bg-white" aria-label="Who this program is for">
         <div className="content-narrow text-center">
           <FadeIn>
-            <p className="caption text-cnib-yellow-on-light mb-6">Built for you</p>
+            <p className="caption text-text-muted mb-6">Built for you</p>
             <h2 className="section-heading text-cnib-black mb-8">
               For first-time entrepreneurs who have a great idea &mdash; and want to
               know how to make it real.
@@ -156,7 +161,7 @@ export default function Home() {
             ].map((item) => (
               <StaggerItem key={item.num}>
                 <div className="premium-card">
-                  <span className="eyebrow text-cnib-yellow-on-light block mb-3">
+                  <span className="eyebrow text-text-muted block mb-3">
                     {item.num}
                   </span>
                   <h3 className="text-lg font-bold text-cnib-black mb-3">
@@ -174,7 +179,7 @@ export default function Home() {
 
       {/* Section divider */}
       <div className="relative h-px" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, rgba(255,241,0,0.3), transparent)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent)" }} />
       </div>
 
       {/* ── The 6 Phases ────────────────────────────────────── */}
@@ -183,7 +188,7 @@ export default function Home() {
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+              "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
             backgroundSize: "60px 60px",
           }}
           aria-hidden="true"
@@ -191,11 +196,11 @@ export default function Home() {
 
         <div className="content-max relative z-10">
           <FadeIn className="text-center mb-20">
-            <p className="caption text-cnib-yellow mb-6">The journey</p>
+            <p className="caption mb-6" style={{ color: "var(--text-on-dark-muted)" }}>The journey</p>
             <h2 className="section-heading text-white mb-6">
               6 phases. 18 modules.
               <br />
-              <span style={{ color: "var(--text-on-dark-muted)" }}>One clear path.</span>
+              <span style={{ color: "var(--text-on-dark-subtle)" }}>One clear path.</span>
             </h2>
             <p className="section-subheading max-w-2xl mx-auto" style={{ color: "var(--text-on-dark-muted)" }}>
               Each phase builds on the last, taking you from raw idea to
@@ -219,15 +224,15 @@ export default function Home() {
                     >
                       <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
-                          <PhaseIcon phase={p.id} size={36} className="text-cnib-yellow" />
+                          <PhaseIcon phase={p.id} size={36} className="text-white/60" />
                           <span className="relative inline-flex items-center justify-center w-12 h-12">
-                            <span className="absolute inset-0 rounded-full border-2 border-cnib-yellow/20 bg-cnib-yellow/5" aria-hidden="true" />
-                            <span className="relative text-cnib-yellow font-bold text-xl font-mono tracking-tighter">
+                            <span className="absolute inset-0 rounded-full border border-white/10" aria-hidden="true" />
+                            <span className="relative text-white font-bold text-xl font-mono tracking-tighter">
                               {String(p.number).padStart(2, "0")}
                             </span>
                           </span>
                         </div>
-                        <span className="eyebrow" style={{ color: "var(--text-on-dark-muted)" }}>
+                        <span className="eyebrow" style={{ color: "var(--text-on-dark-subtle)" }}>
                           {available}/{phaseModules.length} modules
                         </span>
                       </div>
@@ -254,12 +259,11 @@ export default function Home() {
 
       {/* ── How It Works (Bento Grid) ───────────────────────── */}
       <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="How the program works">
-        {/* Subtle grid texture */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)",
+              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.02) 1px, transparent 0)",
             backgroundSize: "32px 32px",
           }}
           aria-hidden="true"
@@ -267,20 +271,19 @@ export default function Home() {
 
         <div className="content-max relative z-10">
           <FadeIn className="text-center mb-16">
-            <p className="caption text-cnib-yellow mb-6">How it works</p>
+            <p className="caption mb-6" style={{ color: "var(--text-on-dark-muted)" }}>How it works</p>
             <h2 className="section-heading text-white">
               Built around your life,
               <br />
-              <span style={{ color: "var(--text-on-dark-muted)" }}>not around a classroom.</span>
+              <span style={{ color: "var(--text-on-dark-subtle)" }}>not around a classroom.</span>
             </h2>
           </FadeIn>
 
           <BentoGrid>
-            {/* Large feature card */}
             <BentoItem colSpan={2} rowSpan={2}>
               <div className="h-full flex flex-col justify-between">
                 <div>
-                  <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-cnib-yellow/10 text-cnib-yellow mb-6">
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-white/5 text-white/70 mb-6">
                     Live Learning
                   </span>
                   <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
@@ -297,7 +300,7 @@ export default function Home() {
                       <div
                         key={i}
                         className="w-8 h-8 rounded-full border-2 border-black/40"
-                        style={{ background: `hsl(${45 + i * 10}, 80%, ${55 + i * 8}%)` }}
+                        style={{ background: `hsl(${200 + i * 30}, 15%, ${50 + i * 10}%)` }}
                       />
                     ))}
                   </div>
@@ -306,11 +309,10 @@ export default function Home() {
               </div>
             </BentoItem>
 
-            {/* Worksheets card */}
             <BentoItem>
               <div className="flex flex-col items-start">
-                <div className="w-10 h-10 rounded-xl bg-cnib-yellow/10 flex items-center justify-center mb-4" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cnib-yellow">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/60">
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
                     <polyline points="14 2 14 8 20 8" />
                     <line x1="16" y1="13" x2="8" y2="13" />
@@ -324,11 +326,10 @@ export default function Home() {
               </div>
             </BentoItem>
 
-            {/* Pitch card */}
             <BentoItem>
               <div className="flex flex-col items-start">
-                <div className="w-10 h-10 rounded-xl bg-cnib-yellow/10 flex items-center justify-center mb-4" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cnib-yellow">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/60">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 </div>
@@ -339,11 +340,10 @@ export default function Home() {
               </div>
             </BentoItem>
 
-            {/* Accessible card */}
             <BentoItem colSpan={2}>
               <div className="flex flex-col sm:flex-row items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-cnib-yellow/10 flex items-center justify-center shrink-0" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cnib-yellow">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/60">
                     <circle cx="12" cy="12" r="10" />
                     <circle cx="12" cy="10" r="3" />
                     <path d="M7 20.662V19a2 2 0 012-2h6a2 2 0 012 2v1.662" />
@@ -358,11 +358,10 @@ export default function Home() {
               </div>
             </BentoItem>
 
-            {/* Community card */}
             <BentoItem>
               <div className="flex flex-col items-start">
-                <div className="w-10 h-10 rounded-xl bg-cnib-yellow/10 flex items-center justify-center mb-4" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cnib-yellow">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/60">
                     <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
                     <circle cx="9" cy="7" r="4" />
                     <path d="M23 21v-2a4 4 0 00-3-3.87" />
@@ -383,7 +382,7 @@ export default function Home() {
       <section className="section-padding bg-white" aria-label="Meet your instructor">
         <div className="content-narrow">
           <FadeIn className="text-center mb-12">
-            <p className="caption text-cnib-yellow-on-light mb-6">Your instructor</p>
+            <p className="caption text-text-muted mb-6">Your instructor</p>
             <h2 className="section-heading text-cnib-black mb-8">
               Jacob Charendoff
             </h2>
@@ -392,7 +391,7 @@ export default function Home() {
           <FadeIn delay={0.15}>
             <div className="relative">
               <span className="quote-decoration -top-12 -left-6 hidden sm:block" aria-hidden="true">&ldquo;</span>
-              <div className="absolute -left-4 top-0 bottom-0 w-1 bg-cnib-yellow rounded-full" aria-hidden="true" />
+              <div className="absolute -left-4 top-0 bottom-0 w-1 bg-cnib-black/10 rounded-full" aria-hidden="true" />
               <div className="pl-8 space-y-6">
                 <p className="body-large text-text-secondary">
                   A legally blind entrepreneur who has built businesses across
@@ -420,7 +419,7 @@ export default function Home() {
 
       {/* Section divider */}
       <div className="relative h-px" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, rgba(255,241,0,0.2), transparent)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.06), transparent)" }} />
       </div>
 
       {/* ── CTA ───────────────────────────────────────────────────── */}
@@ -431,13 +430,13 @@ export default function Home() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 50% 50% at 50% 100%, rgba(255,241,0,0.1) 0%, transparent 60%)",
+              "radial-gradient(ellipse 50% 50% at 50% 100%, rgba(255,255,255,0.04) 0%, transparent 60%)",
           }}
           aria-hidden="true"
         />
         <div className="content-narrow text-center relative z-10">
           <ScaleIn>
-            <p className="caption text-cnib-yellow mb-6">Start now</p>
+            <p className="caption mb-6" style={{ color: "var(--text-on-dark-muted)" }}>Start now</p>
             <h2 className="section-heading text-white mb-6">
               Your first sale is waiting.
             </h2>

@@ -22,7 +22,6 @@ export default function Header() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  /* Close menu on Escape — return focus to trigger button */
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape" && menuOpen) {
@@ -38,7 +37,6 @@ export default function Header() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  /* Focus first link when mobile menu opens */
   useEffect(() => {
     if (menuOpen && menuRef.current) {
       const firstLink = menuRef.current.querySelector("a");
@@ -46,7 +44,6 @@ export default function Header() {
     }
   }, [menuOpen]);
 
-  /* Close menu on route change */
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
@@ -63,13 +60,13 @@ export default function Header() {
     >
       <div className="content-max">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Logo — white, confident */}
           <Link
             href="/"
             className="flex items-center gap-2.5 no-underline group"
             aria-label="Venture Studio home"
           >
-            <span className="text-cnib-yellow font-bold text-lg tracking-tight">
+            <span className="text-white font-bold text-lg tracking-tight">
               Venture Studio
             </span>
             <span
@@ -80,7 +77,7 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* Desktop Nav — white palette */}
           <nav
             className="hidden md:flex items-center gap-0.5"
             aria-label="Main navigation"
@@ -98,7 +95,7 @@ export default function Header() {
                 {isActive(link.href) && (
                   <motion.span
                     layoutId="nav-underline"
-                    className="absolute bottom-0 left-2 right-2 h-0.5 bg-cnib-yellow rounded-full"
+                    className="absolute bottom-0 left-2 right-2 h-0.5 bg-white rounded-full"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -106,7 +103,7 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Mobile menu button — 44×44 minimum touch target */}
+          {/* Mobile menu button */}
           <button
             ref={menuButtonRef}
             className="md:hidden p-2.5 rounded-lg transition-colors text-white flex items-center justify-center"
@@ -146,7 +143,7 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Nav — slides from right */}
+        {/* Mobile Nav */}
         <AnimatePresence>
           {menuOpen && (
             <>
