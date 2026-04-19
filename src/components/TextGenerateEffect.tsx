@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { ReactNode } from "react";
 
 interface TextGenerateEffectProps {
   children: string;
@@ -22,50 +21,35 @@ export default function TextGenerateEffect({
 }: TextGenerateEffectProps) {
   const words = children.split(" ");
 
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: staggerDelay,
-      },
-    },
-  };
-
-  const child = {
-    hidden: {
-      opacity: 0,
-      filter: "blur(8px)",
-      y: 6,
-    },
-    visible: {
-      opacity: 1,
-      filter: "blur(0px)",
-      y: 0,
-      transition: {
-        duration,
-        ease: [0.25, 0.1, 0.25, 1],
-      },
-    },
-  };
-
   return (
     <motion.span
       className={`inline ${className}`}
-      variants={container}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-60px" }}
+      transition={{ staggerChildren: staggerDelay }}
     >
       {words.map((word, i) => {
+        const cleanWord = word.toLowerCase().replace(/[^a-z]/g, "");
         const isHighlight = highlightWords.some(
-          (hw) => word.toLowerCase().replace(/[^a-z]/g, "") === hw.toLowerCase()
+          (hw) => cleanWord === hw.toLowerCase().replace(/[^a-z]/g, "")
         );
         return (
           <motion.span
             key={`${word}-${i}`}
-            variants={child}
-            className={`inline-block mr-[0.25em] ${isHighlight ? highlightClassName : ""}`}
+            className={`inline-block ${isHighlight ? highlightClassName : ""}`}
+            style={{ marginRight: "0.25em" }}
+            variants={{
+              hidden: { opacity: 0, y: 6 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration,
+                  ease: [0.25, 0.1, 0.25, 1],
+                },
+              },
+            }}
           >
             {word}
           </motion.span>

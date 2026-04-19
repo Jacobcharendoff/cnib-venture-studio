@@ -47,16 +47,12 @@ export default function SpotlightCard({
         }}
         aria-hidden="true"
       />
-      {/* Border glow effect */}
+      {/* Border highlight on hover */}
       <div
         className="absolute inset-0 pointer-events-none z-[1] rounded-2xl transition-opacity duration-500"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(${spotlightSize * 0.8}px circle at ${position.x}px ${position.y}px, rgba(255, 241, 0, 0.15), transparent 40%)`,
-          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          maskComposite: "exclude",
-          WebkitMaskComposite: "xor",
-          padding: "1px",
+          boxShadow: `inset 0 0 0 1px rgba(255, 241, 0, ${isHovered ? 0.15 : 0})`,
         }}
         aria-hidden="true"
       />

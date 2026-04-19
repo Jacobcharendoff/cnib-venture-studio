@@ -2,18 +2,14 @@
 
 import { motion } from "framer-motion";
 
-interface BackgroundBeamsProps {
-  className?: string;
-}
-
-export default function BackgroundBeams({ className = "" }: BackgroundBeamsProps) {
+export default function BackgroundBeams({ className = "" }: { className?: string }) {
   const beams = [
-    { x1: "10%", y1: "0%", x2: "35%", y2: "100%", delay: 0, duration: 8, opacity: 0.04 },
-    { x1: "25%", y1: "0%", x2: "55%", y2: "100%", delay: 1.5, duration: 10, opacity: 0.03 },
-    { x1: "50%", y1: "0%", x2: "70%", y2: "100%", delay: 3, duration: 12, opacity: 0.05 },
-    { x1: "70%", y1: "0%", x2: "45%", y2: "100%", delay: 2, duration: 9, opacity: 0.03 },
-    { x1: "85%", y1: "0%", x2: "15%", y2: "100%", delay: 4, duration: 11, opacity: 0.04 },
-    { x1: "40%", y1: "0%", x2: "80%", y2: "100%", delay: 0.5, duration: 14, opacity: 0.02 },
+    { x1: "10%", y1: "-5%", x2: "35%", y2: "105%", delay: 0, duration: 8, opacity: 0.04 },
+    { x1: "25%", y1: "-5%", x2: "55%", y2: "105%", delay: 1.5, duration: 10, opacity: 0.03 },
+    { x1: "50%", y1: "-5%", x2: "70%", y2: "105%", delay: 3, duration: 12, opacity: 0.05 },
+    { x1: "70%", y1: "-5%", x2: "45%", y2: "105%", delay: 2, duration: 9, opacity: 0.03 },
+    { x1: "85%", y1: "-5%", x2: "15%", y2: "105%", delay: 4, duration: 11, opacity: 0.04 },
+    { x1: "40%", y1: "-5%", x2: "80%", y2: "105%", delay: 0.5, duration: 14, opacity: 0.02 },
   ];
 
   return (
@@ -24,11 +20,11 @@ export default function BackgroundBeams({ className = "" }: BackgroundBeamsProps
         preserveAspectRatio="none"
       >
         <defs>
-          <linearGradient id="beam-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="var(--cnib-yellow)" stopOpacity="0" />
-            <stop offset="30%" stopColor="var(--cnib-yellow)" stopOpacity="1" />
-            <stop offset="70%" stopColor="var(--cnib-yellow)" stopOpacity="1" />
-            <stop offset="100%" stopColor="var(--cnib-yellow)" stopOpacity="0" />
+          <linearGradient id="beam-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,241,0,0)" />
+            <stop offset="30%" stopColor="rgba(255,241,0,1)" />
+            <stop offset="70%" stopColor="rgba(255,241,0,1)" />
+            <stop offset="100%" stopColor="rgba(255,241,0,0)" />
           </linearGradient>
         </defs>
         {beams.map((beam, i) => (
@@ -38,19 +34,18 @@ export default function BackgroundBeams({ className = "" }: BackgroundBeamsProps
             y1={beam.y1}
             x2={beam.x2}
             y2={beam.y2}
-            stroke="url(#beam-gradient)"
+            stroke="url(#beam-grad)"
             strokeWidth="1"
-            opacity={beam.opacity}
-            initial={{ pathLength: 0, opacity: 0 }}
+            initial={{ opacity: 0 }}
             animate={{
-              pathLength: [0, 1, 0],
-              opacity: [0, beam.opacity, 0],
+              opacity: [0, beam.opacity, beam.opacity, 0],
             }}
             transition={{
               duration: beam.duration,
               delay: beam.delay,
               repeat: Infinity,
               ease: "easeInOut",
+              times: [0, 0.2, 0.8, 1],
             }}
           />
         ))}
