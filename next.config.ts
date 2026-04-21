@@ -1,3 +1,5 @@
-// Config is in next.config.mjs
-// This file kept empty to avoid conflicts
-export {};
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {};
+
+export default nextConfig;
