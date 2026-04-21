@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase';
 type AuthMode = 'signup' | 'login';
 
 export default function AuthPage() {
-  const [mode, setMode] = useState<AuthMode>('login');
+  const [mode, setMode] = useState<AuthMode>('signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -48,7 +48,6 @@ export default function AuthPage() {
           setError(signupError.message);
         } else {
           setError('');
-          // Show success message or redirect
           router.push('/dashboard');
         }
       } else {
@@ -82,20 +81,6 @@ export default function AuthPage() {
             <div className="flex gap-4 mb-8">
               <button
                 onClick={() => {
-                  setMode('login');
-                  setError('');
-                }}
-                className={`flex-1 py-3 px-4 rounded-lg font-semibold text-sm transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
-                  mode === 'login'
-                    ? 'bg-white text-black'
-                    : 'bg-transparent text-gray-400 hover:text-white border border-gray-600'
-                }`}
-                aria-pressed={mode === 'login'}
-              >
-                Log In
-              </button>
-              <button
-                onClick={() => {
                   setMode('signup');
                   setError('');
                 }}
@@ -108,12 +93,31 @@ export default function AuthPage() {
               >
                 Sign Up
               </button>
+              <button
+                onClick={() => {
+                  setMode('login');
+                  setError('');
+                }}
+                className={`flex-1 py-3 px-4 rounded-lg font-semibold text-sm transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
+                  mode === 'login'
+                    ? 'bg-white text-black'
+                    : 'bg-transparent text-gray-400 hover:text-white border border-gray-600'
+                }`}
+                aria-pressed={mode === 'login'}
+              >
+                Log In
+              </button>
             </div>
 
             {/* Title */}
-            <h1 className="text-2xl sm:text-3xl font-black mb-6 text-white text-balance">
-              {mode === 'login' ? 'Welcome Back' : 'Get Started'}
+            <h1 className="text-2xl sm:text-3xl font-black mb-2 text-white text-balance">
+              {mode === 'signup' ? 'Start building.' : 'Welcome back.'}
             </h1>
+            <p className="text-sm text-gray-500 mb-6">
+              {mode === 'signup'
+                ? 'Create your free account. No credit card, no catch.'
+                : 'Pick up right where you left off.'}
+            </p>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -151,7 +155,7 @@ export default function AuthPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="········"
+                  placeholder="8 characters minimum"
                   required
                   minLength={8}
                   className="w-full h-[52px] px-4 rounded-lg bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
@@ -177,14 +181,14 @@ export default function AuthPage() {
                 className="w-full h-[52px] bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95"
                 aria-busy={loading}
               >
-                {loading ? 'Loading...' : mode === 'login' ? 'Log In' : 'Sign Up'}
+                {loading ? 'One sec...' : mode === 'signup' ? 'Create my account' : 'Log in'}
               </button>
             </form>
 
             {/* Footer note */}
             <div className="mt-6 pt-6 border-t border-gray-700 text-center">
               <p className="text-xs text-gray-500">
-                Powered by <span className="font-semibold text-gray-400">CNIB</span>
+                A <span className="font-semibold text-gray-400">CNIB</span> initiative. Always free.
               </p>
             </div>
           </div>

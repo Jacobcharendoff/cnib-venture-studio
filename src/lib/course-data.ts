@@ -4,9 +4,9 @@
 export const COURSE = {
   slug: "turn-your-idea-into-your-first-dollar",
   title: "Turn Your Idea Into Your First Dollar",
-  tagline: "24 lessons. 6 modules. One real business.",
+  tagline: "24 lessons. 6 modules. Your first paying customer.",
   description:
-    'A structured path from "I have an idea" to "I made my first sale." Built for aspiring entrepreneurs living with sight loss. No fluff. No filler. Just the work.',
+    "A free entrepreneurship course for blind and low-vision Canadians. From idea to first sale, with downloadable worksheets and real-world exercises built around your life, not someone else's.",
   totalModules: 6,
   totalLessons: 24,
   estimatedHours: 12,
@@ -32,7 +32,7 @@ export const MODULES: StaticModule[] = [
   {
     slug: "discover",
     title: "DISCOVER",
-    subtitle: "Find Your People, Find Your Problem",
+    subtitle: "Find the people who need what you know",
     sortOrder: 1,
     lessons: [
       { number: 1, globalNumber: 1, slug: "who-do-you-want-to-help", title: "Who Do You Want to Help?", estimatedMinutes: 15 },
@@ -44,7 +44,7 @@ export const MODULES: StaticModule[] = [
   {
     slug: "design",
     title: "DESIGN",
-    subtitle: "Build Something Worth Paying For",
+    subtitle: "Build something people will actually pay for",
     sortOrder: 2,
     lessons: [
       { number: 1, globalNumber: 5, slug: "what-are-you-actually-selling", title: "What Are You Actually Selling?", estimatedMinutes: 15 },
@@ -56,10 +56,10 @@ export const MODULES: StaticModule[] = [
   {
     slug: "money",
     title: "MONEY",
-    subtitle: "Price It, Plan It, Fund It",
+    subtitle: "Price it right and figure out funding",
     sortOrder: 3,
     lessons: [
-      { number: 1, globalNumber: 9, slug: "whats-it-worth", title: "What’s It Worth?", estimatedMinutes: 15 },
+      { number: 1, globalNumber: 9, slug: "whats-it-worth", title: "What's It Worth?", estimatedMinutes: 15 },
       { number: 2, globalNumber: 10, slug: "pricing-that-pays-you", title: "Pricing That Pays You", estimatedMinutes: 15 },
       { number: 3, globalNumber: 11, slug: "the-money-you-need", title: "The Money You Need", estimatedMinutes: 15 },
       { number: 4, globalNumber: 12, slug: "your-financial-reality-check", title: "Your Financial Reality Check", estimatedMinutes: 15 },
@@ -68,10 +68,10 @@ export const MODULES: StaticModule[] = [
   {
     slug: "brand",
     title: "BRAND",
-    subtitle: "Name It, Own It, Launch It",
+    subtitle: "Name it, build it, make it yours",
     sortOrder: 4,
     lessons: [
-      { number: 1, globalNumber: 13, slug: "whats-your-story", title: "What’s Your Story?", estimatedMinutes: 15 },
+      { number: 1, globalNumber: 13, slug: "whats-your-story", title: "What's Your Story?", estimatedMinutes: 15 },
       { number: 2, globalNumber: 14, slug: "naming-and-identity", title: "Naming and Identity", estimatedMinutes: 15 },
       { number: 3, globalNumber: 15, slug: "your-digital-home-base", title: "Your Digital Home Base", estimatedMinutes: 15 },
       { number: 4, globalNumber: 16, slug: "show-up-like-you-mean-it", title: "Show Up Like You Mean It", estimatedMinutes: 15 },
@@ -80,11 +80,11 @@ export const MODULES: StaticModule[] = [
   {
     slug: "sell",
     title: "SELL",
-    subtitle: "Find Customers, Make Offers, Close Deals",
+    subtitle: "Find your first customers and close the deal",
     sortOrder: 5,
     lessons: [
-      { number: 1, globalNumber: 17, slug: "whos-going-to-buy-this", title: "Who’s Going to Buy This?", estimatedMinutes: 15 },
-      { number: 2, globalNumber: 18, slug: "outreach-that-doesnt-suck", title: "Outreach That Doesn’t Suck", estimatedMinutes: 15 },
+      { number: 1, globalNumber: 17, slug: "whos-going-to-buy-this", title: "Who's Going to Buy This?", estimatedMinutes: 15 },
+      { number: 2, globalNumber: 18, slug: "outreach-that-doesnt-suck", title: "Outreach That Doesn't Suck", estimatedMinutes: 15 },
       { number: 3, globalNumber: 19, slug: "the-art-of-the-close", title: "The Art of the Close", estimatedMinutes: 15 },
       { number: 4, globalNumber: 20, slug: "your-first-sale", title: "Your First Sale", estimatedMinutes: 15 },
     ],
@@ -92,13 +92,13 @@ export const MODULES: StaticModule[] = [
   {
     slug: "launch",
     title: "LAUNCH",
-    subtitle: "Ship It, Learn, Grow",
+    subtitle: "Ship it, learn from it, grow it",
     sortOrder: 6,
     lessons: [
       { number: 1, globalNumber: 21, slug: "launch-week-game-plan", title: "Launch Week Game Plan", estimatedMinutes: 15 },
       { number: 2, globalNumber: 22, slug: "feedback-is-fuel", title: "Feedback Is Fuel", estimatedMinutes: 15 },
       { number: 3, globalNumber: 23, slug: "systems-that-scale", title: "Systems That Scale", estimatedMinutes: 15 },
-      { number: 4, globalNumber: 24, slug: "whats-next", title: "What’s Next?", estimatedMinutes: 15 },
+      { number: 4, globalNumber: 24, slug: "whats-next", title: "What's Next?", estimatedMinutes: 15 },
     ],
   },
 ];

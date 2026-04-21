@@ -61,7 +61,7 @@ export default function Home() {
             <div className="mb-8 sm:mb-12 inline-flex items-center gap-2 px-4 sm:px-6 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
               <span className="w-2 h-2 bg-blue-500 rounded-full" />
               <span className="text-xs sm:text-sm font-medium text-white">
-                Powered by CNIB — 100% Free
+                Free for Canadians with sight loss
               </span>
             </div>
 
@@ -78,7 +78,7 @@ export default function Home() {
 
             {/* Subtitle */}
             <p className="text-base sm:text-xl text-gray-400 mb-12 sm:mb-16 max-w-2xl mx-auto leading-relaxed">
-              24 lessons from zero to your first paying customer. No prerequisites. No cost. Just the work.
+              You don&apos;t need anyone&apos;s permission to start. 24 free lessons for blind and low-vision Canadians ready to build a real business.
             </p>
 
             {/* CTAs */}
@@ -132,7 +132,6 @@ export default function Home() {
               Course statistics
             </h2>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24">
-              {/* Stat 1 */}
               <div className="text-center">
                 <div className="text-4xl sm:text-6xl font-black text-white mb-2">
                   24
@@ -142,7 +141,6 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Stat 2 */}
               <div className="text-center">
                 <div className="text-4xl sm:text-6xl font-black text-white mb-2">
                   6
@@ -152,23 +150,21 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Stat 3 */}
               <div className="text-center">
                 <div className="text-4xl sm:text-6xl font-black text-white mb-2">
                   42
                 </div>
                 <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
-                  Assets
+                  Downloadable assets
                 </p>
               </div>
 
-              {/* Stat 4 */}
               <div className="text-center">
                 <div className="text-4xl sm:text-6xl font-black text-white mb-2">
                   $0
                 </div>
                 <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
-                  Cost
+                  Always free
                 </p>
               </div>
             </div>
@@ -187,10 +183,7 @@ export default function Home() {
                 id="outcomes-heading"
                 className="text-5xl sm:text-6xl font-black tracking-tight mb-2"
               >
-                Not theory.{' '}
-                <span className="text-gray-400 font-light">
-                  Real outcomes.
-                </span>
+                What you&apos;ll walk away with.
               </h2>
             </div>
 
@@ -211,7 +204,6 @@ export default function Home() {
                 }}
               >
                 <div className="relative mb-8 sm:mb-12 flex-shrink-0">
-                  {/* People/avatars SVG icon */}
                   <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
                     <circle cx="20" cy="24" r="8" fill="#2997FF" />
                     <circle cx="36" cy="20" r="8" fill="#5AC8FA" />
@@ -220,16 +212,15 @@ export default function Home() {
                     <path d="M 28 36 Q 28 32 36 32 Q 44 32 44 36 L 44 48 Q 44 52 36 52 Q 28 52 28 48 Z" fill="#5AC8FA" />
                     <path d="M 44 40 Q 44 36 52 36 Q 60 36 60 40 L 60 48 Q 60 52 52 52 Q 44 52 44 48 Z" fill="#2997FF" />
                   </svg>
-                  {/* Watermark */}
                   <div className="absolute top-0 right-0 text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
                     01
                   </div>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
-                  Find your people
+                  Find people who need what you&apos;ve got
                 </h3>
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed flex-1">
-                  Discover who truly needs what you&apos;re building. Learn to identify your ideal customer and build relationships that stick.
+                  You already know things other people don&apos;t. You&apos;ve solved problems most haven&apos;t thought about. This module helps you find the people who&apos;ll pay for that knowledge and experience.
                 </p>
               </div>
 
@@ -241,22 +232,20 @@ export default function Home() {
                 }}
               >
                 <div className="relative mb-8 sm:mb-12 flex-shrink-0">
-                  {/* Package/box SVG icon */}
                   <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
                     <rect x="12" y="18" width="48" height="36" rx="2" stroke="#5AC8FA" strokeWidth="2" fill="none" />
                     <path d="M 12 28 L 36 18 L 60 28" stroke="#5AC8FA" strokeWidth="2" fill="none" />
                     <line x1="36" y1="18" x2="36" y2="54" stroke="#5AC8FA" strokeWidth="2" />
                   </svg>
-                  {/* Watermark */}
                   <div className="absolute top-0 right-0 text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
                     02
                   </div>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
-                  Build your offer
+                  Design an offer that works for your life
                 </h3>
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed flex-1">
-                  Create something people actually want to buy. Test your idea, validate demand, and design an offer that works.
+                  Build something you can deliver on your schedule. Not a 9-to-5 that needs someone else&apos;s office, someone else&apos;s tools, someone else&apos;s permission.
                 </p>
               </div>
 
@@ -268,22 +257,20 @@ export default function Home() {
                 }}
               >
                 <div className="relative mb-8 sm:mb-12 flex-shrink-0">
-                  {/* Dollar/chart SVG icon */}
                   <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
                     <path d="M 36 12 L 36 60 M 28 18 L 44 18 Q 44 24 36 24 Q 28 24 28 30 L 44 30" stroke="#c9a800" strokeWidth="2" fill="none" />
                     <polyline points="18,54 28,42 38,50 54,30" stroke="#c9a800" strokeWidth="2" fill="none" />
                     <circle cx="54" cy="30" r="2" fill="#c9a800" />
                   </svg>
-                  {/* Watermark */}
                   <div className="absolute top-0 right-0 text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
                     03
                   </div>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
-                  Make real money
+                  Get the money part right
                 </h3>
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed flex-1">
-                  Price your offer, fund your launch, and hit your first revenue milestone. Money talk without the fluff.
+                  Price your work so it actually pays you. Figure out what you need to launch, where to find it, and how to stop leaving money on the table.
                 </p>
               </div>
 
@@ -295,7 +282,6 @@ export default function Home() {
                 }}
               >
                 <div className="relative mb-8 sm:mb-12 flex-shrink-0">
-                  {/* Rocket SVG icon */}
                   <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
                     <path d="M 36 12 L 42 36 L 36 42 L 30 36 Z" fill="#30D158" />
                     <path d="M 24 48 L 30 36" stroke="#30D158" strokeWidth="2" />
@@ -304,16 +290,15 @@ export default function Home() {
                     <circle cx="52" cy="54" r="4" fill="#30D158" />
                     <line x1="36" y1="42" x2="36" y2="60" stroke="#30D158" strokeWidth="2" />
                   </svg>
-                  {/* Watermark */}
                   <div className="absolute top-0 right-0 text-[10rem] font-black text-white opacity-5 leading-none pointer-events-none">
                     04
                   </div>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
-                  Launch with confidence
+                  Make your first sale
                 </h3>
                 <p className="text-base sm:text-lg text-gray-300 leading-relaxed flex-1">
-                  Everything you need to ship, measure what matters, and scale what works. Your launch, your way.
+                  Not a theoretical customer. A real person who pays you real money for something you built. By lesson 24, you&apos;ll have a business, not a business plan.
                 </p>
               </div>
             </div>
@@ -336,7 +321,7 @@ export default function Home() {
                 The curriculum
               </h2>
               <p className="text-lg sm:text-xl text-gray-500">
-                6 modules, 24 lessons, built for real business builders
+                Six modules that take you from &quot;I have an idea&quot; to &quot;I just got paid&quot;
               </p>
             </div>
 
@@ -426,10 +411,10 @@ export default function Home() {
                   </svg>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
-                  Sign up free
+                  Sign up in 30 seconds
                 </h3>
                 <p className="text-sm sm:text-base text-gray-500">
-                  No credit card. No commitments. Just your email.
+                  Just your email. Fully accessible. Built to work with screen readers from day one.
                 </p>
               </div>
 
@@ -448,10 +433,10 @@ export default function Home() {
                   </svg>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
-                  Learn at your pace
+                  Learn when it works for you
                 </h3>
                 <p className="text-sm sm:text-base text-gray-500">
-                  15-minute lessons. Watch, read, and practice.
+                  15-minute lessons. No live sessions to schedule around. No group work that depends on someone else&apos;s timeline.
                 </p>
               </div>
 
@@ -472,10 +457,10 @@ export default function Home() {
                   </svg>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
-                  Build as you go
+                  Build something real each week
                 </h3>
                 <p className="text-sm sm:text-base text-gray-500">
-                  Every lesson ends with real work you can sell.
+                  Every lesson ends with something tangible. Not a reflection exercise. Actual business assets you&apos;ll use.
                 </p>
               </div>
 
@@ -493,10 +478,10 @@ export default function Home() {
                   </svg>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
-                  Launch your business
+                  Get your first customer
                 </h3>
                 <p className="text-sm sm:text-base text-gray-500">
-                  Get to your first customer and beyond.
+                  The finish line isn&apos;t a certificate. It&apos;s a sale.
                 </p>
               </div>
             </div>
@@ -526,7 +511,11 @@ export default function Home() {
 
           <div className="max-w-3xl mx-auto text-center relative z-10">
             <blockquote className="text-3xl sm:text-5xl font-black text-white leading-tight tracking-tight">
-              This isn&apos;t a course about{' '}
+              54% of Canadians with sight loss are employed.{' '}
+              <span className="text-gray-500 font-light">
+                The other 46% were told no.
+              </span>{' '}
+              This course is for everyone who got{' '}
               <span
                 style={{
                   backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
@@ -535,29 +524,7 @@ export default function Home() {
                   color: 'transparent',
                 }}
               >
-                dreaming
-              </span>
-              . It&apos;s a course about{' '}
-              <span
-                style={{
-                  backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  color: 'transparent',
-                }}
-              >
-                doing
-              </span>
-              . Every lesson ends with something real — something you built, tested, or{' '}
-              <span
-                style={{
-                  backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  color: 'transparent',
-                }}
-              >
-                sold
+                tired of asking
               </span>
               .
             </blockquote>
@@ -583,7 +550,7 @@ export default function Home() {
               id="final-cta-heading"
               className="text-5xl sm:text-7xl font-black text-white tracking-tight mb-2"
             >
-              Ready?{' '}
+              You&apos;ve waited{' '}
               <span
                 style={{
                   backgroundImage: 'linear-gradient(90deg, #2997FF, #5AC8FA)',
@@ -592,12 +559,12 @@ export default function Home() {
                   color: 'transparent',
                 }}
               >
-                Let&apos;s go.
+                long enough.
               </span>
             </h2>
 
             <p className="text-lg sm:text-xl text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
-              Join hundreds of aspiring entrepreneurs building real businesses. Start today.
+              Every module is free. Every lesson is accessible. The only thing between you and your first dollar is starting.
             </p>
 
             <Link
