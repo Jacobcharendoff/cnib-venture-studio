@@ -59,13 +59,13 @@ export default function ModuleCard({
   const isBig = size === 'big';
   const icon = ICON_SVG_MAP[module.slug as keyof typeof ICON_SVG_MAP] || ICON_SVG_MAP.discover;
 
-  const baseClasses = 'relative group rounded-[28px] p-10 overflow-hidden transition-all duration-300 hover:scale-105 cursor-pointer';
+  const baseClasses = 'relative group rounded-[28px] p-10 overflow-hidden transition-all duration-300 hover:scale-[1.02] cursor-pointer';
   const sizeClasses = isBig ? 'min-h-[440px]' : 'min-h-[300px]';
 
   return (
-    <Link href={`/course/${module.slug}`}>
+    <Link href={`/course/${module.slug}`} className="block h-full">
       <div
-        className={`${baseClasses} ${sizeClasses} shadow-lg hover:shadow-2xl`}
+        className={`${baseClasses} ${sizeClasses} h-full shadow-lg hover:shadow-2xl`}
         style={{
           background: gradient,
           boxShadow: '0 40px 100px rgba(0,0,0,0.6)',

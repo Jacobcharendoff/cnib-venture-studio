@@ -187,31 +187,29 @@ export default function Home() {
               </h2>
             </div>
 
-            {/* Bento Grid - Tailwind responsive classes */}
+            {/* 2x2 Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-              {/* Card 1: Find your people - spans 2 rows on md+ */}
-              <div className="rounded-[28px] p-10 sm:p-12 bg-[#F5F5F7] hover:scale-[1.02] transition-transform duration-300 flex flex-col justify-between md:row-span-2">
-                <div>
-                  <div className="relative mb-8 flex-shrink-0">
-                    <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
-                      <circle cx="20" cy="24" r="8" fill="#2997FF" />
-                      <circle cx="36" cy="20" r="8" fill="#5AC8FA" />
-                      <circle cx="52" cy="24" r="8" fill="#2997FF" />
-                      <path d="M 12 40 Q 12 36 20 36 Q 28 36 28 40 L 28 48 Q 28 52 20 52 Q 12 52 12 48 Z" fill="#2997FF" />
-                      <path d="M 28 36 Q 28 32 36 32 Q 44 32 44 36 L 44 48 Q 44 52 36 52 Q 28 52 28 48 Z" fill="#5AC8FA" />
-                      <path d="M 44 40 Q 44 36 52 36 Q 60 36 60 40 L 60 48 Q 60 52 52 52 Q 44 52 44 48 Z" fill="#2997FF" />
-                    </svg>
-                    <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
-                      01
-                    </div>
+              {/* Card 1: Find your people */}
+              <div className="rounded-[28px] p-10 sm:p-12 bg-[#F5F5F7] hover:scale-[1.02] transition-transform duration-300 flex flex-col">
+                <div className="relative mb-8 flex-shrink-0">
+                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
+                    <circle cx="20" cy="24" r="8" fill="#2997FF" />
+                    <circle cx="36" cy="20" r="8" fill="#5AC8FA" />
+                    <circle cx="52" cy="24" r="8" fill="#2997FF" />
+                    <path d="M 12 40 Q 12 36 20 36 Q 28 36 28 40 L 28 48 Q 28 52 20 52 Q 12 52 12 48 Z" fill="#2997FF" />
+                    <path d="M 28 36 Q 28 32 36 32 Q 44 32 44 36 L 44 48 Q 44 52 36 52 Q 28 52 28 48 Z" fill="#5AC8FA" />
+                    <path d="M 44 40 Q 44 36 52 36 Q 60 36 60 40 L 60 48 Q 60 52 52 52 Q 44 52 44 48 Z" fill="#2997FF" />
+                  </svg>
+                  <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
+                    01
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
-                    Find people who need what you&apos;ve got
-                  </h3>
-                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                    You already know things other people don&apos;t. You&apos;ve solved problems most haven&apos;t thought about. This module helps you find the people who&apos;ll pay for that knowledge and experience.
-                  </p>
                 </div>
+                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
+                  Find people who need what you&apos;ve got
+                </h3>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  You already know things other people don&apos;t. You&apos;ve solved problems most haven&apos;t thought about. This module helps you find the people who&apos;ll pay for that knowledge and experience.
+                </p>
               </div>
 
               {/* Card 2: Build your offer */}
@@ -254,8 +252,8 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Card 4: Make your first sale - spans both columns on md+ */}
-              <div className="rounded-[28px] p-10 sm:p-12 bg-[#1D1D1F] text-white hover:scale-[1.02] transition-transform duration-300 flex flex-col md:col-span-2">
+              {/* Card 4: Make your first sale */}
+              <div className="rounded-[28px] p-10 sm:p-12 bg-[#1D1D1F] text-white hover:scale-[1.02] transition-transform duration-300 flex flex-col">
                 <div className="relative mb-8 flex-shrink-0">
                   <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
                     <path d="M 36 12 L 42 36 L 36 42 L 30 36 Z" fill="#30D158" />
@@ -272,7 +270,7 @@ export default function Home() {
                 <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
                   Make your first sale
                 </h3>
-                <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl">
+                <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
                   Not a theoretical customer. A real person who pays you real money for something you built. By lesson 24, you&apos;ll have a business, not a business plan.
                 </p>
               </div>
