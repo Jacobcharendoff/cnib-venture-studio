@@ -1,460 +1,616 @@
-import Link from "next/link";
-import { phases, getModulesByPhase, getAvailableModules } from "@/data/modules";
-import { FadeIn, Stagger, StaggerItem, ScaleIn } from "@/components/Animate";
-import ProgressWidget from "@/components/ProgressWidget";
-import HeroVisual from "@/components/HeroVisual";
-import CursorGlow from "@/components/CursorGlow";
-import PhaseIcon from "@/components/PhaseIcon";
-import AnimatedCounter from "@/components/AnimatedCounter";
-import SpotlightCard from "@/components/SpotlightCard";
-import TextGenerateEffect from "@/components/TextGenerateEffect";
-import BackgroundBeams from "@/components/BackgroundBeams";
-import BentoGrid, { BentoItem } from "@/components/BentoGrid";
+'use client';
+
+import Link from 'next/link';
+import Nav from '@/components/Nav';
+import Footer from '@/components/Footer';
+import ModuleCard from '@/components/ModuleCard';
+import { MODULES } from '@/lib/course-data';
+
+const MODULE_GRADIENTS: Record<string, string> = {
+  discover: 'linear-gradient(160deg, #040d1a 0%, #0d3b66 40%, #2997FF 100%)',
+  design: 'linear-gradient(160deg, #041a22 0%, #0c5a70 40%, #5AC8FA 100%)',
+  money: 'linear-gradient(160deg, #1a1600 0%, #5a4d00 40%, #c9a800 100%)',
+  brand: 'linear-gradient(160deg, #120628 0%, #4a1a8f 40%, #BF5AF2 100%)',
+  sell: 'linear-gradient(160deg, #1a0505 0%, #7a1a1a 40%, #FF453A 100%)',
+  launch: 'linear-gradient(160deg, #041a0a 0%, #1a6b30 40%, #30D158 100%)',
+};
 
 export default function Home() {
-  const availableCount = getAvailableModules().length;
-
   return (
-    <>
-      {/* ── Hero ────────────────────────────────────────────────── */}
-      <CursorGlow>
-      <section className="mesh-gradient-hero relative overflow-hidden min-h-[100svh] flex items-center">
-        {/* Drifting dot grid */}
-        <div
-          className="absolute inset-0 pointer-events-none dot-grid-drift"
-          aria-hidden="true"
-        />
+    <div className="bg-black min-h-screen overflow-x-hidden">
+      <Nav />
 
-        {/* Background beams */}
-        <BackgroundBeams />
+      <main id="main-content" className="pt-20">
+        {/* ===== HERO SECTION ===== */}
+        <section
+          className="relative w-full min-h-screen flex flex-col items-center justify-center px-6 py-20 sm:px-8 overflow-hidden"
+          aria-labelledby="hero-headline"
+        >
+          {/* Animated conic-gradient orb background */}
+          <div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+            style={{
+              opacity: 0.35,
+            }}
+          >
+            <div
+              className="absolute w-[700px] h-[700px] rounded-full"
+              style={{
+                background: `conic-gradient(from 0deg, #2997FF, #5AC8FA, #c9a800, #BF5AF2, #FF453A, #30D158, #2997FF)`,
+                filter: 'blur(120px)',
+                animation: 'spin 12s linear infinite',
+              }}
+            />
+          </div>
 
-        {/* Mobile simplified glow */}
-        <div
-          className="absolute top-1/3 right-0 w-48 h-48 rounded-full lg:hidden pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%)" }}
-          aria-hidden="true"
-        />
+          {/* Grid pattern overlay */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: `
+                linear-gradient(0deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)
+              `,
+              backgroundSize: '60px 60px',
+            }}
+          />
 
-        {/* Animated iris rings */}
-        <HeroVisual />
+          {/* Content */}
+          <div className="relative z-10 max-w-4xl mx-auto text-center">
+            {/* Badge */}
+            <div className="mb-8 sm:mb-12 inline-flex items-center gap-2 px-4 sm:px-6 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
+              <span className="w-2 h-2 bg-blue-500 rounded-full" />
+              <span className="text-xs sm:text-sm font-medium text-white">
+                Powered by CNIB — 100% Free
+              </span>
+            </div>
 
-        {/* Thin accent line */}
-        <div
-          className="absolute top-0 left-0 right-0 h-[2px] gradient-line"
-          aria-hidden="true"
-        />
-
-        <div className="content-max relative z-10 py-32 sm:py-40">
-          <div className="max-w-5xl">
-            <FadeIn delay={0.1}>
-              <div className="flex items-center gap-3 mb-8">
-                <span className="glow-dot" aria-hidden="true" />
-                <p className="caption" style={{ color: "var(--text-on-dark-muted)" }}>
-                  CNIB Venture Studio
-                </p>
-              </div>
-            </FadeIn>
-
-            <h1 className="hero-heading text-white mb-8">
-              <TextGenerateEffect
-                highlightWords={["dollar."]}
-                highlightClassName="text-cnib-yellow"
-                staggerDelay={0.06}
-              >
-                Turn your idea into your first dollar.
-              </TextGenerateEffect>
+            {/* Main headline */}
+            <h1
+              id="hero-headline"
+              className="text-[clamp(4rem,11vw,9rem)] font-black tracking-tighter leading-none mb-4 text-white"
+            >
+              Build something.{' '}
+              <span className="text-gray-400 font-light">
+                On your terms.
+              </span>
             </h1>
 
-            <FadeIn delay={0.6}>
-              <p className="body-large max-w-2xl mb-14" style={{ color: "var(--text-on-dark-muted)" }}>
-                An immersive entrepreneurial program for blind and low-vision
-                founders. No MBA required. Just a great idea and the will to
-                build it.
-              </p>
-            </FadeIn>
+            {/* Subtitle */}
+            <p className="text-base sm:text-xl text-gray-400 mb-12 sm:mb-16 max-w-2xl mx-auto leading-relaxed">
+              24 lessons from zero to your first paying customer. No prerequisites. No cost. Just the work.
+            </p>
 
-            <FadeIn delay={0.8}>
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link href="/themes" className="btn-primary">
-                  Explore the program
-                </Link>
-                <Link href="/toolkit" className="btn-secondary">
-                  Browse the toolkit
-                </Link>
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+              <Link
+                href="/auth"
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95 transition-transform w-full sm:w-auto text-center"
+              >
+                Start the course →
+              </Link>
+              <Link
+                href="#modules"
+                className="px-6 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-full border border-white/20 hover:bg-white/10 transition-all backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95 transition-transform w-full sm:w-auto text-center"
+              >
+                Explore modules
+              </Link>
+            </div>
+
+            {/* Scroll indicator */}
+            <div
+              className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-4 animate-bounce"
+              style={{
+                animation: 'bounce 2s infinite',
+              }}
+            >
+              <div className="w-8 h-12 rounded-full border border-white/30 flex items-center justify-center">
+                <div className="w-1 h-2 bg-white/50 rounded-full" />
               </div>
-            </FadeIn>
-
-            <FadeIn delay={0.9}>
-              <ProgressWidget />
-            </FadeIn>
+            </div>
           </div>
-        </div>
 
-        {/* Bottom fade — clean dark transition */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-40"
-          style={{ background: "linear-gradient(transparent, var(--cnib-charcoal))" }}
-          aria-hidden="true"
-        />
-      </section>
-      </CursorGlow>
+          <style>{`
+            @keyframes spin {
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
+            }
+            @keyframes bounce {
+              0%, 100% { transform: translateX(-50%) translateY(0); }
+              50% { transform: translateX(-50%) translateY(-10px); }
+            }
+          `}</style>
+        </section>
 
-      {/* ── Stats Bar (dark, not yellow) ───────────────────── */}
-      <section className="section-charcoal relative" aria-label="Program highlights">
-        <div
-          className="absolute top-0 left-0 right-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(255,241,0,0.25), transparent)" }}
-          aria-hidden="true"
-        />
-        <div className="content-max py-14 sm:py-20">
-          <Stagger className="stat-grid text-center" staggerDelay={0.08}>
-            {[
-              { value: "18", label: "Modules" },
-              { value: "6", label: "Phases" },
-              { value: "90 min", label: "Per Session" },
-              { value: "$0", label: "Cost to Members" },
-            ].map((stat) => (
-              <StaggerItem key={stat.label}>
-                <p className="stat-number text-white">
-                  <AnimatedCounter value={stat.value} />
+        {/* ===== STATS BAR ===== */}
+        <section
+          className="border-t border-b border-white/6 py-12 sm:py-16 px-6 sm:px-8"
+          aria-labelledby="stats-heading"
+        >
+          <div className="max-w-7xl mx-auto">
+            <h2 id="stats-heading" className="sr-only">
+              Course statistics
+            </h2>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24">
+              {/* Stat 1 */}
+              <div className="text-center">
+                <div className="text-4xl sm:text-6xl font-black text-white mb-2">
+                  24
+                </div>
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
+                  Lessons
                 </p>
-                <p className="stat-label mt-2" style={{ color: "var(--text-on-dark-muted)" }}>{stat.label}</p>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </div>
-      </section>
+              </div>
 
-      {/* ── Who This Is For ─────────────────────────────────── */}
-      <section className="section-padding bg-white" aria-label="Who this program is for">
-        <div className="content-narrow text-center">
-          <FadeIn>
-            <p className="caption text-text-muted mb-6">Built for you</p>
-            <h2 className="section-heading text-cnib-black mb-8">
-              For first-time entrepreneurs who have a great idea &mdash; and want to
-              know how to make it real.
-            </h2>
-            <p className="body-large text-text-secondary mb-16">
-              You don&rsquo;t need a business degree. You don&rsquo;t need
-              investors. You need clarity, structure, and someone who&rsquo;s
-              been where you are. This program gives you all three.
-            </p>
-          </FadeIn>
-
-          <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left" staggerDelay={0.12}>
-            {[
-              {
-                num: "01",
-                title: "Your idea, validated",
-                desc: "Learn if your idea solves a real problem \u2014 before you spend a dollar building it.",
-              },
-              {
-                num: "02",
-                title: "Your first revenue model",
-                desc: "Build a pricing strategy and financial model that makes your business viable from day one.",
-              },
-              {
-                num: "03",
-                title: "Your pitch, polished",
-                desc: "Walk away with a 10-slide pitch deck and the confidence to deliver it to anyone.",
-              },
-            ].map((item) => (
-              <StaggerItem key={item.num}>
-                <div className="premium-card">
-                  <span className="eyebrow text-text-muted block mb-3">
-                    {item.num}
-                  </span>
-                  <h3 className="text-lg font-bold text-cnib-black mb-3">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-text-secondary leading-relaxed">
-                    {item.desc}
-                  </p>
+              {/* Stat 2 */}
+              <div className="text-center">
+                <div className="text-4xl sm:text-6xl font-black text-white mb-2">
+                  6
                 </div>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </div>
-      </section>
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
+                  Modules
+                </p>
+              </div>
 
-      {/* Section divider */}
-      <div className="relative h-px" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent)" }} />
-      </div>
-
-      {/* ── The 6 Phases ────────────────────────────────────── */}
-      <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Program phases">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="content-max relative z-10">
-          <FadeIn className="text-center mb-20">
-            <p className="caption mb-6" style={{ color: "var(--text-on-dark-muted)" }}>The journey</p>
-            <h2 className="section-heading text-white mb-6">
-              6 phases. 18 modules.
-              <br />
-              <span style={{ color: "var(--text-on-dark-subtle)" }}>One clear path.</span>
-            </h2>
-            <p className="section-subheading max-w-2xl mx-auto" style={{ color: "var(--text-on-dark-muted)" }}>
-              Each phase builds on the last, taking you from raw idea to
-              investor-ready pitch.
-            </p>
-          </FadeIn>
-
-          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
-            {phases.map((p) => {
-              const phaseModules = getModulesByPhase(p.id);
-              const available = phaseModules.filter(
-                (m) => m.title !== "Coming Soon"
-              ).length;
-              return (
-                <StaggerItem key={p.id}>
-                  <SpotlightCard className="rounded-2xl h-full" spotlightSize={300}>
-                    <Link
-                      href={`/themes#${p.id}`}
-                      className="glass-card no-underline group block h-full"
-                      style={{ transform: "none" }}
-                    >
-                      <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                          <PhaseIcon phase={p.id} size={36} className="text-white/60" />
-                          <span className="relative inline-flex items-center justify-center w-12 h-12">
-                            <span className="absolute inset-0 rounded-full border border-white/10" aria-hidden="true" />
-                            <span className="relative text-white font-bold text-xl font-mono tracking-tighter">
-                              {String(p.number).padStart(2, "0")}
-                            </span>
-                          </span>
-                        </div>
-                        <span className="eyebrow" style={{ color: "var(--text-on-dark-subtle)" }}>
-                          {available}/{phaseModules.length} modules
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cnib-yellow transition-colors">
-                        {p.name}
-                      </h3>
-                      <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
-                        {p.tagline}
-                      </p>
-                    </Link>
-                  </SpotlightCard>
-                </StaggerItem>
-              );
-            })}
-          </Stagger>
-
-          <FadeIn className="text-center mt-16">
-            <Link href="/themes" className="btn-primary">
-              View all {availableCount} modules
-            </Link>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── How It Works (Bento Grid) ───────────────────────── */}
-      <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="How the program works">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.02) 1px, transparent 0)",
-            backgroundSize: "32px 32px",
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="content-max relative z-10">
-          <FadeIn className="text-center mb-16">
-            <p className="caption mb-6" style={{ color: "var(--text-on-dark-muted)" }}>How it works</p>
-            <h2 className="section-heading text-white">
-              Built around your life,
-              <br />
-              <span style={{ color: "var(--text-on-dark-subtle)" }}>not around a classroom.</span>
-            </h2>
-          </FadeIn>
-
-          <BentoGrid>
-            <BentoItem colSpan={2} rowSpan={2}>
-              <div className="h-full flex flex-col justify-between">
-                <div>
-                  <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-white/5 text-white/70 mb-6">
-                    Live Learning
-                  </span>
-                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                    90-minute sessions, every two weeks
-                  </h3>
-                  <p className="text-base leading-relaxed max-w-lg" style={{ color: "var(--text-on-dark-muted)" }}>
-                    Real-world case studies, live discussion, and hands-on assignments.
-                    October through May &mdash; designed to fit around your schedule, not the other way around.
-                  </p>
+              {/* Stat 3 */}
+              <div className="text-center">
+                <div className="text-4xl sm:text-6xl font-black text-white mb-2">
+                  42
                 </div>
-                <div className="flex items-center gap-4 mt-8">
-                  <div className="flex -space-x-2" aria-hidden="true">
-                    {[0, 1, 2].map((i) => (
-                      <div
-                        key={i}
-                        className="w-8 h-8 rounded-full border-2 border-black/40"
-                        style={{ background: `hsl(${200 + i * 30}, 15%, ${50 + i * 10}%)` }}
-                      />
-                    ))}
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
+                  Assets
+                </p>
+              </div>
+
+              {/* Stat 4 */}
+              <div className="text-center">
+                <div className="text-4xl sm:text-6xl font-black text-white mb-2">
+                  $0
+                </div>
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
+                  Cost
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== OUTCOMES SECTION ===== */}
+        <section
+          className="bg-white text-black py-20 sm:py-28 px-6 sm:px-8"
+          aria-labelledby="outcomes-heading"
+        >
+          <div className="max-w-7xl mx-auto">
+            {/* Heading */}
+            <div className="mb-16 sm:mb-20 text-center">
+              <h2
+                id="outcomes-heading"
+                className="text-5xl sm:text-6xl font-black tracking-tight mb-2"
+              >
+                Not theory.{' '}
+                <span className="text-gray-400 font-light">
+                  Real outcomes.
+                </span>
+              </h2>
+            </div>
+
+            {/* Bento Grid */}
+            <div
+              className="grid gap-6 sm:gap-8"
+              style={{
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gridAutoRows: 'minmax(300px, auto)',
+              }}
+            >
+              {/* Card 1: Find your people - spans 2 rows */}
+              <div
+                className="rounded-[28px] p-10 sm:p-16 bg-[#F5F5F7] hover:scale-105 transition-transform duration-300 flex flex-col"
+                style={{
+                  gridColumn: 'span 1',
+                  gridRow: 'span 2',
+                }}
+              >
+                <div className="relative mb-8 sm:mb-12 flex-shrink-0">
+                  {/* People/avatars SVG icon */}
+                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
+                    <circle cx="20" cy="24" r="8" fill="#2997FF" />
+                    <circle cx="36" cy="20" r="8" fill="#5AC8FA" />
+                    <circle cx="52" cy="24" r="8" fill="#2997FF" />
+                    <path d="M 12 40 Q 12 36 20 36 Q 28 36 28 40 L 28 48 Q 28 52 20 52 Q 12 52 12 48 Z" fill="#2997FF" />
+                    <path d="M 28 36 Q 28 32 36 32 Q 44 32 44 36 L 44 48 Q 44 52 36 52 Q 28 52 28 48 Z" fill="#5AC8FA" />
+                    <path d="M 44 40 Q 44 36 52 36 Q 60 36 60 40 L 60 48 Q 60 52 52 52 Q 44 52 44 48 Z" fill="#2997FF" />
+                  </svg>
+                  {/* Watermark */}
+                  <div className="absolute top-0 right-0 text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
+                    01
                   </div>
-                  <span className="text-sm" style={{ color: "var(--text-on-dark-muted)" }}>Join founders just like you</span>
                 </div>
-              </div>
-            </BentoItem>
-
-            <BentoItem>
-              <div className="flex flex-col items-start">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/60">
-                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-                    <polyline points="14 2 14 8 20 8" />
-                    <line x1="16" y1="13" x2="8" y2="13" />
-                    <line x1="16" y1="17" x2="8" y2="17" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">Worksheets &amp; Podcasts</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
-                  Every module includes a practical .docx worksheet and podcast episodes walking you through each concept.
+                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
+                  Find your people
+                </h3>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed flex-1">
+                  Discover who truly needs what you&apos;re building. Learn to identify your ideal customer and build relationships that stick.
                 </p>
               </div>
-            </BentoItem>
 
-            <BentoItem>
-              <div className="flex flex-col items-start">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/60">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              {/* Card 2: Build your offer */}
+              <div
+                className="rounded-[28px] p-10 sm:p-16 bg-[#E8F4FF] hover:scale-105 transition-transform duration-300 flex flex-col"
+                style={{
+                  gridColumn: 'span 1',
+                }}
+              >
+                <div className="relative mb-8 sm:mb-12 flex-shrink-0">
+                  {/* Package/box SVG icon */}
+                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
+                    <rect x="12" y="18" width="48" height="36" rx="2" stroke="#5AC8FA" strokeWidth="2" fill="none" />
+                    <path d="M 12 28 L 36 18 L 60 28" stroke="#5AC8FA" strokeWidth="2" fill="none" />
+                    <line x1="36" y1="18" x2="36" y2="54" stroke="#5AC8FA" strokeWidth="2" />
                   </svg>
+                  {/* Watermark */}
+                  <div className="absolute top-0 right-0 text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
+                    02
+                  </div>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">Final Pitch Showcase</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
-                  Present your business to mentors and business leaders in a live pitch event.
+                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
+                  Build your offer
+                </h3>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed flex-1">
+                  Create something people actually want to buy. Test your idea, validate demand, and design an offer that works.
                 </p>
               </div>
-            </BentoItem>
 
-            <BentoItem colSpan={2}>
-              <div className="flex flex-col sm:flex-row items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/60">
-                    <circle cx="12" cy="12" r="10" />
-                    <circle cx="12" cy="10" r="3" />
-                    <path d="M7 20.662V19a2 2 0 012-2h6a2 2 0 012 2v1.662" />
+              {/* Card 3: Make real money */}
+              <div
+                className="rounded-[28px] p-10 sm:p-16 bg-[#FFF8E1] hover:scale-105 transition-transform duration-300 flex flex-col"
+                style={{
+                  gridColumn: 'span 1',
+                }}
+              >
+                <div className="relative mb-8 sm:mb-12 flex-shrink-0">
+                  {/* Dollar/chart SVG icon */}
+                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
+                    <path d="M 36 12 L 36 60 M 28 18 L 44 18 Q 44 24 36 24 Q 28 24 28 30 L 44 30" stroke="#c9a800" strokeWidth="2" fill="none" />
+                    <polyline points="18,54 28,42 38,50 54,30" stroke="#c9a800" strokeWidth="2" fill="none" />
+                    <circle cx="54" cy="30" r="2" fill="#c9a800" />
                   </svg>
+                  {/* Watermark */}
+                  <div className="absolute top-0 right-0 text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
+                    03
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-2">Fully Accessible. Always.</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
-                    Every worksheet, podcast, and resource is designed for screen readers, braille displays, and assistive tech from day one. No retrofitting. No afterthoughts.
-                  </p>
-                </div>
-              </div>
-            </BentoItem>
-
-            <BentoItem>
-              <div className="flex flex-col items-start">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/60">
-                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M23 21v-2a4 4 0 00-3-3.87" />
-                    <path d="M16 3.13a4 4 0 010 7.75" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">Peer Community</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
-                  Build alongside others who get it. Share wins, troubleshoot problems, grow together.
+                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
+                  Make real money
+                </h3>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed flex-1">
+                  Price your offer, fund your launch, and hit your first revenue milestone. Money talk without the fluff.
                 </p>
               </div>
-            </BentoItem>
-          </BentoGrid>
-        </div>
-      </section>
 
-      {/* ── Meet Your Instructor ────────────────────────────── */}
-      <section className="section-padding bg-white" aria-label="Meet your instructor">
-        <div className="content-narrow">
-          <FadeIn className="text-center mb-12">
-            <p className="caption text-text-muted mb-6">Your instructor</p>
-            <h2 className="section-heading text-cnib-black mb-8">
-              Jacob Charendoff
-            </h2>
-          </FadeIn>
-
-          <FadeIn delay={0.15}>
-            <div className="relative">
-              <span className="quote-decoration -top-12 -left-6 hidden sm:block" aria-hidden="true">&ldquo;</span>
-              <div className="absolute -left-4 top-0 bottom-0 w-1 bg-cnib-black/10 rounded-full" aria-hidden="true" />
-              <div className="pl-8 space-y-6">
-                <p className="body-large text-text-secondary">
-                  A legally blind entrepreneur who has built businesses across
-                  industries &mdash; from luxury hospitality in the mountains of Peru, to
-                  boutique eCommerce brands trusted by global music retailers, to
-                  AI-powered healthtech platforms that personalize care.
-                </p>
-                <p className="text-text-secondary">
-                  This program isn&rsquo;t based on theory. It&rsquo;s based on
-                  experience &mdash; raw, real, and full of hard-won lessons. Jacob
-                  didn&rsquo;t start with connections or capital, just curiosity,
-                  resilience, and a bias for action.
+              {/* Card 4: Launch with confidence - spanning both columns */}
+              <div
+                className="rounded-[28px] p-10 sm:p-16 bg-[#1D1D1F] text-white hover:scale-105 transition-transform duration-300 flex flex-col"
+                style={{
+                  gridColumn: 'span 2',
+                }}
+              >
+                <div className="relative mb-8 sm:mb-12 flex-shrink-0">
+                  {/* Rocket SVG icon */}
+                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
+                    <path d="M 36 12 L 42 36 L 36 42 L 30 36 Z" fill="#30D158" />
+                    <path d="M 24 48 L 30 36" stroke="#30D158" strokeWidth="2" />
+                    <path d="M 48 48 L 42 36" stroke="#30D158" strokeWidth="2" />
+                    <circle cx="20" cy="54" r="4" fill="#30D158" />
+                    <circle cx="52" cy="54" r="4" fill="#30D158" />
+                    <line x1="36" y1="42" x2="36" y2="60" stroke="#30D158" strokeWidth="2" />
+                  </svg>
+                  {/* Watermark */}
+                  <div className="absolute top-0 right-0 text-[10rem] font-black text-white opacity-5 leading-none pointer-events-none">
+                    04
+                  </div>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
+                  Launch with confidence
+                </h3>
+                <p className="text-base sm:text-lg text-gray-300 leading-relaxed flex-1">
+                  Everything you need to ship, measure what matters, and scale what works. Your launch, your way.
                 </p>
               </div>
             </div>
-          </FadeIn>
+          </div>
+        </section>
 
-          <FadeIn className="text-center mt-12" delay={0.25}>
-            <Link href="/about" className="btn-dark">
-              Read Jacob&rsquo;s story
-            </Link>
-          </FadeIn>
-        </div>
-      </section>
+        {/* ===== MODULES SECTION ===== */}
+        <section
+          id="modules"
+          className="bg-black py-20 sm:py-28 px-6 sm:px-8"
+          aria-labelledby="modules-heading"
+        >
+          <div className="max-w-7xl mx-auto">
+            {/* Heading */}
+            <div className="mb-16 sm:mb-20 text-center">
+              <h2
+                id="modules-heading"
+                className="text-5xl sm:text-6xl font-black text-white tracking-tight mb-4"
+              >
+                The curriculum
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-500">
+                6 modules, 24 lessons, built for real business builders
+              </p>
+            </div>
 
-      {/* Section divider */}
-      <div className="relative h-px" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.06), transparent)" }} />
-      </div>
+            {/* Grid: 2 big on top, 4 small on bottom */}
+            <div
+              className="grid gap-6 sm:gap-8"
+              style={{
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              }}
+            >
+              {/* Big cards (first 2 modules) */}
+              {MODULES.slice(0, 2).map((module, idx) => (
+                <div
+                  key={module.slug}
+                  style={{
+                    gridColumn: 'span 1',
+                    minHeight: '440px',
+                  }}
+                >
+                  <ModuleCard
+                    module={module}
+                    size="big"
+                    gradient={MODULE_GRADIENTS[module.slug]}
+                    watermarkNumber={String(idx + 1).padStart(2, '0')}
+                  />
+                </div>
+              ))}
 
-      {/* ── CTA ───────────────────────────────────────────────────── */}
-      <CursorGlow>
-      <section className="mesh-gradient-dark section-padding relative overflow-hidden" aria-label="Call to action">
-        <BackgroundBeams />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 50% 50% at 50% 100%, rgba(255,255,255,0.04) 0%, transparent 60%)",
-          }}
-          aria-hidden="true"
-        />
-        <div className="content-narrow text-center relative z-10">
-          <ScaleIn>
-            <p className="caption mb-6" style={{ color: "var(--text-on-dark-muted)" }}>Start now</p>
-            <h2 className="section-heading text-white mb-6">
-              Your first sale is waiting.
+              {/* Small cards (remaining 4 modules) */}
+              {MODULES.slice(2).map((module, idx) => (
+                <div
+                  key={module.slug}
+                  style={{
+                    gridColumn: 'span 1',
+                    minHeight: '300px',
+                  }}
+                >
+                  <ModuleCard
+                    module={module}
+                    size="small"
+                    gradient={MODULE_GRADIENTS[module.slug]}
+                    watermarkNumber={String(idx + 3).padStart(2, '0')}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== PROCESS SECTION ===== */}
+        <section
+          id="how-it-works"
+          className="bg-black py-20 sm:py-28 px-6 sm:px-8"
+          aria-labelledby="process-heading"
+        >
+          <div className="max-w-7xl mx-auto">
+            {/* Heading */}
+            <h2
+              id="process-heading"
+              className="text-5xl sm:text-6xl font-black text-white tracking-tight text-center mb-16 sm:mb-20"
+            >
+              How it works
             </h2>
-            <p className="body-large mb-12" style={{ color: "var(--text-on-dark-muted)" }}>
-              Real business. Real skills. Real outcomes.
+
+            {/* Steps */}
+            <div className="flex flex-col sm:flex-row items-stretch justify-between gap-8 sm:gap-6 relative">
+              {/* Connecting line background (only on larger screens) */}
+              <div
+                className="hidden sm:block absolute top-20 left-[10%] right-[10%] h-1 -z-10"
+                style={{
+                  background: 'linear-gradient(90deg, #2997FF, #c9a800, #30D158, #BF5AF2)',
+                  opacity: 0.3,
+                }}
+              />
+
+              {/* Step 1 */}
+              <div className="flex flex-col items-center text-center flex-1">
+                <div
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 relative z-10 border-4"
+                  style={{
+                    borderColor: '#2997FF',
+                    background: 'rgba(41, 151, 255, 0.1)',
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" className="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="#2997FF" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 110 8 4 4 0 010-8z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
+                  Sign up free
+                </h3>
+                <p className="text-sm sm:text-base text-gray-500">
+                  No credit card. No commitments. Just your email.
+                </p>
+              </div>
+
+              {/* Step 2 */}
+              <div className="flex flex-col items-center text-center flex-1">
+                <div
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 relative z-10 border-4"
+                  style={{
+                    borderColor: '#c9a800',
+                    background: 'rgba(201, 168, 0, 0.1)',
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" className="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="#c9a800" strokeWidth="2">
+                    <circle cx="12" cy="12" r="1" />
+                    <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 0l4.24-4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m5.08 0l4.24 4.24" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
+                  Learn at your pace
+                </h3>
+                <p className="text-sm sm:text-base text-gray-500">
+                  15-minute lessons. Watch, read, and practice.
+                </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="flex flex-col items-center text-center flex-1">
+                <div
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 relative z-10 border-4"
+                  style={{
+                    borderColor: '#30D158',
+                    background: 'rgba(48, 209, 88, 0.1)',
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" className="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="#30D158" strokeWidth="2">
+                    <polyline points="12 1 22 8 22 16 12 23 2 16 2 8 12 1" />
+                    <polyline points="2 8 12 14 22 8" />
+                    <polyline points="12 14 12 23" />
+                    <polyline points="22 12 12 18 2 12" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
+                  Build as you go
+                </h3>
+                <p className="text-sm sm:text-base text-gray-500">
+                  Every lesson ends with real work you can sell.
+                </p>
+              </div>
+
+              {/* Step 4 */}
+              <div className="flex flex-col items-center text-center flex-1">
+                <div
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 relative z-10 border-4"
+                  style={{
+                    borderColor: '#BF5AF2',
+                    background: 'rgba(191, 90, 242, 0.1)',
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" className="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="#BF5AF2" strokeWidth="2">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
+                  Launch your business
+                </h3>
+                <p className="text-sm sm:text-base text-gray-500">
+                  Get to your first customer and beyond.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== MANIFESTO SECTION ===== */}
+        <section
+          className="relative bg-black py-20 sm:py-28 px-6 sm:px-8 overflow-hidden"
+          aria-labelledby="manifesto-quote"
+        >
+          {/* Background orb */}
+          <div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+            style={{
+              opacity: 0.15,
+            }}
+          >
+            <div
+              className="absolute w-[600px] h-[600px] rounded-full"
+              style={{
+                background: `conic-gradient(from 0deg, #BF5AF2, #FF453A, #c9a800, #BF5AF2)`,
+                filter: 'blur(150px)',
+              }}
+            />
+          </div>
+
+          <div className="max-w-3xl mx-auto text-center relative z-10">
+            <blockquote className="text-3xl sm:text-5xl font-black text-white leading-tight tracking-tight">
+              This isn&apos;t a course about{' '}
+              <span
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                }}
+              >
+                dreaming
+              </span>
+              . It&apos;s a course about{' '}
+              <span
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                }}
+              >
+                doing
+              </span>
+              . Every lesson ends with something real — something you built, tested, or{' '}
+              <span
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                }}
+              >
+                sold
+              </span>
+              .
+            </blockquote>
+          </div>
+        </section>
+
+        {/* ===== FINAL CTA SECTION ===== */}
+        <section
+          className="relative bg-black py-20 sm:py-28 px-6 sm:px-8 overflow-hidden"
+          aria-labelledby="final-cta-heading"
+        >
+          {/* Radial glow from bottom */}
+          <div
+            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[800px] h-[800px] rounded-full pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle, rgba(41, 151, 255, 0.1) 0%, transparent 70%)',
+              filter: 'blur(40px)',
+            }}
+          />
+
+          <div className="max-w-4xl mx-auto text-center relative z-10">
+            <h2
+              id="final-cta-heading"
+              className="text-5xl sm:text-7xl font-black text-white tracking-tight mb-2"
+            >
+              Ready?{' '}
+              <span
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #2997FF, #5AC8FA)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                }}
+              >
+                Let&apos;s go.
+              </span>
+            </h2>
+
+            <p className="text-lg sm:text-xl text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
+              Join hundreds of aspiring entrepreneurs building real businesses. Start today.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/themes" className="btn-primary">
-                Start learning
-              </Link>
-              <Link href="/toolkit" className="btn-secondary">
-                Get the worksheets
-              </Link>
-            </div>
-          </ScaleIn>
-        </div>
-      </section>
-      </CursorGlow>
-    </>
+
+            <Link
+              href="/auth"
+              className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95 transition-transform text-lg"
+            >
+              Start the course →
+            </Link>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
   );
 }

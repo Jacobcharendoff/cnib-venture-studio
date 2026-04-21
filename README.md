@@ -1,23 +1,23 @@
-# Venture Studio — Powered by CNIB
+# The Venture Collective
 
-Turn Your Idea Into Your First Dollar.
+A free entrepreneurship course platform by CNIB for aspiring entrepreneurs living with sight loss.
 
-A 12-week entrepreneurial program exclusively for CNIB Venture Pool members.
+**Course:** Turn Your Idea Into Your First Dollar — 24 lessons, 6 modules, one real business.
 
-## Tech Stack
-- Next.js 16 (App Router)
-- React 19
-- Tailwind CSS v4
-- TypeScript
+## Stack
 
-## Getting Started
+- **Framework:** Next.js 14 (App Router)
+- **Auth & Database:** Supabase
+- **Styling:** Tailwind CSS
+- **Deploy:** Vercel
 
-```bash
-npm install
-npm run dev
-```
+## Setup
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+1. Clone the repo
+2. `cp .env.example .env.local` and add your Supabase credentials
+3. Run `the-venture-collective-schema.sql` against your Supabase project
+4. `npm install && npm run dev`
 
-## Deployment
-This project is configured for deployment on Vercel.
+## Accessibility
+
+WCAG 2.1 AA: skip links, ARIA labels, focus-visible, 44px touch targets, reduced motion support.

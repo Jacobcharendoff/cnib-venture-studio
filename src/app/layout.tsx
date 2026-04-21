@@ -1,22 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "Venture Studio | Powered by CNIB",
+  title: "The Venture Collective | CNIB",
   description:
-    "Turn your idea into your first dollar. An immersive entrepreneurial program for blind and low-vision founders, powered by CNIB.",
-  keywords: [
-    "CNIB",
-    "Venture Studio",
-    "entrepreneurship",
-    "blind entrepreneurs",
-    "low vision",
-    "business program",
-    "accessibility",
-  ],
+    "A free entrepreneurship course for aspiring entrepreneurs living with sight loss. 24 lessons. 6 modules. One real business.",
+  openGraph: {
+    title: "The Venture Collective | CNIB",
+    description: "Turn Your Idea Into Your First Dollar. Built for aspiring entrepreneurs living with sight loss.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -25,18 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="antialiased">
-      <body className="min-h-screen flex flex-col">
+    <html lang="en">
+      <body className="font-sans antialiased">
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        <Providers>
-          <Header />
-          <main id="main-content" className="flex-1" tabIndex={-1}>
-            {children}
-          </main>
-          <Footer />
-        </Providers>
+        {children}
       </body>
     </html>
   );
