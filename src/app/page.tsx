@@ -3,16 +3,24 @@
 import Link from 'next/link';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
-import ModuleCard from '@/components/ModuleCard';
 import { MODULES } from '@/lib/course-data';
 
-const MODULE_GRADIENTS: Record<string, string> = {
-  discover: 'linear-gradient(160deg, #040d1a 0%, #0d3b66 40%, #2997FF 100%)',
-  design: 'linear-gradient(160deg, #041a22 0%, #0c5a70 40%, #5AC8FA 100%)',
-  money: 'linear-gradient(160deg, #1a1600 0%, #5a4d00 40%, #c9a800 100%)',
-  brand: 'linear-gradient(160deg, #120628 0%, #4a1a8f 40%, #BF5AF2 100%)',
-  sell: 'linear-gradient(160deg, #1a0505 0%, #7a1a1a 40%, #FF453A 100%)',
-  launch: 'linear-gradient(160deg, #041a0a 0%, #1a6b30 40%, #30D158 100%)',
+const MODULE_COLORS: Record<string, string> = {
+  discover: '#2997FF',
+  design: '#5AC8FA',
+  money: '#c9a800',
+  brand: '#BF5AF2',
+  sell: '#FF453A',
+  launch: '#30D158',
+};
+
+const MODULE_DELIVERABLES: Record<string, string> = {
+  discover: 'A validated opportunity statement and customer profile you can actually use',
+  design: "A minimum viable offer designed around your life, not someone else's schedule",
+  money: 'A pricing model that pays you and a clear picture of what you need to launch',
+  brand: 'A name, a story, and a digital presence that looks like you mean business',
+  sell: 'Your first paying customer. Not hypothetical. Real.',
+  launch: 'A launch plan, feedback system, and the foundation to keep growing',
 };
 
 export default function Home() {
@@ -29,9 +37,7 @@ export default function Home() {
           {/* Animated conic-gradient orb background */}
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
-            style={{
-              opacity: 0.35,
-            }}
+            style={{ opacity: 0.35 }}
           >
             <div
               className="absolute w-[700px] h-[700px] rounded-full"
@@ -68,7 +74,7 @@ export default function Home() {
             {/* Main headline */}
             <h1
               id="hero-headline"
-              className="text-[clamp(3rem,10vw,8rem)] font-black tracking-tighter leading-none mb-4 text-white"
+              className="text-[clamp(3rem,10vw,8rem)] font-black tracking-tighter leading-none mb-6 text-white"
             >
               Build something.{' '}
               <span className="text-gray-400 font-light">
@@ -78,7 +84,7 @@ export default function Home() {
 
             {/* Subtitle */}
             <p className="text-base sm:text-xl text-gray-400 mb-12 sm:mb-16 max-w-2xl mx-auto leading-relaxed">
-              You don&apos;t need anyone&apos;s permission to start. 24 free lessons for blind and low-vision Canadians ready to build a real business.
+              24 lessons that take you from &quot;I have an idea&quot; to your first paying customer. Built specifically for blind and low-vision Canadians who are done waiting for permission.
             </p>
 
             {/* CTAs */}
@@ -87,23 +93,21 @@ export default function Home() {
                 href="/auth"
                 className="px-6 sm:px-8 py-3 sm:py-4 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 w-full sm:w-auto text-center"
               >
-                Start the course →
+                Start the course &rarr;
               </Link>
               <Link
-                href="#modules"
+                href="#curriculum"
                 className="px-6 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-full border border-white/20 hover:bg-white/10 transition-all backdrop-blur-sm active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 w-full sm:w-auto text-center"
               >
-                Explore modules
+                See what you&apos;ll learn
               </Link>
             </div>
           </div>
 
-          {/* Scroll indicator - hidden on mobile to avoid overlap */}
+          {/* Scroll indicator */}
           <div
             className="absolute bottom-10 left-1/2 transform -translate-x-1/2 hidden sm:flex flex-col items-center gap-4"
-            style={{
-              animation: 'bounce 2s infinite',
-            }}
+            style={{ animation: 'bounce 2s infinite' }}
           >
             <div className="w-8 h-12 rounded-full border border-white/30 flex items-center justify-center">
               <div className="w-1 h-2 bg-white/50 rounded-full" />
@@ -122,338 +126,14 @@ export default function Home() {
           `}</style>
         </section>
 
-        {/* ===== STATS BAR ===== */}
+        {/* ===== THE PROBLEM ===== */}
         <section
-          className="border-t border-b border-white/10 py-12 sm:py-16 px-6 sm:px-8"
-          aria-labelledby="stats-heading"
+          className="relative bg-black py-20 sm:py-28 px-6 sm:px-8 overflow-hidden"
+          aria-labelledby="problem-heading"
         >
-          <div className="max-w-7xl mx-auto">
-            <h2 id="stats-heading" className="sr-only">
-              Course statistics
-            </h2>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24">
-              <div className="text-center">
-                <div className="text-4xl sm:text-6xl font-black text-white mb-2">
-                  24
-                </div>
-                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">
-                  Lessons
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="text-4xl sm:text-6xl font-black text-white mb-2">
-                  6
-                </div>
-                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">
-                  Modules
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="text-4xl sm:text-6xl font-black text-white mb-2">
-                  42
-                </div>
-                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">
-                  Downloadable assets
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="text-4xl sm:text-6xl font-black text-white mb-2">
-                  $0
-                </div>
-                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">
-                  Always free
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ===== OUTCOMES SECTION ===== */}
-        <section
-          className="bg-white text-black py-20 sm:py-28 px-6 sm:px-8"
-          aria-labelledby="outcomes-heading"
-        >
-          <div className="max-w-7xl mx-auto">
-            {/* Heading */}
-            <div className="mb-16 sm:mb-20 text-center">
-              <h2
-                id="outcomes-heading"
-                className="text-4xl sm:text-6xl font-black tracking-tight mb-2"
-              >
-                What you&apos;ll walk away with.
-              </h2>
-            </div>
-
-            {/* 2x2 Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-              {/* Card 1: Find your people */}
-              <div className="rounded-[28px] p-10 sm:p-12 bg-[#F5F5F7] hover:scale-[1.02] transition-transform duration-300 flex flex-col">
-                <div className="relative mb-8 flex-shrink-0">
-                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
-                    <circle cx="20" cy="24" r="8" fill="#2997FF" />
-                    <circle cx="36" cy="20" r="8" fill="#5AC8FA" />
-                    <circle cx="52" cy="24" r="8" fill="#2997FF" />
-                    <path d="M 12 40 Q 12 36 20 36 Q 28 36 28 40 L 28 48 Q 28 52 20 52 Q 12 52 12 48 Z" fill="#2997FF" />
-                    <path d="M 28 36 Q 28 32 36 32 Q 44 32 44 36 L 44 48 Q 44 52 36 52 Q 28 52 28 48 Z" fill="#5AC8FA" />
-                    <path d="M 44 40 Q 44 36 52 36 Q 60 36 60 40 L 60 48 Q 60 52 52 52 Q 44 52 44 48 Z" fill="#2997FF" />
-                  </svg>
-                  <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
-                    01
-                  </div>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
-                  Find people who need what you&apos;ve got
-                </h3>
-                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  You already know things other people don&apos;t. You&apos;ve solved problems most haven&apos;t thought about. This module helps you find the people who&apos;ll pay for that knowledge and experience.
-                </p>
-              </div>
-
-              {/* Card 2: Build your offer */}
-              <div className="rounded-[28px] p-10 sm:p-12 bg-[#E8F4FF] hover:scale-[1.02] transition-transform duration-300 flex flex-col">
-                <div className="relative mb-8 flex-shrink-0">
-                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
-                    <rect x="12" y="18" width="48" height="36" rx="2" stroke="#5AC8FA" strokeWidth="2" fill="none" />
-                    <path d="M 12 28 L 36 18 L 60 28" stroke="#5AC8FA" strokeWidth="2" fill="none" />
-                    <line x1="36" y1="18" x2="36" y2="54" stroke="#5AC8FA" strokeWidth="2" />
-                  </svg>
-                  <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
-                    02
-                  </div>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
-                  Design an offer that works for your life
-                </h3>
-                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  Build something you can deliver on your schedule. Not a 9-to-5 that needs someone else&apos;s office, someone else&apos;s tools, someone else&apos;s permission.
-                </p>
-              </div>
-
-              {/* Card 3: Make real money */}
-              <div className="rounded-[28px] p-10 sm:p-12 bg-[#FFF8E1] hover:scale-[1.02] transition-transform duration-300 flex flex-col">
-                <div className="relative mb-8 flex-shrink-0">
-                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
-                    <path d="M 36 12 L 36 60 M 28 18 L 44 18 Q 44 24 36 24 Q 28 24 28 30 L 44 30" stroke="#c9a800" strokeWidth="2" fill="none" />
-                    <polyline points="18,54 28,42 38,50 54,30" stroke="#c9a800" strokeWidth="2" fill="none" />
-                    <circle cx="54" cy="30" r="2" fill="#c9a800" />
-                  </svg>
-                  <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
-                    03
-                  </div>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
-                  Get the money part right
-                </h3>
-                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  Price your work so it actually pays you. Figure out what you need to launch, where to find it, and how to stop leaving money on the table.
-                </p>
-              </div>
-
-              {/* Card 4: Make your first sale */}
-              <div className="rounded-[28px] p-10 sm:p-12 bg-[#1D1D1F] text-white hover:scale-[1.02] transition-transform duration-300 flex flex-col">
-                <div className="relative mb-8 flex-shrink-0">
-                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
-                    <path d="M 36 12 L 42 36 L 36 42 L 30 36 Z" fill="#30D158" />
-                    <path d="M 24 48 L 30 36" stroke="#30D158" strokeWidth="2" />
-                    <path d="M 48 48 L 42 36" stroke="#30D158" strokeWidth="2" />
-                    <circle cx="20" cy="54" r="4" fill="#30D158" />
-                    <circle cx="52" cy="54" r="4" fill="#30D158" />
-                    <line x1="36" y1="42" x2="36" y2="60" stroke="#30D158" strokeWidth="2" />
-                  </svg>
-                  <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-white opacity-5 leading-none pointer-events-none">
-                    04
-                  </div>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
-                  Make your first sale
-                </h3>
-                <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
-                  Not a theoretical customer. A real person who pays you real money for something you built. By lesson 24, you&apos;ll have a business, not a business plan.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ===== MODULES SECTION ===== */}
-        <section
-          id="modules"
-          className="bg-black py-20 sm:py-28 px-6 sm:px-8"
-          aria-labelledby="modules-heading"
-        >
-          <div className="max-w-7xl mx-auto">
-            {/* Heading */}
-            <div className="mb-16 sm:mb-20 text-center">
-              <h2
-                id="modules-heading"
-                className="text-4xl sm:text-6xl font-black text-white tracking-tight mb-4"
-              >
-                The curriculum
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-500">
-                Six modules that take you from &quot;I have an idea&quot; to &quot;I just got paid&quot;
-              </p>
-            </div>
-
-            {/* Big cards (first 2 modules) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
-              {MODULES.slice(0, 2).map((module, idx) => (
-                <ModuleCard
-                  key={module.slug}
-                  module={module}
-                  size="big"
-                  gradient={MODULE_GRADIENTS[module.slug]}
-                  watermarkNumber={String(idx + 1).padStart(2, '0')}
-                />
-              ))}
-            </div>
-
-            {/* Small cards (remaining 4 modules) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-              {MODULES.slice(2).map((module, idx) => (
-                <ModuleCard
-                  key={module.slug}
-                  module={module}
-                  size="small"
-                  gradient={MODULE_GRADIENTS[module.slug]}
-                  watermarkNumber={String(idx + 3).padStart(2, '0')}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ===== PROCESS SECTION ===== */}
-        <section
-          id="how-it-works"
-          className="bg-black py-20 sm:py-28 px-6 sm:px-8"
-          aria-labelledby="process-heading"
-        >
-          <div className="max-w-7xl mx-auto">
-            {/* Heading */}
-            <h2
-              id="process-heading"
-              className="text-4xl sm:text-6xl font-black text-white tracking-tight text-center mb-16 sm:mb-20"
-            >
-              How it works
-            </h2>
-
-            {/* Steps */}
-            <div className="flex flex-col sm:flex-row items-stretch justify-between gap-8 sm:gap-6 relative">
-              {/* Connecting line background (only on larger screens) */}
-              <div
-                className="hidden sm:block absolute top-20 left-[10%] right-[10%] h-1 -z-10"
-                style={{
-                  background: 'linear-gradient(90deg, #2997FF, #c9a800, #30D158, #BF5AF2)',
-                  opacity: 0.3,
-                }}
-              />
-
-              {/* Step 1 */}
-              <div className="flex flex-col items-center text-center flex-1">
-                <div
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 relative z-10 border-4"
-                  style={{
-                    borderColor: '#2997FF',
-                    background: 'rgba(41, 151, 255, 0.1)',
-                  }}
-                >
-                  <svg viewBox="0 0 24 24" className="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="#2997FF" strokeWidth="2">
-                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 110 8 4 4 0 010-8z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
-                  Sign up in 30 seconds
-                </h3>
-                <p className="text-sm sm:text-base text-gray-500">
-                  Just your email. Fully accessible. Built to work with screen readers from day one.
-                </p>
-              </div>
-
-              {/* Step 2 */}
-              <div className="flex flex-col items-center text-center flex-1">
-                <div
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 relative z-10 border-4"
-                  style={{
-                    borderColor: '#c9a800',
-                    background: 'rgba(201, 168, 0, 0.1)',
-                  }}
-                >
-                  <svg viewBox="0 0 24 24" className="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="#c9a800" strokeWidth="2">
-                    <circle cx="12" cy="12" r="1" />
-                    <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 0l4.24-4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m5.08 0l4.24 4.24" />
-                  </svg>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
-                  Learn when it works for you
-                </h3>
-                <p className="text-sm sm:text-base text-gray-500">
-                  15-minute lessons. No live sessions to schedule around. No group work that depends on someone else&apos;s timeline.
-                </p>
-              </div>
-
-              {/* Step 3 */}
-              <div className="flex flex-col items-center text-center flex-1">
-                <div
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 relative z-10 border-4"
-                  style={{
-                    borderColor: '#30D158',
-                    background: 'rgba(48, 209, 88, 0.1)',
-                  }}
-                >
-                  <svg viewBox="0 0 24 24" className="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="#30D158" strokeWidth="2">
-                    <polyline points="12 1 22 8 22 16 12 23 2 16 2 8 12 1" />
-                    <polyline points="2 8 12 14 22 8" />
-                    <polyline points="12 14 12 23" />
-                    <polyline points="22 12 12 18 2 12" />
-                  </svg>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
-                  Build something real each week
-                </h3>
-                <p className="text-sm sm:text-base text-gray-500">
-                  Every lesson ends with something tangible. Not a reflection exercise. Actual business assets you&apos;ll use.
-                </p>
-              </div>
-
-              {/* Step 4 */}
-              <div className="flex flex-col items-center text-center flex-1">
-                <div
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 relative z-10 border-4"
-                  style={{
-                    borderColor: '#BF5AF2',
-                    background: 'rgba(191, 90, 242, 0.1)',
-                  }}
-                >
-                  <svg viewBox="0 0 24 24" className="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="#BF5AF2" strokeWidth="2">
-                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-3">
-                  Get your first customer
-                </h3>
-                <p className="text-sm sm:text-base text-gray-500">
-                  The finish line isn&apos;t a certificate. It&apos;s a sale.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ===== MANIFESTO SECTION ===== */}
-        <section
-          className="relative bg-black py-24 sm:py-32 px-6 sm:px-8 overflow-hidden"
-          aria-labelledby="manifesto-stat"
-        >
-          {/* Background orb */}
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
-            style={{
-              opacity: 0.15,
-            }}
+            style={{ opacity: 0.12 }}
           >
             <div
               className="absolute w-[600px] h-[600px] rounded-full"
@@ -464,35 +144,450 @@ export default function Home() {
             />
           </div>
 
-          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <div
-              id="manifesto-stat"
-              className="text-[clamp(5rem,15vw,10rem)] font-black leading-none mb-4"
-              style={{
-                backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-              }}
-            >
-              54%
+          <div className="max-w-4xl mx-auto relative z-10">
+            <div className="text-center mb-12 sm:mb-16">
+              <div
+                id="problem-heading"
+                className="text-[clamp(5rem,15vw,10rem)] font-black leading-none mb-4"
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                }}
+              >
+                54%
+              </div>
+              <p className="text-lg sm:text-2xl text-gray-400 max-w-2xl mx-auto">
+                of Canadians with sight loss are employed. The other 46% were told no.
+              </p>
             </div>
-            <p className="text-lg sm:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto">
-              of Canadians with sight loss are employed. The other 46% were told no.
-            </p>
-            <p className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-              This course is for everyone who got{' '}
-              <span className="text-gray-500 font-light">tired of asking.</span>
-            </p>
+
+            <div className="max-w-3xl mx-auto space-y-6 text-base sm:text-lg text-gray-400 leading-relaxed">
+              <p>
+                You know what that looks like. Interviews where someone realizes you can&apos;t see and the energy in the room changes. Applications that go nowhere. Being told you&apos;re &quot;inspiring&quot; but not getting the callback.
+              </p>
+              <p>
+                This course exists because waiting for someone else to give you a shot is a losing strategy. The fastest path to income, independence, and respect is building something yourself. And you already have everything you need to start.
+              </p>
+              <p className="text-white font-semibold text-lg sm:text-xl">
+                So we built a course that takes you there. Step by step. Lesson by lesson. From &quot;I have an idea&quot; to your first paying customer.
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* ===== FINAL CTA SECTION ===== */}
+        {/* ===== STATS BAR ===== */}
+        <section
+          className="border-t border-b border-white/10 py-12 sm:py-16 px-6 sm:px-8"
+          aria-labelledby="stats-heading"
+        >
+          <div className="max-w-7xl mx-auto">
+            <h2 id="stats-heading" className="sr-only">Course statistics</h2>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24">
+              <div className="text-center">
+                <div className="text-4xl sm:text-6xl font-black text-white mb-2">24</div>
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">Lessons</p>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl sm:text-6xl font-black text-white mb-2">6</div>
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">Modules</p>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl sm:text-6xl font-black text-white mb-2">42</div>
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">Downloadable assets</p>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl sm:text-6xl font-black text-white mb-2">$0</div>
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">Always free</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== DETAILED CURRICULUM ===== */}
+        <section
+          id="curriculum"
+          className="bg-black py-20 sm:py-28 px-6 sm:px-8"
+          aria-labelledby="curriculum-heading"
+        >
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-16 sm:mb-20 text-center">
+              <h2
+                id="curriculum-heading"
+                className="text-4xl sm:text-6xl font-black text-white tracking-tight mb-4"
+              >
+                Everything you&apos;ll learn.
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto">
+                Six modules. 24 lessons. Each one is 15 minutes and ends with something tangible you&apos;ll actually use.
+              </p>
+            </div>
+
+            {/* Module detail blocks */}
+            <div className="space-y-8 sm:space-y-12">
+              {MODULES.map((module, idx) => {
+                const color = MODULE_COLORS[module.slug] || '#2997FF';
+                const deliverable = MODULE_DELIVERABLES[module.slug] || '';
+
+                return (
+                  <div
+                    key={module.slug}
+                    className="rounded-[28px] overflow-hidden border border-white/10"
+                    style={{
+                      background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
+                    }}
+                  >
+                    <div className="p-8 sm:p-12">
+                      {/* Module header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8">
+                        <div
+                          className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-black text-black flex-shrink-0"
+                          style={{ backgroundColor: color }}
+                        >
+                          {String(idx + 1).padStart(2, '0')}
+                        </div>
+                        <div>
+                          <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                            {module.title}
+                          </h3>
+                          <p className="text-base sm:text-lg text-gray-400 mt-1">
+                            {module.subtitle}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Lesson list */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
+                        {module.lessons.map((lesson) => (
+                          <div
+                            key={lesson.slug}
+                            className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] transition-colors"
+                          >
+                            <div
+                              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5"
+                              style={{
+                                backgroundColor: `${color}20`,
+                                color: color,
+                              }}
+                            >
+                              {lesson.globalNumber}
+                            </div>
+                            <div>
+                              <p className="text-white font-semibold text-sm sm:text-base">
+                                {lesson.title}
+                              </p>
+                              <p className="text-gray-500 text-xs sm:text-sm mt-1">
+                                {lesson.estimatedMinutes} min
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Deliverable */}
+                      <div
+                        className="flex items-start gap-3 p-4 sm:p-5 rounded-xl border"
+                        style={{
+                          borderColor: `${color}30`,
+                          backgroundColor: `${color}08`,
+                        }}
+                      >
+                        <svg
+                          className="w-5 h-5 flex-shrink-0 mt-0.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke={color}
+                          strokeWidth="2"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p className="text-sm sm:text-base text-gray-300">
+                          <span className="font-semibold text-white">What you&apos;ll have:</span>{' '}
+                          {deliverable}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== THE JOURNEY ===== */}
+        <section
+          className="bg-white text-black py-20 sm:py-28 px-6 sm:px-8"
+          aria-labelledby="journey-heading"
+        >
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-16 sm:mb-20 text-center">
+              <h2
+                id="journey-heading"
+                className="text-4xl sm:text-6xl font-black tracking-tight mb-4"
+              >
+                From idea to income.
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto">
+                Here&apos;s what six weeks looks like when you stop waiting and start building.
+              </p>
+            </div>
+
+            {/* Timeline */}
+            <div className="relative">
+              {/* Vertical line */}
+              <div className="hidden sm:block absolute left-8 top-0 bottom-0 w-px bg-gray-200" />
+
+              <div className="space-y-10 sm:space-y-12">
+                {[
+                  { week: 'Week 1', title: 'Figure out who needs you', desc: 'You already know things other people don\'t. This week you\'ll find the specific people who\'d pay for that knowledge and figure out if the problem is real.', color: '#2997FF' },
+                  { week: 'Week 2', title: 'Design something you can deliver', desc: 'Not a business plan. An actual offer you can sell next month. Designed around your life, your schedule, your tools.', color: '#5AC8FA' },
+                  { week: 'Week 3', title: 'Get the money part right', desc: 'Price it so it actually pays you. Figure out what you need to launch and where to find it. Stop guessing, start knowing.', color: '#c9a800' },
+                  { week: 'Week 4', title: 'Build a brand that means something', desc: 'Pick a name. Write your story. Set up a simple digital presence that makes people take you seriously.', color: '#BF5AF2' },
+                  { week: 'Week 5', title: 'Find customers and close the deal', desc: 'Learn outreach that doesn\'t feel sleazy. Have real conversations. Get to the ask. Make your first sale.', color: '#FF453A' },
+                  { week: 'Week 6', title: 'Launch and keep going', desc: 'Ship it publicly. Collect feedback. Build the systems that let you grow without burning out.', color: '#30D158' },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-6 sm:gap-8 items-start">
+                    {/* Dot */}
+                    <div className="flex-shrink-0 relative z-10">
+                      <div
+                        className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-sm"
+                        style={{ backgroundColor: item.color }}
+                      >
+                        {item.week.replace('Week ', 'W')}
+                      </div>
+                    </div>
+                    {/* Content */}
+                    <div className="pt-1">
+                      <h3 className="text-xl sm:text-2xl font-black tracking-tight mb-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== BUILT DIFFERENT ===== */}
+        <section
+          className="bg-black py-20 sm:py-28 px-6 sm:px-8"
+          aria-labelledby="different-heading"
+        >
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-16 sm:mb-20 text-center">
+              <h2
+                id="different-heading"
+                className="text-4xl sm:text-6xl font-black text-white tracking-tight mb-4"
+              >
+                This isn&apos;t another business course.
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto">
+                There are thousands of entrepreneurship programs. Here&apos;s why this one is different.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              {/* Accessible from scratch */}
+              <div className="rounded-[28px] p-8 sm:p-10 bg-white/[0.04] border border-white/10 hover:border-white/20 transition-colors">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
+                  style={{ background: 'rgba(41, 151, 255, 0.15)' }}
+                >
+                  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="#2997FF" strokeWidth="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight">
+                  Accessible from scratch
+                </h3>
+                <p className="text-base text-gray-400 leading-relaxed">
+                  Not retrofitted. Not &quot;we added alt text.&quot; Every lesson, every template, every download was built to work with screen readers, magnification, and assistive tech from day one. Because that&apos;s how you build things for your community.
+                </p>
+              </div>
+
+              {/* CNIB backed */}
+              <div className="rounded-[28px] p-8 sm:p-10 bg-white/[0.04] border border-white/10 hover:border-white/20 transition-colors">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
+                  style={{ background: 'rgba(191, 90, 242, 0.15)' }}
+                >
+                  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="#BF5AF2" strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight">
+                  Backed by CNIB
+                </h3>
+                <p className="text-base text-gray-400 leading-relaxed">
+                  CNIB has served the blind and low-vision community in Canada for over 100 years. This course is part of a larger mission: proving that sight loss is not a barrier to building something real. The expertise behind this isn&apos;t theoretical.
+                </p>
+              </div>
+
+              {/* Free forever */}
+              <div className="rounded-[28px] p-8 sm:p-10 bg-white/[0.04] border border-white/10 hover:border-white/20 transition-colors">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
+                  style={{ background: 'rgba(48, 209, 88, 0.15)' }}
+                >
+                  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="#30D158" strokeWidth="2">
+                    <path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight">
+                  Free. No catch.
+                </h3>
+                <p className="text-base text-gray-400 leading-relaxed">
+                  Not a free trial. Not freemium. Not &quot;free but upgrade for the good stuff.&quot; Every lesson, every template, every asset is yours. No credit card, no paywall, no upsell. Because cost should never be the reason you don&apos;t start.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== HOW IT WORKS ===== */}
+        <section
+          id="how-it-works"
+          className="bg-[#111] py-20 sm:py-28 px-6 sm:px-8"
+          aria-labelledby="process-heading"
+        >
+          <div className="max-w-5xl mx-auto">
+            <h2
+              id="process-heading"
+              className="text-4xl sm:text-6xl font-black text-white tracking-tight text-center mb-16 sm:mb-20"
+            >
+              How it works
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6">
+              {[
+                { num: '01', title: 'Sign up in 30 seconds', desc: 'Name, email, go. Works with screen readers from the first click.', color: '#2997FF' },
+                { num: '02', title: 'Learn on your schedule', desc: '15-minute lessons. No live sessions. No group work. Just you and the material, whenever it works.', color: '#c9a800' },
+                { num: '03', title: 'Build something real', desc: 'Every lesson ends with a deliverable. Templates, worksheets, frameworks. Stuff you\'ll use, not busywork.', color: '#30D158' },
+                { num: '04', title: 'Get your first customer', desc: 'The finish line isn\'t a certificate. It\'s a sale.', color: '#BF5AF2' },
+              ].map((step) => (
+                <div key={step.num} className="text-center">
+                  <div
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 text-lg font-black"
+                    style={{
+                      backgroundColor: `${step.color}15`,
+                      color: step.color,
+                      border: `1px solid ${step.color}30`,
+                    }}
+                  >
+                    {step.num}
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-black text-white mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-500 leading-relaxed">
+                    {step.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== MANIFESTO / QUOTE ===== */}
+        <section
+          className="relative bg-black py-24 sm:py-32 px-6 sm:px-8 overflow-hidden"
+          aria-labelledby="manifesto-quote"
+        >
+          <div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+            style={{ opacity: 0.1 }}
+          >
+            <div
+              className="absolute w-[500px] h-[500px] rounded-full"
+              style={{
+                background: 'radial-gradient(circle, #2997FF 0%, transparent 70%)',
+                filter: 'blur(80px)',
+              }}
+            />
+          </div>
+
+          <div className="max-w-3xl mx-auto text-center relative z-10">
+            <blockquote>
+              <p
+                id="manifesto-quote"
+                className="text-2xl sm:text-4xl font-black text-white leading-tight tracking-tight mb-8"
+              >
+                &quot;The biggest disability in the world is being told you can&apos;t. This course is for everyone who got{' '}
+                <span className="text-gray-500 font-light">tired of asking</span>{' '}
+                and decided to build their own answer.&quot;
+              </p>
+            </blockquote>
+            <div className="text-gray-500 text-sm sm:text-base">
+              The Venture Collective, a CNIB initiative
+            </div>
+          </div>
+        </section>
+
+        {/* ===== LESSON PREVIEW ===== */}
+        <section
+          className="bg-[#0A0A0A] py-20 sm:py-28 px-6 sm:px-8 border-t border-b border-white/5"
+          aria-labelledby="preview-heading"
+        >
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2
+                id="preview-heading"
+                className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4"
+              >
+                Here&apos;s what Lesson 1 looks like.
+              </h2>
+              <p className="text-base sm:text-lg text-gray-500">
+                No signup required to see what you&apos;re getting.
+              </p>
+            </div>
+
+            <div className="rounded-[28px] overflow-hidden border border-white/10 bg-white/[0.03]">
+              <div className="p-6 sm:p-8 border-b border-white/10 flex items-center gap-4">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold"
+                  style={{ backgroundColor: '#2997FF20', color: '#2997FF' }}
+                >
+                  01
+                </div>
+                <div>
+                  <p className="text-white font-bold text-lg">Who Do You Want to Help?</p>
+                  <p className="text-gray-500 text-sm">Module 1: DISCOVER &middot; 15 minutes</p>
+                </div>
+              </div>
+              <div className="p-6 sm:p-10 space-y-5 text-gray-300 leading-relaxed">
+                <p className="text-base sm:text-lg">
+                  Every business starts with a person. Not a product, not an app, not a website. A person with a problem they&apos;d pay to solve.
+                </p>
+                <p className="text-base sm:text-lg">
+                  In this lesson, you&apos;ll stop thinking about &quot;business ideas&quot; and start thinking about people. Specifically: who do you already understand better than most? What community are you part of? What problems have you solved in your own life that other people are still stuck on?
+                </p>
+                <p className="text-sm text-gray-500 italic">
+                  The full lesson continues with exercises, examples, and a downloadable worksheet...
+                </p>
+              </div>
+              <div className="p-6 sm:p-8 border-t border-white/10 flex justify-center">
+                <Link
+                  href="/auth"
+                  className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 text-sm"
+                >
+                  Sign up to read the full lesson
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== FINAL CTA ===== */}
         <section
           className="relative bg-black py-20 sm:py-28 px-6 sm:px-8 overflow-hidden"
           aria-labelledby="final-cta-heading"
         >
-          {/* Radial glow from bottom */}
           <div
             className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[800px] h-[800px] rounded-full pointer-events-none"
             style={{
@@ -520,14 +615,14 @@ export default function Home() {
             </h2>
 
             <p className="text-lg sm:text-xl text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
-              Every module is free. Every lesson is accessible. The only thing between you and your first dollar is starting.
+              24 lessons. 42 downloadable assets. Your first paying customer. All free. The only thing between you and your first dollar is starting.
             </p>
 
             <Link
               href="/auth"
               className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 text-lg"
             >
-              Start the course →
+              Start the course &rarr;
             </Link>
           </div>
         </section>
