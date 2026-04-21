@@ -445,8 +445,8 @@ export default function Home() {
 
         {/* ===== MANIFESTO SECTION ===== */}
         <section
-          className="relative bg-black py-20 sm:py-28 px-6 sm:px-8 overflow-hidden"
-          aria-labelledby="manifesto-quote"
+          className="relative bg-black py-24 sm:py-32 px-6 sm:px-8 overflow-hidden"
+          aria-labelledby="manifesto-stat"
         >
           {/* Background orb */}
           <div
@@ -464,25 +464,26 @@ export default function Home() {
             />
           </div>
 
-          <div className="max-w-3xl mx-auto text-center relative z-10">
-            <blockquote className="text-2xl sm:text-5xl font-black text-white leading-tight tracking-tight">
-              54% of Canadians with sight loss are employed.{' '}
-              <span className="text-gray-500 font-light">
-                The other 46% were told no.
-              </span>{' '}
+          <div className="max-w-4xl mx-auto text-center relative z-10">
+            <div
+              id="manifesto-stat"
+              className="text-[clamp(5rem,15vw,10rem)] font-black leading-none mb-4"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                color: 'transparent',
+              }}
+            >
+              54%
+            </div>
+            <p className="text-lg sm:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto">
+              of Canadians with sight loss are employed. The other 46% were told no.
+            </p>
+            <p className="text-2xl sm:text-4xl font-black text-white tracking-tight">
               This course is for everyone who got{' '}
-              <span
-                style={{
-                  backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2, #FF453A)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  color: 'transparent',
-                }}
-              >
-                tired of asking
-              </span>
-              .
-            </blockquote>
+              <span className="text-gray-500 font-light">tired of asking.</span>
+            </p>
           </div>
         </section>
 
