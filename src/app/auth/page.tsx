@@ -56,11 +56,11 @@ export default function AuthPage() {
         },
       });
       if (oauthError) {
-        setError(oauthError.message);
+        setError('Google sign-in is not configured yet. Use email and password for now.');
         setLoading(false);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError('Google sign-in is not configured yet. Use email and password for now.');
       setLoading(false);
     }
   };
@@ -81,7 +81,7 @@ export default function AuthPage() {
       const supabase = createClient();
 
       if (mode === 'signup') {
-        const { error: signupError } = await supabase.auth.signUp({
+        const { data, error: signupError } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -95,9 +95,29 @@ export default function AuthPage() {
 
         if (signupError) {
           setError(signupError.message);
-        } else {
-          setSuccess('Check your email for a confirmation link, then come back and log in.');
+          setLoading(false);
+          return;
         }
+
+        // If Supabase returned a session, user is already logged in (email confirmation disabled)
+        if (data.session) {
+          router.push('/dashboard');
+          return;
+        }
+
+        // No session means email confirmation is required. Try auto-login anyway.
+        const { error: loginError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (!loginError) {
+          router.push('/dashboard');
+          return;
+        }
+
+        // Auto-login failed (email confirmation likely required)
+        setSuccess('Account created! Check your email for a confirmation link, then come back and log in.');
       } else {
         const { error: loginError } = await supabase.auth.signInWithPassword({
           email,

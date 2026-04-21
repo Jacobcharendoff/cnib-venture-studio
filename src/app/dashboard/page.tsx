@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Nav from '@/components/Nav';
 import { MODULES, COURSE } from '@/lib/course-data';
 import { MODULE_COLORS } from '@/lib/types';
+import { createClient } from '@/lib/supabase';
 
 interface ModuleProgressState {
   status: 'locked' | 'available' | 'in_progress' | 'completed';
@@ -12,20 +14,43 @@ interface ModuleProgressState {
   currentLessonIndex?: number;
 }
 
-// Simulated progress state
-const PROGRESS: Record<string, ModuleProgressState> = {
-  discover: { status: 'completed', lessonsCompleted: 4 },
-  design: { status: 'completed', lessonsCompleted: 4 },
-  money: { status: 'in_progress', lessonsCompleted: 2, currentLessonIndex: 2 },
+// Default progress for new users: first module available, rest locked
+const DEFAULT_PROGRESS: Record<string, ModuleProgressState> = {
+  discover: { status: 'available', lessonsCompleted: 0, currentLessonIndex: 0 },
+  design: { status: 'locked', lessonsCompleted: 0 },
+  money: { status: 'locked', lessonsCompleted: 0 },
   brand: { status: 'locked', lessonsCompleted: 0 },
   sell: { status: 'locked', lessonsCompleted: 0 },
   launch: { status: 'locked', lessonsCompleted: 0 },
 };
 
-const COMPLETED_LESSONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-
 export default function DashboardPage() {
-  const [expandedModule, setExpandedModule] = useState<string | null>('money');
+  const [expandedModule, setExpandedModule] = useState<string | null>('discover');
+  const [user, setUser] = useState<any>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const supabase = createClient();
+        const { data: { user: currentUser } } = await supabase.auth.getUser();
+        if (!currentUser) {
+          router.push('/auth');
+          return;
+        }
+        setUser(currentUser);
+      } catch {
+        router.push('/auth');
+      } finally {
+        setAuthChecked(true);
+      }
+    };
+    checkAuth();
+  }, [router]);
+
+  const PROGRESS = DEFAULT_PROGRESS;
+  const COMPLETED_LESSONS = new Set<number>();
 
   const totalLessons = MODULES.reduce((sum, m) => sum + m.lessons.length, 0);
   const completedCount = COMPLETED_LESSONS.size;
@@ -63,7 +88,7 @@ export default function DashboardPage() {
       case 'available':
         return (
           <div
-            className="w-3 h-3 rounded-full bg-gray-600"
+            className="w-3 h-3 rounded-full bg-blue-500"
             aria-label="Module available"
           />
         );
@@ -79,7 +104,6 @@ export default function DashboardPage() {
 
   const getLessonDot = (lessonGlobalNumber: number) => {
     const isCompleted = COMPLETED_LESSONS.has(lessonGlobalNumber);
-    const isCurrent = lessonGlobalNumber === 9;
 
     if (isCompleted) {
       return (
@@ -96,13 +120,6 @@ export default function DashboardPage() {
             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
           </svg>
         </div>
-      );
-    } else if (isCurrent) {
-      return (
-        <div
-          className="w-2.5 h-2.5 rounded-full bg-discover ring-2 ring-offset-2 ring-offset-black ring-discover"
-          aria-label="Current lesson"
-        />
       );
     } else {
       return (
@@ -128,6 +145,23 @@ export default function DashboardPage() {
     }
   };
 
+  // Show loading while checking auth
+  if (!authChecked) {
+    return (
+      <>
+        <Nav />
+        <main id="main-content" className="min-h-screen bg-black pt-24 pb-16 px-4 sm:px-6 flex items-center justify-center">
+          <div className="text-gray-500 text-lg">Loading...</div>
+        </main>
+      </>
+    );
+  }
+
+  // If auth check passed but no user (shouldn't happen due to redirect, but just in case)
+  if (!user) return null;
+
+  const displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
+
   return (
     <>
       <Nav />
@@ -136,7 +170,7 @@ export default function DashboardPage() {
           {/* Eyebrow and Title */}
           <div className="mb-8">
             <p className="text-xs uppercase tracking-widest text-gray-500 font-semibold mb-2">
-              Your course
+              Welcome back, {displayName}
             </p>
             <h1 className="text-4xl sm:text-5xl font-black text-white text-balance leading-tight">
               {COURSE.title}
@@ -202,7 +236,7 @@ export default function DashboardPage() {
                       </div>
                     </div>
 
-                    {/* Chevron - proper down arrow that rotates up */}
+                    {/* Chevron */}
                     <svg
                       className={`w-5 h-5 text-gray-500 transition-transform duration-300 flex-shrink-0 ${
                         isExpanded ? 'rotate-180' : ''
@@ -228,7 +262,6 @@ export default function DashboardPage() {
                       className="mt-2 space-y-2 pl-0 sm:pl-6"
                     >
                       {module.lessons.map((lesson) => {
-                        const isCurrent = lesson.globalNumber === 9;
                         const isLocked = progress.status === 'locked';
 
                         return (
@@ -260,8 +293,6 @@ export default function DashboardPage() {
                                 className={`text-sm font-semibold ${
                                   isLocked
                                     ? 'text-gray-600'
-                                    : isCurrent
-                                    ? 'text-white'
                                     : 'text-gray-300'
                                 }`}
                               >
