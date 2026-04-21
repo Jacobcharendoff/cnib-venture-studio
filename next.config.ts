@@ -1,7 +1,3 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+// Config is in next.config.mjs
+// This file kept empty to avoid conflicts
+export {};
