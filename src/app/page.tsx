@@ -68,7 +68,7 @@ export default function Home() {
             {/* Main headline */}
             <h1
               id="hero-headline"
-              className="text-[clamp(4rem,11vw,9rem)] font-black tracking-tighter leading-none mb-4 text-white"
+              className="text-[clamp(3rem,10vw,8rem)] font-black tracking-tighter leading-none mb-4 text-white"
             >
               Build something.{' '}
               <span className="text-gray-400 font-light">
@@ -85,28 +85,28 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
               <Link
                 href="/auth"
-                className="px-6 sm:px-8 py-3 sm:py-4 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95 transition-transform w-full sm:w-auto text-center"
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 w-full sm:w-auto text-center"
               >
-                Start the course →
+                Start the course \u2192
               </Link>
               <Link
                 href="#modules"
-                className="px-6 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-full border border-white/20 hover:bg-white/10 transition-all backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95 transition-transform w-full sm:w-auto text-center"
+                className="px-6 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-full border border-white/20 hover:bg-white/10 transition-all backdrop-blur-sm active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 w-full sm:w-auto text-center"
               >
                 Explore modules
               </Link>
             </div>
+          </div>
 
-            {/* Scroll indicator */}
-            <div
-              className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-4 animate-bounce"
-              style={{
-                animation: 'bounce 2s infinite',
-              }}
-            >
-              <div className="w-8 h-12 rounded-full border border-white/30 flex items-center justify-center">
-                <div className="w-1 h-2 bg-white/50 rounded-full" />
-              </div>
+          {/* Scroll indicator - hidden on mobile to avoid overlap */}
+          <div
+            className="absolute bottom-10 left-1/2 transform -translate-x-1/2 hidden sm:flex flex-col items-center gap-4"
+            style={{
+              animation: 'bounce 2s infinite',
+            }}
+          >
+            <div className="w-8 h-12 rounded-full border border-white/30 flex items-center justify-center">
+              <div className="w-1 h-2 bg-white/50 rounded-full" />
             </div>
           </div>
 
@@ -124,7 +124,7 @@ export default function Home() {
 
         {/* ===== STATS BAR ===== */}
         <section
-          className="border-t border-b border-white/6 py-12 sm:py-16 px-6 sm:px-8"
+          className="border-t border-b border-white/10 py-12 sm:py-16 px-6 sm:px-8"
           aria-labelledby="stats-heading"
         >
           <div className="max-w-7xl mx-auto">
@@ -136,7 +136,7 @@ export default function Home() {
                 <div className="text-4xl sm:text-6xl font-black text-white mb-2">
                   24
                 </div>
-                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">
                   Lessons
                 </p>
               </div>
@@ -145,7 +145,7 @@ export default function Home() {
                 <div className="text-4xl sm:text-6xl font-black text-white mb-2">
                   6
                 </div>
-                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">
                   Modules
                 </p>
               </div>
@@ -154,7 +154,7 @@ export default function Home() {
                 <div className="text-4xl sm:text-6xl font-black text-white mb-2">
                   42
                 </div>
-                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">
                   Downloadable assets
                 </p>
               </div>
@@ -163,7 +163,7 @@ export default function Home() {
                 <div className="text-4xl sm:text-6xl font-black text-white mb-2">
                   $0
                 </div>
-                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-600 font-medium">
+                <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">
                   Always free
                 </p>
               </div>
@@ -181,107 +181,82 @@ export default function Home() {
             <div className="mb-16 sm:mb-20 text-center">
               <h2
                 id="outcomes-heading"
-                className="text-5xl sm:text-6xl font-black tracking-tight mb-2"
+                className="text-4xl sm:text-6xl font-black tracking-tight mb-2"
               >
                 What you&apos;ll walk away with.
               </h2>
             </div>
 
-            {/* Bento Grid */}
-            <div
-              className="grid gap-6 sm:gap-8"
-              style={{
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gridAutoRows: 'minmax(300px, auto)',
-              }}
-            >
-              {/* Card 1: Find your people - spans 2 rows */}
-              <div
-                className="rounded-[28px] p-10 sm:p-16 bg-[#F5F5F7] hover:scale-105 transition-transform duration-300 flex flex-col"
-                style={{
-                  gridColumn: 'span 1',
-                  gridRow: 'span 2',
-                }}
-              >
-                <div className="relative mb-8 sm:mb-12 flex-shrink-0">
-                  <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
-                    <circle cx="20" cy="24" r="8" fill="#2997FF" />
-                    <circle cx="36" cy="20" r="8" fill="#5AC8FA" />
-                    <circle cx="52" cy="24" r="8" fill="#2997FF" />
-                    <path d="M 12 40 Q 12 36 20 36 Q 28 36 28 40 L 28 48 Q 28 52 20 52 Q 12 52 12 48 Z" fill="#2997FF" />
-                    <path d="M 28 36 Q 28 32 36 32 Q 44 32 44 36 L 44 48 Q 44 52 36 52 Q 28 52 28 48 Z" fill="#5AC8FA" />
-                    <path d="M 44 40 Q 44 36 52 36 Q 60 36 60 40 L 60 48 Q 60 52 52 52 Q 44 52 44 48 Z" fill="#2997FF" />
-                  </svg>
-                  <div className="absolute top-0 right-0 text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
-                    01
+            {/* Bento Grid - Tailwind responsive classes */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {/* Card 1: Find your people - spans 2 rows on md+ */}
+              <div className="rounded-[28px] p-10 sm:p-12 bg-[#F5F5F7] hover:scale-[1.02] transition-transform duration-300 flex flex-col justify-between md:row-span-2">
+                <div>
+                  <div className="relative mb-8 flex-shrink-0">
+                    <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
+                      <circle cx="20" cy="24" r="8" fill="#2997FF" />
+                      <circle cx="36" cy="20" r="8" fill="#5AC8FA" />
+                      <circle cx="52" cy="24" r="8" fill="#2997FF" />
+                      <path d="M 12 40 Q 12 36 20 36 Q 28 36 28 40 L 28 48 Q 28 52 20 52 Q 12 52 12 48 Z" fill="#2997FF" />
+                      <path d="M 28 36 Q 28 32 36 32 Q 44 32 44 36 L 44 48 Q 44 52 36 52 Q 28 52 28 48 Z" fill="#5AC8FA" />
+                      <path d="M 44 40 Q 44 36 52 36 Q 60 36 60 40 L 60 48 Q 60 52 52 52 Q 44 52 44 48 Z" fill="#2997FF" />
+                    </svg>
+                    <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
+                      01
+                    </div>
                   </div>
+                  <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
+                    Find people who need what you&apos;ve got
+                  </h3>
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    You already know things other people don&apos;t. You&apos;ve solved problems most haven&apos;t thought about. This module helps you find the people who&apos;ll pay for that knowledge and experience.
+                  </p>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
-                  Find people who need what you&apos;ve got
-                </h3>
-                <p className="text-base sm:text-lg text-gray-700 leading-relaxed flex-1">
-                  You already know things other people don&apos;t. You&apos;ve solved problems most haven&apos;t thought about. This module helps you find the people who&apos;ll pay for that knowledge and experience.
-                </p>
               </div>
 
               {/* Card 2: Build your offer */}
-              <div
-                className="rounded-[28px] p-10 sm:p-16 bg-[#E8F4FF] hover:scale-105 transition-transform duration-300 flex flex-col"
-                style={{
-                  gridColumn: 'span 1',
-                }}
-              >
-                <div className="relative mb-8 sm:mb-12 flex-shrink-0">
+              <div className="rounded-[28px] p-10 sm:p-12 bg-[#E8F4FF] hover:scale-[1.02] transition-transform duration-300 flex flex-col">
+                <div className="relative mb-8 flex-shrink-0">
                   <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
                     <rect x="12" y="18" width="48" height="36" rx="2" stroke="#5AC8FA" strokeWidth="2" fill="none" />
                     <path d="M 12 28 L 36 18 L 60 28" stroke="#5AC8FA" strokeWidth="2" fill="none" />
                     <line x1="36" y1="18" x2="36" y2="54" stroke="#5AC8FA" strokeWidth="2" />
                   </svg>
-                  <div className="absolute top-0 right-0 text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
+                  <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
                     02
                   </div>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
+                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
                   Design an offer that works for your life
                 </h3>
-                <p className="text-base sm:text-lg text-gray-700 leading-relaxed flex-1">
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                   Build something you can deliver on your schedule. Not a 9-to-5 that needs someone else&apos;s office, someone else&apos;s tools, someone else&apos;s permission.
                 </p>
               </div>
 
               {/* Card 3: Make real money */}
-              <div
-                className="rounded-[28px] p-10 sm:p-16 bg-[#FFF8E1] hover:scale-105 transition-transform duration-300 flex flex-col"
-                style={{
-                  gridColumn: 'span 1',
-                }}
-              >
-                <div className="relative mb-8 sm:mb-12 flex-shrink-0">
+              <div className="rounded-[28px] p-10 sm:p-12 bg-[#FFF8E1] hover:scale-[1.02] transition-transform duration-300 flex flex-col">
+                <div className="relative mb-8 flex-shrink-0">
                   <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
                     <path d="M 36 12 L 36 60 M 28 18 L 44 18 Q 44 24 36 24 Q 28 24 28 30 L 44 30" stroke="#c9a800" strokeWidth="2" fill="none" />
                     <polyline points="18,54 28,42 38,50 54,30" stroke="#c9a800" strokeWidth="2" fill="none" />
                     <circle cx="54" cy="30" r="2" fill="#c9a800" />
                   </svg>
-                  <div className="absolute top-0 right-0 text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
+                  <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-black opacity-5 leading-none pointer-events-none">
                     03
                   </div>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
+                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
                   Get the money part right
                 </h3>
-                <p className="text-base sm:text-lg text-gray-700 leading-relaxed flex-1">
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                   Price your work so it actually pays you. Figure out what you need to launch, where to find it, and how to stop leaving money on the table.
                 </p>
               </div>
 
-              {/* Card 4: Launch with confidence - spanning both columns */}
-              <div
-                className="rounded-[28px] p-10 sm:p-16 bg-[#1D1D1F] text-white hover:scale-105 transition-transform duration-300 flex flex-col"
-                style={{
-                  gridColumn: 'span 2',
-                }}
-              >
-                <div className="relative mb-8 sm:mb-12 flex-shrink-0">
+              {/* Card 4: Make your first sale - spans both columns on md+ */}
+              <div className="rounded-[28px] p-10 sm:p-12 bg-[#1D1D1F] text-white hover:scale-[1.02] transition-transform duration-300 flex flex-col md:col-span-2">
+                <div className="relative mb-8 flex-shrink-0">
                   <svg viewBox="0 0 72 72" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
                     <path d="M 36 12 L 42 36 L 36 42 L 30 36 Z" fill="#30D158" />
                     <path d="M 24 48 L 30 36" stroke="#30D158" strokeWidth="2" />
@@ -290,14 +265,14 @@ export default function Home() {
                     <circle cx="52" cy="54" r="4" fill="#30D158" />
                     <line x1="36" y1="42" x2="36" y2="60" stroke="#30D158" strokeWidth="2" />
                   </svg>
-                  <div className="absolute top-0 right-0 text-[10rem] font-black text-white opacity-5 leading-none pointer-events-none">
+                  <div className="absolute top-0 right-0 text-[8rem] sm:text-[10rem] font-black text-white opacity-5 leading-none pointer-events-none">
                     04
                   </div>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight flex-shrink-0">
+                <h3 className="text-2xl sm:text-3xl font-black mb-4 tracking-tight">
                   Make your first sale
                 </h3>
-                <p className="text-base sm:text-lg text-gray-300 leading-relaxed flex-1">
+                <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl">
                   Not a theoretical customer. A real person who pays you real money for something you built. By lesson 24, you&apos;ll have a business, not a business plan.
                 </p>
               </div>
@@ -316,7 +291,7 @@ export default function Home() {
             <div className="mb-16 sm:mb-20 text-center">
               <h2
                 id="modules-heading"
-                className="text-5xl sm:text-6xl font-black text-white tracking-tight mb-4"
+                className="text-4xl sm:text-6xl font-black text-white tracking-tight mb-4"
               >
                 The curriculum
               </h2>
@@ -325,47 +300,29 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Grid: 2 big on top, 4 small on bottom */}
-            <div
-              className="grid gap-6 sm:gap-8"
-              style={{
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              }}
-            >
-              {/* Big cards (first 2 modules) */}
+            {/* Big cards (first 2 modules) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
               {MODULES.slice(0, 2).map((module, idx) => (
-                <div
+                <ModuleCard
                   key={module.slug}
-                  style={{
-                    gridColumn: 'span 1',
-                    minHeight: '440px',
-                  }}
-                >
-                  <ModuleCard
-                    module={module}
-                    size="big"
-                    gradient={MODULE_GRADIENTS[module.slug]}
-                    watermarkNumber={String(idx + 1).padStart(2, '0')}
-                  />
-                </div>
+                  module={module}
+                  size="big"
+                  gradient={MODULE_GRADIENTS[module.slug]}
+                  watermarkNumber={String(idx + 1).padStart(2, '0')}
+                />
               ))}
+            </div>
 
-              {/* Small cards (remaining 4 modules) */}
+            {/* Small cards (remaining 4 modules) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {MODULES.slice(2).map((module, idx) => (
-                <div
+                <ModuleCard
                   key={module.slug}
-                  style={{
-                    gridColumn: 'span 1',
-                    minHeight: '300px',
-                  }}
-                >
-                  <ModuleCard
-                    module={module}
-                    size="small"
-                    gradient={MODULE_GRADIENTS[module.slug]}
-                    watermarkNumber={String(idx + 3).padStart(2, '0')}
-                  />
-                </div>
+                  module={module}
+                  size="small"
+                  gradient={MODULE_GRADIENTS[module.slug]}
+                  watermarkNumber={String(idx + 3).padStart(2, '0')}
+                />
               ))}
             </div>
           </div>
@@ -381,7 +338,7 @@ export default function Home() {
             {/* Heading */}
             <h2
               id="process-heading"
-              className="text-5xl sm:text-6xl font-black text-white tracking-tight text-center mb-16 sm:mb-20"
+              className="text-4xl sm:text-6xl font-black text-white tracking-tight text-center mb-16 sm:mb-20"
             >
               How it works
             </h2>
@@ -510,7 +467,7 @@ export default function Home() {
           </div>
 
           <div className="max-w-3xl mx-auto text-center relative z-10">
-            <blockquote className="text-3xl sm:text-5xl font-black text-white leading-tight tracking-tight">
+            <blockquote className="text-2xl sm:text-5xl font-black text-white leading-tight tracking-tight">
               54% of Canadians with sight loss are employed.{' '}
               <span className="text-gray-500 font-light">
                 The other 46% were told no.
@@ -548,7 +505,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <h2
               id="final-cta-heading"
-              className="text-5xl sm:text-7xl font-black text-white tracking-tight mb-2"
+              className="text-4xl sm:text-7xl font-black text-white tracking-tight mb-2"
             >
               You&apos;ve waited{' '}
               <span
@@ -569,9 +526,9 @@ export default function Home() {
 
             <Link
               href="/auth"
-              className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95 transition-transform text-lg"
+              className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 text-lg"
             >
-              Start the course →
+              Start the course \u2192
             </Link>
           </div>
         </section>

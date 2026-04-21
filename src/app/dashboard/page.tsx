@@ -135,7 +135,7 @@ export default function DashboardPage() {
         <div className="max-w-4xl mx-auto">
           {/* Eyebrow and Title */}
           <div className="mb-8">
-            <p className="text-xs uppercase tracking-widest text-gray-600 font-semibold mb-2">
+            <p className="text-xs uppercase tracking-widest text-gray-500 font-semibold mb-2">
               Your course
             </p>
             <h1 className="text-4xl sm:text-5xl font-black text-white text-balance leading-tight">
@@ -202,9 +202,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
 
-                    {/* Chevron */}
+                    {/* Chevron - proper down arrow that rotates up */}
                     <svg
-                      className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-300 flex-shrink-0 ${
                         isExpanded ? 'rotate-180' : ''
                       }`}
                       fill="none"
@@ -216,7 +216,7 @@ export default function DashboardPage() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                        d="M19 9l-7 7-7-7"
                       />
                     </svg>
                   </button>
@@ -225,7 +225,7 @@ export default function DashboardPage() {
                   {isExpanded && (
                     <div
                       id={`module-content-${module.slug}`}
-                      className="mt-2 space-y-2 pl-0 sm:pl-2"
+                      className="mt-2 space-y-2 pl-0 sm:pl-6"
                     >
                       {module.lessons.map((lesson) => {
                         const isCurrent = lesson.globalNumber === 9;
