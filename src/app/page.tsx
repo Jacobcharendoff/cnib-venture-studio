@@ -87,7 +87,7 @@ export default function Home() {
                 href="/auth"
                 className="px-6 sm:px-8 py-3 sm:py-4 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 w-full sm:w-auto text-center"
               >
-                Start the course \u2192
+                Start the course →
               </Link>
               <Link
                 href="#modules"
@@ -528,7 +528,7 @@ export default function Home() {
               href="/auth"
               className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 text-lg"
             >
-              Start the course \u2192
+              Start the course →
             </Link>
           </div>
         </section>
