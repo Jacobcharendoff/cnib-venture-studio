@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-
-export default function CurriculumRedirect() {
-  redirect("/themes");
+export default function CurriculumPage() {
+  return <div>Coming soon</div>;
 }

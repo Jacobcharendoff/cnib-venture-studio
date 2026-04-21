@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-
-export default function ResourcesRedirect() {
-  redirect("/toolkit");
+export default function ResourcesPage() {
+  return <div>Coming soon</div>;
 }
