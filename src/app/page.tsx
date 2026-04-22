@@ -152,15 +152,15 @@ const FAQ_ITEMS = [
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-b border-white/10">
+    <div className="border-b border-gray-200">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between py-6 text-left text-base sm:text-lg font-semibold text-white hover:text-blue-400 transition-colors"
+        className="w-full flex items-center justify-between py-6 text-left text-base sm:text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors"
         aria-expanded={open}
       >
         <span>{q}</span>
         <span
-          className="text-2xl text-gray-500 ml-4 flex-shrink-0 transition-transform duration-300"
+          className="text-2xl text-gray-400 ml-4 flex-shrink-0 transition-transform duration-300"
           style={{ transform: open ? 'rotate(45deg)' : 'none' }}
           aria-hidden="true"
         >
@@ -171,7 +171,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
         className="overflow-hidden transition-all duration-300"
         style={{ maxHeight: open ? '300px' : '0', opacity: open ? 1 : 0 }}
       >
-        <p className="pb-6 text-gray-400 leading-relaxed text-sm sm:text-base">{a}</p>
+        <p className="pb-6 text-gray-600 leading-relaxed text-sm sm:text-base">{a}</p>
       </div>
     </div>
   );
@@ -185,7 +185,7 @@ export default function Home() {
       <Nav />
 
       <main id="main-content" className="pt-20">
-        {/* ===== HERO ===== */}
+        {/* ===== HERO (DARK) ===== */}
         <section
           className="relative w-full min-h-screen flex flex-col items-center justify-center px-6 py-20 sm:px-8 overflow-hidden"
           aria-labelledby="hero-headline"
@@ -276,7 +276,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== THE STAT ===== */}
+        {/* ===== THE STAT (DARK) ===== */}
         <section className="relative bg-black py-20 sm:py-28 px-6 sm:px-8 overflow-hidden" aria-labelledby="stat-heading">
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <AnimateIn variant="scale-in">
@@ -301,11 +301,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== WHO THIS IS FOR ===== */}
-        <section className="bg-[#111] py-20 sm:py-28 px-6 sm:px-8" aria-labelledby="audience-heading">
+        {/* ===== WHO THIS IS FOR (LIGHT) ===== */}
+        <section className="bg-white py-20 sm:py-28 px-6 sm:px-8" aria-labelledby="audience-heading">
           <div className="max-w-5xl mx-auto">
             <AnimateIn className="mb-12 sm:mb-16 text-center">
-              <h2 id="audience-heading" className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
+              <h2 id="audience-heading" className="text-3xl sm:text-5xl font-black text-gray-900 tracking-tight mb-4">
                 You&apos;re in the right place if...
               </h2>
             </AnimateIn>
@@ -318,23 +318,23 @@ export default function Home() {
                   color: '#2997FF',
                 },
                 {
-                  title: "The job market isn't working",
-                  desc: "You're capable. You're qualified. But the callbacks dry up when sight loss enters the picture. You want income you control, not income that depends on someone else saying yes.",
+                  title: \"The job market isn't working\",
+                  desc: \"You're capable. You're qualified. But the callbacks dry up when sight loss enters the picture. You want income you control, not income that depends on someone else saying yes.\",
                   color: '#BF5AF2',
                 },
                 {
                   title: 'You need flexibility',
-                  desc: "A 9-to-5 doesn't fit your life right now. You want to build something around your schedule, your energy, your terms.",
+                  desc: \"A 9-to-5 doesn't fit your life right now. You want to build something around your schedule, your energy, your terms.\",
                   color: '#30D158',
                 },
               ].map((item, i) => (
                 <AnimateIn key={i} delay={i * 0.12}>
                   <div
-                    className="h-full p-6 sm:p-8 rounded-2xl bg-white/[0.03] transition-all duration-300 hover:-translate-y-1"
+                    className="h-full p-6 sm:p-8 rounded-2xl bg-gray-50 shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
                     style={{ borderLeft: `3px solid ${item.color}` }}
                   >
-                    <h3 className="text-lg font-bold text-white mb-3">{item.title}</h3>
-                    <p className="text-gray-400 leading-relaxed text-sm sm:text-base">{item.desc}</p>
+                    <h3 className="text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
+                    <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{item.desc}</p>
                   </div>
                 </AnimateIn>
               ))}
@@ -342,11 +342,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== WHAT YOU'LL WALK AWAY WITH ===== */}
-        <section className="bg-black py-20 sm:py-28 px-6 sm:px-8" aria-labelledby="outcomes-heading">
+        {/* ===== WHAT YOU'LL WALK AWAY WITH (LIGHT) ===== */}
+        <section className="bg-[#F5F5F7] py-20 sm:py-28 px-6 sm:px-8" aria-labelledby="outcomes-heading">
           <div className="max-w-5xl mx-auto">
             <AnimateIn className="mb-12 sm:mb-16 text-center">
-              <h2 id="outcomes-heading" className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
+              <h2 id="outcomes-heading" className="text-3xl sm:text-5xl font-black text-gray-900 tracking-tight mb-4">
                 After 24 lessons, here&apos;s what you&apos;ll have.
               </h2>
               <p className="text-lg text-gray-500">Not theory. Not certificates. Real things you built yourself.</p>
@@ -375,12 +375,12 @@ export default function Home() {
                 {
                   num: '04',
                   title: 'Your first paying customer',
-                  desc: 'Not hypothetical. Not "potential leads." A real person who paid real money for something you built during this course.',
+                  desc: 'Not hypothetical. Not \"potential leads.\" A real person who paid real money for something you built during this course.',
                   color: '#30D158',
                 },
               ].map((item, i) => (
                 <AnimateIn key={i} delay={i * 0.1}>
-                  <div className="flex gap-5 p-6 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] transition-all duration-300">
+                  <div className="flex gap-5 p-6 rounded-2xl bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
                     <div
                       className="w-12 h-12 rounded-xl flex items-center justify-center text-sm font-black flex-shrink-0"
                       style={{ backgroundColor: `${item.color}15`, color: item.color }}
@@ -388,8 +388,8 @@ export default function Home() {
                       {item.num}
                     </div>
                     <div>
-                      <h3 className="text-white font-bold mb-2">{item.title}</h3>
-                      <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                      <h3 className="text-gray-900 font-bold mb-2">{item.title}</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 </AnimateIn>
@@ -399,20 +399,20 @@ export default function Home() {
             <AnimateIn variant="fade-in" delay={0.3}>
               <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-gray-500">
                 <span>24 lessons</span>
-                <span className="w-1 h-1 rounded-full bg-gray-700" />
+                <span className="w-1 h-1 rounded-full bg-gray-300" />
                 <span>6 modules</span>
-                <span className="w-1 h-1 rounded-full bg-gray-700" />
+                <span className="w-1 h-1 rounded-full bg-gray-300" />
                 <span>42 downloadable templates</span>
-                <span className="w-1 h-1 rounded-full bg-gray-700" />
+                <span className="w-1 h-1 rounded-full bg-gray-300" />
                 <span>~2 hours/week</span>
-                <span className="w-1 h-1 rounded-full bg-gray-700" />
+                <span className="w-1 h-1 rounded-full bg-gray-300" />
                 <span>6 weeks total</span>
               </div>
             </AnimateIn>
           </div>
         </section>
 
-        {/* ===== HOW IT WORKS ===== */}
+        {/* ===== HOW IT WORKS (LIGHT) ===== */}
         <section className="bg-white text-black py-20 sm:py-28 px-6 sm:px-8" aria-labelledby="process-heading">
           <div className="max-w-5xl mx-auto">
             <AnimateIn className="text-center mb-16 sm:mb-20">
@@ -439,7 +439,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== CURRICULUM ===== */}
+        {/* ===== CURRICULUM (DARK) ===== */}
         <section id="curriculum" className="bg-black py-20 sm:py-28 px-6 sm:px-8" aria-labelledby="curriculum-heading">
           <div className="max-w-5xl mx-auto">
             <AnimateIn className="mb-12 sm:mb-16 text-center">
@@ -489,7 +489,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== DESIGNED FOR YOU ===== */}
+        {/* ===== DESIGNED FOR YOU (DARK) ===== */}
         <section className="bg-[#111] py-20 sm:py-28 px-6 sm:px-8" aria-labelledby="design-heading">
           <div className="max-w-5xl mx-auto">
             <AnimateIn className="mb-12 sm:mb-16 text-center">
@@ -536,7 +536,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== LESSON PREVIEW ===== */}
+        {/* ===== LESSON PREVIEW (DARK) ===== */}
         <section
           className="bg-[#0A0A0A] py-20 sm:py-28 px-6 sm:px-8 border-t border-b border-white/5"
           aria-labelledby="preview-heading"
@@ -595,11 +595,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== FAQ ===== */}
-        <section className="bg-black py-20 sm:py-28 px-6 sm:px-8" aria-labelledby="faq-heading">
+        {/* ===== FAQ (LIGHT) ===== */}
+        <section className="bg-white py-20 sm:py-28 px-6 sm:px-8" aria-labelledby="faq-heading">
           <div className="max-w-3xl mx-auto">
             <AnimateIn className="mb-12 text-center">
-              <h2 id="faq-heading" className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+              <h2 id="faq-heading" className="text-3xl sm:text-5xl font-black text-gray-900 tracking-tight">
                 Common questions
               </h2>
             </AnimateIn>
@@ -611,7 +611,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== FINAL CTA ===== */}
+        {/* ===== FINAL CTA (DARK) ===== */}
         <section className="relative bg-black py-20 sm:py-28 px-6 sm:px-8 overflow-hidden" aria-labelledby="final-cta-heading">
           <div
             className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[800px] h-[800px] rounded-full pointer-events-none"
