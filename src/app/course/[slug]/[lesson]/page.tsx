@@ -8,13 +8,44 @@ import { MODULES } from '@/lib/course-data';
 import { MODULE_COLORS, MODULE_GRADIENTS } from '@/lib/types';
 import { getLessonContent, isWorkshopLesson, getWorkshopData } from '@/lib/lesson-content';
 import type { Module as RichModule, RealWorldExample } from '@/data/modules';
+import { useTheme } from '@/lib/use-theme';
 
-function ExampleCard({ example, index }: { example: RealWorldExample; index: number }) {
-  const colors = {
-    bad: { bg: 'bg-red-950/40', border: 'border-red-800/40', label: 'bg-red-600', labelText: 'Common Mistake' },
-    good: { bg: 'bg-yellow-950/30', border: 'border-yellow-700/30', label: 'bg-yellow-600', labelText: 'Getting Warmer' },
-    great: { bg: 'bg-green-950/30', border: 'border-green-700/30', label: 'bg-green-600', labelText: 'This Is It' },
-  };
+function ThemeToggle({ isDark, toggle }: { isDark: boolean; toggle: () => void }) {
+  return (
+    <button
+      onClick={toggle}
+      className={`p-2 rounded-lg transition-colors ${
+        isDark
+          ? 'bg-gray-800 hover:bg-gray-700 text-gray-300'
+          : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+      }`}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      {isDark ? (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      ) : (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
+function ExampleCard({ example, index, isDark }: { example: RealWorldExample; index: number; isDark: boolean }) {
+  const colors = isDark
+    ? {
+        bad: { bg: 'bg-red-950/40', border: 'border-red-800/40', label: 'bg-red-600', labelText: 'Common Mistake' },
+        good: { bg: 'bg-yellow-950/30', border: 'border-yellow-700/30', label: 'bg-yellow-600', labelText: 'Getting Warmer' },
+        great: { bg: 'bg-green-950/30', border: 'border-green-700/30', label: 'bg-green-600', labelText: 'This Is It' },
+      }
+    : {
+        bad: { bg: 'bg-red-50', border: 'border-red-200', label: 'bg-red-600', labelText: 'Common Mistake' },
+        good: { bg: 'bg-amber-50', border: 'border-amber-200', label: 'bg-amber-600', labelText: 'Getting Warmer' },
+        great: { bg: 'bg-green-50', border: 'border-green-200', label: 'bg-green-600', labelText: 'This Is It' },
+      };
   const style = colors[example.label];
 
   return (
@@ -22,42 +53,42 @@ function ExampleCard({ example, index }: { example: RealWorldExample; index: num
       <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider text-white mb-3 ${style.label}`}>
         {style.labelText}
       </span>
-      <p className="text-white font-semibold text-base mb-2">{example.title.replace(/\\"/g, '"')}</p>
-      <p className="text-gray-400 text-sm leading-relaxed">{example.description}</p>
+      <p className={`font-semibold text-base mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>{example.title.replace(/\\"/g, '"')}</p>
+      <p className={`text-sm leading-relaxed ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{example.description}</p>
     </div>
   );
 }
 
-function RichContent({ content, moduleColor }: { content: RichModule; moduleColor: string }) {
+function RichContent({ content, moduleColor, isDark }: { content: RichModule; moduleColor: string; isDark: boolean }) {
   return (
     <div className="space-y-10">
       {/* Subtitle */}
-      <p className="text-xl sm:text-2xl text-gray-300 font-medium leading-relaxed italic">
+      <p className={`text-xl sm:text-2xl font-medium leading-relaxed italic ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
         {content.subtitle}
       </p>
 
       {/* What You Will Learn */}
-      <div className="bg-[#1a1a1c] rounded-xl p-6 border border-gray-800">
-        <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-3">What You&apos;ll Walk Away With</h2>
-        <p className="text-gray-200 text-lg leading-relaxed">{content.outcome}</p>
+      <div className={`rounded-xl p-6 border ${isDark ? 'bg-[#1a1a1c] border-gray-800' : 'bg-blue-50 border-blue-200'}`}>
+        <h2 className={`text-sm font-bold uppercase tracking-widest mb-3 ${isDark ? 'text-gray-500' : 'text-blue-600'}`}>What You&apos;ll Walk Away With</h2>
+        <p className={`text-lg leading-relaxed ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{content.outcome}</p>
       </div>
 
       {/* Main Description */}
-      <div className="text-gray-300 text-lg leading-relaxed whitespace-pre-line">
+      <div className={`text-lg leading-relaxed whitespace-pre-line ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
         {content.description}
       </div>
 
       {/* Frameworks */}
       {content.frameworks && content.frameworks.length > 0 && (
         <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">Frameworks &amp; Models</h2>
+          <h2 className={`text-sm font-bold uppercase tracking-widest mb-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Frameworks &amp; Models</h2>
           <div className="space-y-3">
             {content.frameworks.map((fw, i) => (
-              <div key={i} className="flex items-start gap-3 bg-[#1a1a1c] rounded-lg p-4 border border-gray-800/50">
+              <div key={i} className={`flex items-start gap-3 rounded-lg p-4 border ${isDark ? 'bg-[#1a1a1c] border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}>
                 <span className={`flex-shrink-0 w-7 h-7 rounded-full bg-gradient-to-br ${moduleColor} flex items-center justify-center text-xs font-bold text-black`}>
                   {i + 1}
                 </span>
-                <p className="text-gray-300 text-base">{fw}</p>
+                <p className={`text-base ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{fw}</p>
               </div>
             ))}
           </div>
@@ -66,20 +97,20 @@ function RichContent({ content, moduleColor }: { content: RichModule; moduleColo
 
       {/* Case Study */}
       {content.caseStudy && (
-        <div className="relative rounded-xl p-6 sm:p-8 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] border border-blue-900/30">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-blue-400 mb-2">Case Study</h2>
-          <p className="text-white text-xl font-bold mb-3">{content.caseStudy.company}</p>
-          <p className="text-gray-300 text-base leading-relaxed">{content.caseStudy.insight}</p>
+        <div className={`relative rounded-xl p-6 sm:p-8 border ${isDark ? 'bg-gradient-to-br from-[#1a1a2e] to-[#16213e] border-blue-900/30' : 'bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200'}`}>
+          <h2 className={`text-sm font-bold uppercase tracking-widest mb-2 ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>Case Study</h2>
+          <p className={`text-xl font-bold mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>{content.caseStudy.company}</p>
+          <p className={`text-base leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{content.caseStudy.insight}</p>
         </div>
       )}
 
       {/* Real World Examples */}
       {content.realWorldExamples && content.realWorldExamples.length > 0 && (
         <div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">Real World Examples</h2>
+          <h2 className={`text-sm font-bold uppercase tracking-widest mb-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Real World Examples</h2>
           <div className="space-y-4">
             {content.realWorldExamples.map((ex, i) => (
-              <ExampleCard key={i} example={ex} index={i} />
+              <ExampleCard key={i} example={ex} index={i} isDark={isDark} />
             ))}
           </div>
         </div>
@@ -97,16 +128,16 @@ function RichContent({ content, moduleColor }: { content: RichModule; moduleColo
 
       {/* Assignment */}
       {content.assignment && (
-        <div className="bg-[#1a1a1c] rounded-xl p-6 sm:p-8 border border-gray-800">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-2">Your Assignment</h2>
-          <p className="text-gray-200 text-base leading-relaxed">{content.assignment}</p>
+        <div className={`rounded-xl p-6 sm:p-8 border ${isDark ? 'bg-[#1a1a1c] border-gray-800' : 'bg-white border-gray-200 shadow-sm'}`}>
+          <h2 className={`text-sm font-bold uppercase tracking-widest mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Your Assignment</h2>
+          <p className={`text-base leading-relaxed ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>{content.assignment}</p>
           {content.interactiveElement && (
-            <div className="mt-4 p-4 rounded-lg bg-gray-900/50 border border-gray-700/50">
-              <p className="text-sm font-semibold text-gray-400">
+            <div className={`mt-4 p-4 rounded-lg border ${isDark ? 'bg-gray-900/50 border-gray-700/50' : 'bg-gray-50 border-gray-200'}`}>
+              <p className={`text-sm font-semibold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
                 <span className="mr-2" aria-hidden="true">&#9881;</span>
                 Interactive: {content.interactiveElement.title}
               </p>
-              <p className="text-sm text-gray-500 mt-1">{content.interactiveElement.description}</p>
+              <p className={`text-sm mt-1 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{content.interactiveElement.description}</p>
             </div>
           )}
         </div>
@@ -116,11 +147,11 @@ function RichContent({ content, moduleColor }: { content: RichModule; moduleColo
       {content.stats && content.stats.length > 0 && (
         <div className="grid grid-cols-3 gap-4">
           {content.stats.map((stat, i) => (
-            <div key={i} className="text-center p-4 bg-[#1a1a1c] rounded-xl border border-gray-800/50">
+            <div key={i} className={`text-center p-4 rounded-xl border ${isDark ? 'bg-[#1a1a1c] border-gray-800/50' : 'bg-white border-gray-200 shadow-sm'}`}>
               <p className={`text-2xl sm:text-3xl font-black bg-gradient-to-r ${moduleColor} bg-clip-text text-transparent`}>
                 {stat.value}
               </p>
-              <p className="text-xs sm:text-sm text-gray-500 mt-1">{stat.label}</p>
+              <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{stat.label}</p>
             </div>
           ))}
         </div>
@@ -129,13 +160,13 @@ function RichContent({ content, moduleColor }: { content: RichModule; moduleColo
   );
 }
 
-function WorkshopContent({ globalNumber, moduleGradient }: { globalNumber: number; moduleGradient: string }) {
+function WorkshopContent({ globalNumber, moduleGradient, isDark }: { globalNumber: number; moduleGradient: string; isDark: boolean }) {
   const data = getWorkshopData(globalNumber);
   if (!data) return null;
 
   return (
     <div className="space-y-10">
-      <p className="text-xl sm:text-2xl text-gray-300 font-medium leading-relaxed italic">
+      <p className={`text-xl sm:text-2xl font-medium leading-relaxed italic ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
         Put everything together. This is where the learning becomes yours.
       </p>
 
@@ -150,16 +181,16 @@ function WorkshopContent({ globalNumber, moduleGradient }: { globalNumber: numbe
 
       {/* Review section for each module in this phase */}
       <div>
-        <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">Review &amp; Refine</h2>
+        <h2 className={`text-sm font-bold uppercase tracking-widest mb-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Review &amp; Refine</h2>
         <div className="space-y-4">
           {data.modules.map((mod, i) => (
-            <div key={mod.id} className="bg-[#1a1a1c] rounded-xl p-6 border border-gray-800">
-              <p className="text-white font-bold text-lg mb-2">{mod.title}</p>
-              <p className="text-gray-400 text-sm mb-3">{mod.keyTakeaway}</p>
+            <div key={mod.id} className={`rounded-xl p-6 border ${isDark ? 'bg-[#1a1a1c] border-gray-800' : 'bg-white border-gray-200 shadow-sm'}`}>
+              <p className={`font-bold text-lg mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>{mod.title}</p>
+              <p className={`text-sm mb-3 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{mod.keyTakeaway}</p>
               {mod.assignment && (
-                <div className="p-3 rounded-lg bg-gray-900/50 border border-gray-700/50">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">Assignment to Complete</p>
-                  <p className="text-gray-300 text-sm">{mod.assignment}</p>
+                <div className={`p-3 rounded-lg border ${isDark ? 'bg-gray-900/50 border-gray-700/50' : 'bg-gray-50 border-gray-200'}`}>
+                  <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Assignment to Complete</p>
+                  <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{mod.assignment}</p>
                 </div>
               )}
             </div>
@@ -167,16 +198,16 @@ function WorkshopContent({ globalNumber, moduleGradient }: { globalNumber: numbe
         </div>
       </div>
 
-      <div className="bg-[#1a1a1c] rounded-xl p-6 sm:p-8 border border-gray-800">
-        <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-3">Workshop Checklist</h2>
+      <div className={`rounded-xl p-6 sm:p-8 border ${isDark ? 'bg-[#1a1a1c] border-gray-800' : 'bg-white border-gray-200 shadow-sm'}`}>
+        <h2 className={`text-sm font-bold uppercase tracking-widest mb-3 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Workshop Checklist</h2>
         <div className="space-y-3">
           {data.modules.map((mod) => (
             <label key={mod.id} className="flex items-start gap-3 cursor-pointer group">
               <input
                 type="checkbox"
-                className="mt-1 w-4 h-4 rounded border-gray-600 bg-gray-900 text-blue-500 focus:ring-blue-500 focus:ring-offset-0"
+                className={`mt-1 w-4 h-4 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 ${isDark ? 'border-gray-600 bg-gray-900' : 'border-gray-300 bg-white'}`}
               />
-              <span className="text-gray-300 text-sm group-hover:text-white transition-colors">
+              <span className={`text-sm transition-colors ${isDark ? 'text-gray-300 group-hover:text-white' : 'text-gray-700 group-hover:text-gray-900'}`}>
                 Completed: {mod.title} assignment
               </span>
             </label>
@@ -184,18 +215,18 @@ function WorkshopContent({ globalNumber, moduleGradient }: { globalNumber: numbe
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
               type="checkbox"
-              className="mt-1 w-4 h-4 rounded border-gray-600 bg-gray-900 text-blue-500 focus:ring-blue-500 focus:ring-offset-0"
+              className={`mt-1 w-4 h-4 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 ${isDark ? 'border-gray-600 bg-gray-900' : 'border-gray-300 bg-white'}`}
             />
-            <span className="text-gray-300 text-sm group-hover:text-white transition-colors">
+            <span className={`text-sm transition-colors ${isDark ? 'text-gray-300 group-hover:text-white' : 'text-gray-700 group-hover:text-gray-900'}`}>
               Reviewed and refined all deliverables from this phase
             </span>
           </label>
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
               type="checkbox"
-              className="mt-1 w-4 h-4 rounded border-gray-600 bg-gray-900 text-blue-500 focus:ring-blue-500 focus:ring-offset-0"
+              className={`mt-1 w-4 h-4 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 ${isDark ? 'border-gray-600 bg-gray-900' : 'border-gray-300 bg-white'}`}
             />
-            <span className="text-gray-300 text-sm group-hover:text-white transition-colors">
+            <span className={`text-sm transition-colors ${isDark ? 'text-gray-300 group-hover:text-white' : 'text-gray-700 group-hover:text-gray-900'}`}>
               Ready to move to the next phase
             </span>
           </label>
@@ -213,16 +244,17 @@ export default function LessonPage() {
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { isDark, toggle } = useTheme('light');
 
   const currentModule = MODULES.find((m) => m.slug === moduleSlug);
   const lesson = currentModule?.lessons.find((l) => l.slug === lessonSlug);
 
   if (!currentModule || !lesson) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center px-4">
+      <div className={`min-h-screen flex items-center justify-center px-4 ${isDark ? 'bg-black' : 'bg-[#F5F5F7]'}`}>
         <div className="text-center">
-          <h1 className="text-2xl font-black text-white mb-4">Lesson Not Found</h1>
-          <p className="text-gray-400 mb-6">The lesson you&apos;re looking for doesn&apos;t exist.</p>
+          <h1 className={`text-2xl font-black mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Lesson Not Found</h1>
+          <p className={`mb-6 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>The lesson you&apos;re looking for doesn&apos;t exist.</p>
           <Link
             href="/dashboard"
             className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
@@ -261,7 +293,7 @@ export default function LessonPage() {
   return (
     <>
       <Nav />
-      <main id="main-content" className="min-h-screen bg-black pt-20">
+      <main id="main-content" className={`min-h-screen pt-20 transition-colors duration-300 ${isDark ? 'bg-black' : 'bg-[#FAFAFA]'}`}>
         <div className="flex h-full">
           {/* Mobile Menu Button */}
           <button
@@ -276,12 +308,14 @@ export default function LessonPage() {
 
           {/* Sidebar */}
           <aside
-            className={`fixed lg:relative left-0 top-0 w-64 h-screen bg-[#0A0A0A] border-r border-gray-900 z-30 overflow-y-auto transition-transform duration-300 ${
+            className={`fixed lg:relative left-0 top-0 w-64 h-screen border-r z-30 overflow-y-auto transition-all duration-300 ${
               sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-            } lg:translate-x-0`}
+            } lg:translate-x-0 ${
+              isDark ? 'bg-[#0A0A0A] border-gray-900' : 'bg-white border-gray-200'
+            }`}
           >
             <div className="p-6 pt-24 lg:pt-6">
-              <h2 className="text-xs uppercase font-bold text-gray-500 tracking-widest mb-6">
+              <h2 className={`text-xs uppercase font-bold tracking-widest mb-6 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
                 Course Modules
               </h2>
               <div className="space-y-6">
@@ -290,7 +324,7 @@ export default function LessonPage() {
                   const mColor = MODULE_COLORS[m.slug];
                   return (
                     <div key={m.slug}>
-                      <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 ${isCurrentModule ? mColor.className : 'text-gray-600'}`}>
+                      <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 ${isCurrentModule ? mColor.className : isDark ? 'text-gray-600' : 'text-gray-400'}`}>
                         {m.title}
                       </h3>
                       <div className="space-y-2">
@@ -302,8 +336,10 @@ export default function LessonPage() {
                               onClick={() => { handleNavigate(m.slug, l.slug); setSidebarOpen(false); }}
                               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
                                 isCurrentLesson
-                                  ? `${mColor.className} font-semibold bg-gray-900 bg-opacity-50`
-                                  : 'text-gray-400 hover:text-gray-200'
+                                  ? `${mColor.className} font-semibold ${isDark ? 'bg-gray-900 bg-opacity-50' : 'bg-gray-100'}`
+                                  : isDark
+                                    ? 'text-gray-400 hover:text-gray-200'
+                                    : 'text-gray-500 hover:text-gray-900'
                               }`}
                               aria-current={isCurrentLesson ? 'page' : undefined}
                             >
@@ -331,50 +367,59 @@ export default function LessonPage() {
           {/* Main Content */}
           <div className="flex-1 w-full">
             <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-              {/* Breadcrumb */}
-              <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb">
-                <Link href="/dashboard" className="hover:text-gray-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded px-1 py-0.5">
-                  Dashboard
-                </Link>
-                <span aria-hidden="true">/</span>
-                <span className={moduleColor.className}>{currentModule.title}</span>
-                <span aria-hidden="true">/</span>
-                <span className="text-gray-400">{lesson.title}</span>
-              </nav>
+              {/* Breadcrumb + Theme Toggle */}
+              <div className="flex items-center justify-between mb-6">
+                <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
+                  <Link href="/dashboard" className={`hover:text-gray-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded px-1 py-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                    Dashboard
+                  </Link>
+                  <span className={isDark ? 'text-gray-500' : 'text-gray-300'} aria-hidden="true">/</span>
+                  <span className={moduleColor.className}>{currentModule.title}</span>
+                  <span className={isDark ? 'text-gray-500' : 'text-gray-300'} aria-hidden="true">/</span>
+                  <span className={isDark ? 'text-gray-400' : 'text-gray-500'}>{lesson.title}</span>
+                </nav>
+                <ThemeToggle isDark={isDark} toggle={toggle} />
+              </div>
 
               {/* Lesson Header */}
               <div className="mb-10">
                 <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 bg-gradient-to-r ${moduleGradient} text-black`}>
                   {isWorkshop ? 'Workshop' : `Lesson ${lesson.globalNumber}`}
                 </div>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white text-balance leading-tight mb-3">
+                <h1 className={`text-3xl sm:text-4xl lg:text-5xl font-black text-balance leading-tight mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                   {richContent ? richContent.title : lesson.title}
                 </h1>
-                <p className="text-gray-500 text-base">
-                  Estimated time: <span className="font-semibold text-gray-400">{lesson.estimatedMinutes} minutes</span>
+                <p className={`text-base ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
+                  Estimated time: <span className={`font-semibold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{lesson.estimatedMinutes} minutes</span>
                 </p>
               </div>
 
               {/* Content Area */}
               <div className="mb-16">
                 {isWorkshop ? (
-                  <WorkshopContent globalNumber={lesson.globalNumber} moduleGradient={moduleGradient} />
+                  <WorkshopContent globalNumber={lesson.globalNumber} moduleGradient={moduleGradient} isDark={isDark} />
                 ) : richContent ? (
-                  <RichContent content={richContent} moduleColor={moduleGradient} />
+                  <RichContent content={richContent} moduleColor={moduleGradient} isDark={isDark} />
                 ) : (
-                  <div className="text-gray-400 text-lg">
+                  <div className={`text-lg ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                     <p>Content coming soon.</p>
                   </div>
                 )}
               </div>
 
               {/* Bottom Bar */}
-              <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center justify-between sticky bottom-0 bg-black bg-opacity-95 sm:bg-transparent sm:relative -mx-4 sm:mx-0 px-4 sm:px-0 -mb-8 sm:mb-0 pb-4 sm:pb-0">
+              <div className={`border-t pt-8 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center justify-between sticky bottom-0 sm:relative -mx-4 sm:mx-0 px-4 sm:px-0 -mb-8 sm:mb-0 pb-4 sm:pb-0 ${
+                isDark
+                  ? 'border-gray-800 bg-black bg-opacity-95 sm:bg-transparent'
+                  : 'border-gray-200 bg-[#FAFAFA] bg-opacity-95 sm:bg-transparent'
+              }`}>
                 <div>
                   {previousLesson ? (
                     <button
                       onClick={() => handleNavigate(previousLesson.moduleSlug, previousLesson.slug)}
-                      className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded"
+                      className={`flex items-center gap-2 px-4 py-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded ${
+                        isDark ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-gray-900'
+                      }`}
                       aria-label="Previous lesson"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -389,7 +434,9 @@ export default function LessonPage() {
                   onClick={handleMarkComplete}
                   className={`px-6 py-3 sm:py-2 rounded-lg font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 ${
                     isCompleted
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      ? isDark
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
                       : 'bg-launch text-black hover:bg-opacity-90'
                   }`}
                   aria-pressed={isCompleted}
@@ -401,7 +448,9 @@ export default function LessonPage() {
                   {nextLesson ? (
                     <button
                       onClick={() => handleNavigate(nextLesson.moduleSlug, nextLesson.slug)}
-                      className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded"
+                      className={`flex items-center gap-2 px-4 py-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded ${
+                        isDark ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-gray-900'
+                      }`}
                       aria-label="Next lesson"
                     >
                       <span className="hidden sm:inline">Next</span>
@@ -412,7 +461,9 @@ export default function LessonPage() {
                   ) : (
                     <Link
                       href="/dashboard"
-                      className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded"
+                      className={`flex items-center gap-2 px-4 py-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded ${
+                        isDark ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-gray-900'
+                      }`}
                       aria-label="Back to dashboard"
                     >
                       <span className="hidden sm:inline">Dashboard</span>

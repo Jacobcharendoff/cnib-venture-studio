@@ -7,6 +7,7 @@ import Nav from '@/components/Nav';
 import { MODULES, COURSE } from '@/lib/course-data';
 import { MODULE_COLORS, MODULE_GRADIENTS } from '@/lib/types';
 import { createClient } from '@/lib/supabase';
+import { useTheme } from '@/lib/use-theme';
 
 interface ModuleProgressState {
   status: 'locked' | 'available' | 'in_progress' | 'completed';
@@ -23,11 +24,36 @@ const DEFAULT_PROGRESS: Record<string, ModuleProgressState> = {
   launch: { status: 'locked', lessonsCompleted: 0 },
 };
 
+function ThemeToggle({ isDark, toggle }: { isDark: boolean; toggle: () => void }) {
+  return (
+    <button
+      onClick={toggle}
+      className={`p-2 rounded-lg transition-colors ${
+        isDark
+          ? 'bg-gray-800 hover:bg-gray-700 text-gray-300'
+          : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+      }`}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      {isDark ? (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      ) : (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
 export default function DashboardPage() {
   const [expandedModule, setExpandedModule] = useState<string | null>('discover');
   const [user, setUser] = useState<any>(null);
   const [authChecked, setAuthChecked] = useState(false);
   const router = useRouter();
+  const { isDark, toggle } = useTheme('light');
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -70,11 +96,11 @@ export default function DashboardPage() {
           </div>
         );
       case 'in_progress':
-        return <div className="w-3 h-3 rounded-full bg-discover ring-2 ring-offset-2 ring-offset-black ring-discover" aria-label="Module in progress" />;
+        return <div className={`w-3 h-3 rounded-full bg-discover ring-2 ring-offset-2 ${isDark ? 'ring-offset-black' : 'ring-offset-white'} ring-discover`} aria-label="Module in progress" />;
       case 'available':
         return <div className="w-3 h-3 rounded-full bg-blue-500" aria-label="Module available" />;
       case 'locked':
-        return <div className="w-3 h-3 rounded-full bg-gray-700" aria-label="Module locked" />;
+        return <div className={`w-3 h-3 rounded-full ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`} aria-label="Module locked" />;
     }
   };
 
@@ -89,7 +115,7 @@ export default function DashboardPage() {
         </div>
       );
     }
-    return <div className="w-2.5 h-2.5 rounded-full border-2 border-gray-600" aria-label="Lesson not started" />;
+    return <div className={`w-2.5 h-2.5 rounded-full border-2 ${isDark ? 'border-gray-600' : 'border-gray-300'}`} aria-label="Lesson not started" />;
   };
 
   const getModuleStatusText = (status: ModuleProgressState['status'], slug: string) => {
@@ -107,8 +133,8 @@ export default function DashboardPage() {
     return (
       <>
         <Nav />
-        <main id="main-content" className="min-h-screen bg-black pt-24 pb-16 px-4 sm:px-6 flex items-center justify-center">
-          <div className="text-gray-500 text-lg">Loading...</div>
+        <main id="main-content" className={`min-h-screen pt-24 pb-16 px-4 sm:px-6 flex items-center justify-center ${isDark ? 'bg-black' : 'bg-[#F5F5F7]'}`}>
+          <div className={`text-lg ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Loading...</div>
         </main>
       </>
     );
@@ -121,27 +147,30 @@ export default function DashboardPage() {
   return (
     <>
       <Nav />
-      <main id="main-content" className="min-h-screen bg-black pt-24 pb-16 px-4 sm:px-6">
+      <main id="main-content" className={`min-h-screen pt-24 pb-16 px-4 sm:px-6 transition-colors duration-300 ${isDark ? 'bg-black' : 'bg-[#F5F5F7]'}`}>
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="mb-10">
-            <p className="text-xs uppercase tracking-widest text-gray-500 font-semibold mb-2">
-              Welcome back, {displayName}
-            </p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white text-balance leading-tight mb-3">
-              {COURSE.title}
-            </h1>
-            <p className="text-gray-500 text-base sm:text-lg">
-              {COURSE.totalModules} modules, {COURSE.totalLessons} lessons, ~{COURSE.estimatedHours} hours of content
-            </p>
+          <div className="mb-10 flex items-start justify-between">
+            <div>
+              <p className={`text-xs uppercase tracking-widest font-semibold mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                Welcome back, {displayName}
+              </p>
+              <h1 className={`text-3xl sm:text-4xl lg:text-5xl font-black text-balance leading-tight mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                {COURSE.title}
+              </h1>
+              <p className={`text-base sm:text-lg ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
+                {COURSE.totalModules} modules, {COURSE.totalLessons} lessons, ~{COURSE.estimatedHours} hours of content
+              </p>
+            </div>
+            <ThemeToggle isDark={isDark} toggle={toggle} />
           </div>
 
           {/* Progress Card */}
-          <div className="bg-[#1D1D1F] rounded-2xl p-6 sm:p-8 mb-10">
+          <div className={`rounded-2xl p-6 sm:p-8 mb-10 ${isDark ? 'bg-[#1D1D1F]' : 'bg-white border border-gray-200 shadow-sm'}`}>
             <div className="flex items-end justify-between mb-4">
               <div>
-                <h2 className="text-sm font-semibold text-gray-400 mb-1">Your Progress</h2>
-                <p className="text-xs text-gray-600">
+                <h2 className={`text-sm font-semibold mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Your Progress</h2>
+                <p className={`text-xs ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>
                   {completedCount} of {totalLessons} lessons completed
                 </p>
               </div>
@@ -149,7 +178,7 @@ export default function DashboardPage() {
                 {progressPercent}%
               </p>
             </div>
-            <div className="h-2 bg-[#2a2a2a] rounded-full overflow-hidden">
+            <div className={`h-2 rounded-full overflow-hidden ${isDark ? 'bg-[#2a2a2a]' : 'bg-gray-200'}`}>
               <div
                 className="h-full bg-gradient-to-r from-discover via-design to-money rounded-full transition-all duration-500"
                 style={{ width: `${Math.max(progressPercent, 2)}%` }}
@@ -164,9 +193,9 @@ export default function DashboardPage() {
 
           {/* Getting Started Tip (show when 0% progress) */}
           {progressPercent === 0 && (
-            <div className="mb-8 p-5 rounded-xl bg-blue-950/30 border border-blue-800/30">
-              <p className="text-blue-300 text-sm font-semibold mb-1">Ready to begin?</p>
-              <p className="text-gray-400 text-sm">
+            <div className={`mb-8 p-5 rounded-xl ${isDark ? 'bg-blue-950/30 border border-blue-800/30' : 'bg-blue-50 border border-blue-200'}`}>
+              <p className={`text-sm font-semibold mb-1 ${isDark ? 'text-blue-300' : 'text-blue-700'}`}>Ready to begin?</p>
+              <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                 Start with the Discover module below. Each lesson takes about 15 minutes. Work at your own pace.
               </p>
             </div>
@@ -186,7 +215,11 @@ export default function DashboardPage() {
                 <div key={module.slug}>
                   <button
                     onClick={() => toggleModule(module.slug)}
-                    className="w-full bg-[#1D1D1F] rounded-xl px-5 sm:px-6 py-4 sm:py-5 hover:bg-[#2a2a2c] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 flex items-center justify-between gap-4"
+                    className={`w-full rounded-xl px-5 sm:px-6 py-4 sm:py-5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 flex items-center justify-between gap-4 ${
+                      isDark
+                        ? 'bg-[#1D1D1F] hover:bg-[#2a2a2c]'
+                        : 'bg-white border border-gray-200 shadow-sm hover:bg-gray-50'
+                    }`}
                     aria-expanded={isExpanded}
                     aria-controls={`module-content-${module.slug}`}
                   >
@@ -198,15 +231,15 @@ export default function DashboardPage() {
                             {module.title}
                           </h3>
                         </div>
-                        <p className="text-sm text-gray-500 truncate">{module.subtitle}</p>
+                        <p className={`text-sm truncate ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{module.subtitle}</p>
                         <div className="flex items-center gap-3 mt-1">
-                          <span className="text-xs text-gray-600">{module.lessons.length} lessons</span>
-                          <span className="text-xs text-gray-700" aria-hidden="true">|</span>
-                          <span className="text-xs text-gray-600">{totalModuleTime} min</span>
+                          <span className={`text-xs ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>{module.lessons.length} lessons</span>
+                          <span className={`text-xs ${isDark ? 'text-gray-700' : 'text-gray-300'}`} aria-hidden="true">|</span>
+                          <span className={`text-xs ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>{totalModuleTime} min</span>
                           {!isLocked && (
                             <>
-                              <span className="text-xs text-gray-700" aria-hidden="true">|</span>
-                              <span className="text-xs text-gray-500">{getModuleStatusText(progress.status, module.slug)}</span>
+                              <span className={`text-xs ${isDark ? 'text-gray-700' : 'text-gray-300'}`} aria-hidden="true">|</span>
+                              <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{getModuleStatusText(progress.status, module.slug)}</span>
                             </>
                           )}
                         </div>
@@ -214,12 +247,12 @@ export default function DashboardPage() {
                     </div>
 
                     {isLocked ? (
-                      <svg className="w-5 h-5 text-gray-700 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <svg className={`w-5 h-5 flex-shrink-0 ${isDark ? 'text-gray-700' : 'text-gray-300'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
                     ) : (
                       <svg
-                        className={`w-5 h-5 text-gray-500 transition-transform duration-300 flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}
+                        className={`w-5 h-5 transition-transform duration-300 flex-shrink-0 ${isDark ? 'text-gray-500' : 'text-gray-400'} ${isExpanded ? 'rotate-180' : ''}`}
                         fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -235,20 +268,28 @@ export default function DashboardPage() {
                           href={!isLocked ? `/course/${module.slug}/${lesson.slug}` : '#'}
                           className={`flex items-center gap-3 p-4 rounded-lg transition-colors ${
                             isLocked
-                              ? 'bg-gray-900 bg-opacity-40 cursor-not-allowed'
-                              : 'bg-gray-900 hover:bg-[#2a2a2c] active:bg-gray-800'
+                              ? isDark
+                                ? 'bg-gray-900 bg-opacity-40 cursor-not-allowed'
+                                : 'bg-gray-100 cursor-not-allowed'
+                              : isDark
+                                ? 'bg-gray-900 hover:bg-[#2a2a2c] active:bg-gray-800'
+                                : 'bg-gray-50 hover:bg-gray-100 active:bg-gray-200'
                           } focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500`}
                           onClick={(e) => { if (isLocked) e.preventDefault(); }}
                           aria-disabled={isLocked}
                         >
                           {getLessonDot(lesson.globalNumber)}
                           <div className="flex-1">
-                            <p className={`text-sm font-semibold ${isLocked ? 'text-gray-600' : 'text-gray-300'}`}>
+                            <p className={`text-sm font-semibold ${
+                              isLocked
+                                ? isDark ? 'text-gray-600' : 'text-gray-400'
+                                : isDark ? 'text-gray-300' : 'text-gray-700'
+                            }`}>
                               {lesson.title}
                             </p>
                           </div>
                           {!isLocked && (
-                            <span className="text-xs text-gray-500">{lesson.estimatedMinutes}m</span>
+                            <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{lesson.estimatedMinutes}m</span>
                           )}
                         </Link>
                       ))}
