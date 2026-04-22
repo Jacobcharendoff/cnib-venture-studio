@@ -1,10 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase';
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        setIsLoggedIn(!!user);
+      } catch {
+        setIsLoggedIn(false);
+      }
+    };
+    checkAuth();
+  }, []);
 
   return (
     <nav
@@ -16,7 +31,6 @@ export default function Nav() {
       aria-label="Main navigation"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo */}
         <Link
           href="/"
           className="text-xl sm:text-2xl font-black tracking-tight hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded px-2 py-1"
@@ -26,24 +40,35 @@ export default function Nav() {
 
         {/* Desktop Links */}
         <div className="hidden sm:flex items-center gap-4 sm:gap-8">
-          <Link
-            href="/#modules"
-            className="text-sm sm:text-base text-gray-300 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded px-2 py-1"
-          >
-            Modules
-          </Link>
-          <Link
-            href="/#how-it-works"
-            className="text-sm sm:text-base text-gray-300 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded px-2 py-1"
-          >
-            How It Works
-          </Link>
-          <Link
-            href="/auth"
-            className="px-4 sm:px-6 py-2 bg-blue-500 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-blue-600 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95"
-          >
-            Start Learning
-          </Link>
+          {isLoggedIn ? (
+            <Link
+              href="/dashboard"
+              className="px-4 sm:px-6 py-2 bg-blue-500 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-blue-600 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/#modules"
+                className="text-sm sm:text-base text-gray-300 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded px-2 py-1"
+              >
+                Modules
+              </Link>
+              <Link
+                href="/#how-it-works"
+                className="text-sm sm:text-base text-gray-300 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded px-2 py-1"
+              >
+                How It Works
+              </Link>
+              <Link
+                href="/auth"
+                className="px-4 sm:px-6 py-2 bg-blue-500 text-white text-sm sm:text-base font-semibold rounded-full hover:bg-blue-600 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 active:scale-95"
+              >
+                Start Learning
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -62,27 +87,39 @@ export default function Nav() {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="sm:hidden mt-4 pb-4 border-t border-white/10 pt-4 flex flex-col gap-3">
-          <Link
-            href="/#modules"
-            onClick={() => setMenuOpen(false)}
-            className="text-base text-gray-300 hover:text-white transition-colors px-2 py-2 rounded-lg"
-          >
-            Modules
-          </Link>
-          <Link
-            href="/#how-it-works"
-            onClick={() => setMenuOpen(false)}
-            className="text-base text-gray-300 hover:text-white transition-colors px-2 py-2 rounded-lg"
-          >
-            How It Works
-          </Link>
-          <Link
-            href="/auth"
-            onClick={() => setMenuOpen(false)}
-            className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all text-center active:scale-95"
-          >
-            Start Learning
-          </Link>
+          {isLoggedIn ? (
+            <Link
+              href="/dashboard"
+              onClick={() => setMenuOpen(false)}
+              className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all text-center active:scale-95"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/#modules"
+                onClick={() => setMenuOpen(false)}
+                className="text-base text-gray-300 hover:text-white transition-colors px-2 py-2 rounded-lg"
+              >
+                Modules
+              </Link>
+              <Link
+                href="/#how-it-works"
+                onClick={() => setMenuOpen(false)}
+                className="text-base text-gray-300 hover:text-white transition-colors px-2 py-2 rounded-lg"
+              >
+                How It Works
+              </Link>
+              <Link
+                href="/auth"
+                onClick={() => setMenuOpen(false)}
+                className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all text-center active:scale-95"
+              >
+                Start Learning
+              </Link>
+            </>
+          )}
         </div>
       )}
     </nav>
