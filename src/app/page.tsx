@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import { MODULES } from '@/lib/course-data';
-import { AccessibilityVisual, HeritageVisual, PriceVisual, StepRing, MiniChart } from '@/components/CardVisuals';
+import { AccessibilityVisual, HeritageVisual, PriceVisual, StepRing, MiniChart, ModuleVisual } from '@/components/CardVisuals';
 
 const MODULE_COLORS: Record<string, string> = {
   discover: '#2997FF',
@@ -259,15 +259,20 @@ export default function Home() {
                       <div className="p-8 sm:p-12">
                         {/* Module header */}
                         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8">
-                          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-black text-black flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" style={{ backgroundColor: color, boxShadow: `0 0 30px ${color}40` }}>
-                            {String(idx + 1).padStart(2, '0')}
+                          <div className="flex items-center gap-4 sm:gap-6 flex-1">
+                            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-black text-black flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" style={{ backgroundColor: color, boxShadow: `0 0 30px ${color}40` }}>
+                              {String(idx + 1).padStart(2, '0')}
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="text-2xl sm:text-3xl font-black tracking-tight" style={{ color }}>{module.title}</h3>
+                              <p className="text-base sm:text-lg text-gray-400 mt-1">{module.subtitle}</p>
+                            </div>
                           </div>
-                          <div className="flex-1">
-                            <h3 className="text-2xl sm:text-3xl font-black tracking-tight" style={{ color }}>{module.title}</h3>
-                            <p className="text-base sm:text-lg text-gray-400 mt-1">{module.subtitle}</p>
+                          {/* Module icon + Mini chart */}
+                          <div className="flex items-center gap-3">
+                            <ModuleVisual slug={module.slug} color={color} />
+                            <MiniChart color={color} pattern={chartPattern} />
                           </div>
-                          {/* Mini chart */}
-                          <MiniChart color={color} pattern={chartPattern} />
                         </div>
 
                         {/* Lesson list */}
@@ -344,13 +349,10 @@ export default function Home() {
             </AnimateIn>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              {/* Accessible from scratch */}
               <AnimateIn delay={0}>
                 <div className="group rounded-[28px] overflow-hidden transition-all duration-500 hover:-translate-y-2 h-full" style={{ background: 'linear-gradient(135deg, rgba(41, 151, 255, 0.08) 0%, rgba(41, 151, 255, 0.02) 100%)', border: '1px solid rgba(41, 151, 255, 0.2)' }}>
-                  {/* Gradient top accent */}
                   <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #2997FF, #5AC8FA)' }} />
                   <div className="p-8 sm:p-10">
-                    {/* Animated visual */}
                     <AccessibilityVisual />
                     <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight mt-6">Accessible from scratch</h3>
                     <p className="text-base text-gray-400 leading-relaxed">
@@ -360,7 +362,6 @@ export default function Home() {
                 </div>
               </AnimateIn>
 
-              {/* CNIB backed */}
               <AnimateIn delay={0.15}>
                 <div className="group rounded-[28px] overflow-hidden transition-all duration-500 hover:-translate-y-2 h-full" style={{ background: 'linear-gradient(135deg, rgba(191, 90, 242, 0.08) 0%, rgba(191, 90, 242, 0.02) 100%)', border: '1px solid rgba(191, 90, 242, 0.2)' }}>
                   <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #BF5AF2, #5AC8FA)' }} />
@@ -374,7 +375,6 @@ export default function Home() {
                 </div>
               </AnimateIn>
 
-              {/* Free forever */}
               <AnimateIn delay={0.3}>
                 <div className="group rounded-[28px] overflow-hidden transition-all duration-500 hover:-translate-y-2 h-full" style={{ background: 'linear-gradient(135deg, rgba(48, 209, 88, 0.08) 0%, rgba(48, 209, 88, 0.02) 100%)', border: '1px solid rgba(48, 209, 88, 0.2)' }}>
                   <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #30D158, #5AC8FA)' }} />
@@ -398,7 +398,6 @@ export default function Home() {
               <h2 id="process-heading" className="text-4xl sm:text-6xl font-black text-white tracking-tight text-center mb-16 sm:mb-20">How it works</h2>
             </AnimateIn>
 
-            {/* Connecting line */}
             <div className="hidden lg:block absolute top-1/2 left-1/2 transform -translate-x-1/2 w-3/4 h-px" style={{ background: 'linear-gradient(90deg, #2997FF30, #c9a80030, #30D15830, #BF5AF230)' }} />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6">
