@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -22,6 +23,128 @@ const MODULE_DELIVERABLES: Record<string, string> = {
   sell: 'Your first paying customer. Not hypothetical. Real.',
   launch: 'A launch plan, feedback system, and the foundation to keep growing',
 };
+
+// ── Animation Hooks & Components ──
+
+function useInView(options?: IntersectionObserverInit) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.15, ...options }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isVisible };
+}
+
+function AnimateIn({
+  children,
+  variant = 'fade-up',
+  delay = 0,
+  className = '',
+}: {
+  children: React.ReactNode;
+  variant?: 'fade-up' | 'fade-in' | 'scale-in' | 'slide-left' | 'slide-right';
+  delay?: number;
+  className?: string;
+}) {
+  const { ref, isVisible } = useInView();
+
+  const baseStyles: React.CSSProperties = {
+    transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
+    opacity: isVisible ? 1 : 0,
+  };
+
+  const variantStyles: Record<string, React.CSSProperties> = {
+    'fade-up': { transform: isVisible ? 'translateY(0)' : 'translateY(40px)' },
+    'fade-in': { transform: 'none' },
+    'scale-in': { transform: isVisible ? 'scale(1)' : 'scale(0.9)' },
+    'slide-left': { transform: isVisible ? 'translateX(0)' : 'translateX(40px)' },
+    'slide-right': { transform: isVisible ? 'translateX(0)' : 'translateX(-40px)' },
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{ ...baseStyles, ...variantStyles[variant] }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
+  const { ref, isVisible } = useInView();
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isVisible) return;
+    let start = 0;
+    const duration = 1500;
+    const step = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [isVisible, target]);
+
+  return (
+    <div ref={ref} className="text-4xl sm:text-6xl font-black text-white mb-2">
+      {isVisible ? `${count}${suffix}` : `0${suffix}`}
+    </div>
+  );
+}
+
+// ── Floating Particles ──
+
+function FloatingParticles({ count = 20, color = '#2997FF' }: { count?: number; color?: string }) {
+  const particles = useRef(
+    Array.from({ length: count }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+      duration: Math.random() * 20 + 15,
+      delay: Math.random() * -20,
+    }))
+  ).current;
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            backgroundColor: color,
+            opacity: 0.3,
+            animation: `float-particle ${p.duration}s ease-in-out ${p.delay}s infinite`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -49,6 +172,8 @@ export default function Home() {
             />
           </div>
 
+          <FloatingParticles count={30} color="#2997FF" />
+
           {/* Grid pattern overlay */}
           <div
             className="absolute inset-0 pointer-events-none"
@@ -64,8 +189,11 @@ export default function Home() {
           {/* Content */}
           <div className="relative z-10 max-w-4xl mx-auto text-center">
             {/* Badge */}
-            <div className="mb-8 sm:mb-12 inline-flex items-center gap-2 px-4 sm:px-6 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
-              <span className="w-2 h-2 bg-blue-500 rounded-full" />
+            <div
+              className="mb-8 sm:mb-12 inline-flex items-center gap-2 px-4 sm:px-6 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm"
+              style={{ animation: 'fade-in-down 0.8s ease forwards' }}
+            >
+              <span className="w-2 h-2 bg-blue-500 rounded-full" style={{ animation: 'pulse-glow 2s ease-in-out infinite' }} />
               <span className="text-xs sm:text-sm font-medium text-white">
                 Free for Canadians with sight loss
               </span>
@@ -75,29 +203,45 @@ export default function Home() {
             <h1
               id="hero-headline"
               className="text-[clamp(3rem,10vw,8rem)] font-black tracking-tighter leading-none mb-6 text-white"
+              style={{ animation: 'fade-in-up 0.8s ease 0.2s both' }}
             >
               Build something.{' '}
-              <span className="text-gray-400 font-light">
+              <span
+                className="font-light"
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #5AC8FA, #BF5AF2)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                }}
+              >
                 On your terms.
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-xl text-gray-400 mb-12 sm:mb-16 max-w-2xl mx-auto leading-relaxed">
+            <p
+              className="text-base sm:text-xl text-gray-400 mb-12 sm:mb-16 max-w-2xl mx-auto leading-relaxed"
+              style={{ animation: 'fade-in-up 0.8s ease 0.4s both' }}
+            >
               24 lessons that take you from &quot;I have an idea&quot; to your first paying customer. Built specifically for blind and low-vision Canadians who are done waiting for permission.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <div
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
+              style={{ animation: 'fade-in-up 0.8s ease 0.6s both' }}
+            >
               <Link
                 href="/auth"
-                className="px-6 sm:px-8 py-3 sm:py-4 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 w-full sm:w-auto text-center"
+                className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 w-full sm:w-auto text-center overflow-hidden"
               >
-                Start the course &rarr;
+                <span className="relative z-10">Start the course &rarr;</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
               <Link
                 href="#curriculum"
-                className="px-6 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-full border border-white/20 hover:bg-white/10 transition-all backdrop-blur-sm active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 w-full sm:w-auto text-center"
+                className="px-6 sm:px-8 py-3 sm:py-4 text-white font-semibold rounded-full border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all backdrop-blur-sm active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 w-full sm:w-auto text-center"
               >
                 See what you&apos;ll learn
               </Link>
@@ -110,20 +254,9 @@ export default function Home() {
             style={{ animation: 'bounce 2s infinite' }}
           >
             <div className="w-8 h-12 rounded-full border border-white/30 flex items-center justify-center">
-              <div className="w-1 h-2 bg-white/50 rounded-full" />
+              <div className="w-1 h-2 bg-white/50 rounded-full" style={{ animation: 'scroll-dot 2s ease-in-out infinite' }} />
             </div>
           </div>
-
-          <style>{`
-            @keyframes spin {
-              from { transform: rotate(0deg); }
-              to { transform: rotate(360deg); }
-            }
-            @keyframes bounce {
-              0%, 100% { transform: translateX(-50%) translateY(0); }
-              50% { transform: translateX(-50%) translateY(-10px); }
-            }
-          `}</style>
         </section>
 
         {/* ===== THE PROBLEM ===== */}
@@ -140,12 +273,15 @@ export default function Home() {
               style={{
                 background: `conic-gradient(from 0deg, #BF5AF2, #FF453A, #c9a800, #BF5AF2)`,
                 filter: 'blur(150px)',
+                animation: 'spin 20s linear infinite reverse',
               }}
             />
           </div>
 
+          <FloatingParticles count={15} color="#BF5AF2" />
+
           <div className="max-w-4xl mx-auto relative z-10">
-            <div className="text-center mb-12 sm:mb-16">
+            <AnimateIn variant="scale-in" className="text-center mb-12 sm:mb-16">
               <div
                 id="problem-heading"
                 className="text-[clamp(5rem,15vw,10rem)] font-black leading-none mb-4"
@@ -154,6 +290,8 @@ export default function Home() {
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   color: 'transparent',
+                  animation: 'gradient-shift 4s ease infinite',
+                  backgroundSize: '200% auto',
                 }}
               >
                 54%
@@ -161,46 +299,55 @@ export default function Home() {
               <p className="text-lg sm:text-2xl text-gray-400 max-w-2xl mx-auto">
                 of Canadians with sight loss are employed. The other 46% were told no.
               </p>
-            </div>
+            </AnimateIn>
 
             <div className="max-w-3xl mx-auto space-y-6 text-base sm:text-lg text-gray-400 leading-relaxed">
-              <p>
-                You know what that looks like. Interviews where someone realizes you can&apos;t see and the energy in the room changes. Applications that go nowhere. Being told you&apos;re &quot;inspiring&quot; but not getting the callback.
-              </p>
-              <p>
-                This course exists because waiting for someone else to give you a shot is a losing strategy. The fastest path to income, independence, and respect is building something yourself. And you already have everything you need to start.
-              </p>
-              <p className="text-white font-semibold text-lg sm:text-xl">
-                So we built a course that takes you there. Step by step. Lesson by lesson. From &quot;I have an idea&quot; to your first paying customer.
-              </p>
+              <AnimateIn delay={0.1}>
+                <p>
+                  You know what that looks like. Interviews where someone realizes you can&apos;t see and the energy in the room changes. Applications that go nowhere. Being told you&apos;re &quot;inspiring&quot; but not getting the callback.
+                </p>
+              </AnimateIn>
+              <AnimateIn delay={0.2}>
+                <p>
+                  This course exists because waiting for someone else to give you a shot is a losing strategy. The fastest path to income, independence, and respect is building something yourself. And you already have everything you need to start.
+                </p>
+              </AnimateIn>
+              <AnimateIn delay={0.3}>
+                <p className="text-white font-semibold text-lg sm:text-xl">
+                  So we built a course that takes you there. Step by step. Lesson by lesson. From &quot;I have an idea&quot; to your first paying customer.
+                </p>
+              </AnimateIn>
             </div>
           </div>
         </section>
 
         {/* ===== STATS BAR ===== */}
         <section
-          className="border-t border-b border-white/10 py-12 sm:py-16 px-6 sm:px-8"
+          className="relative border-t border-b border-white/10 py-12 sm:py-16 px-6 sm:px-8 overflow-hidden"
           aria-labelledby="stats-heading"
         >
-          <div className="max-w-7xl mx-auto">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-green-500/5" />
+          <div className="max-w-7xl mx-auto relative z-10">
             <h2 id="stats-heading" className="sr-only">Course statistics</h2>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24">
-              <div className="text-center">
-                <div className="text-4xl sm:text-6xl font-black text-white mb-2">24</div>
+              <AnimateIn delay={0} className="text-center">
+                <AnimatedCounter target={24} />
                 <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">Lessons</p>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl sm:text-6xl font-black text-white mb-2">6</div>
+              </AnimateIn>
+              <AnimateIn delay={0.15} className="text-center">
+                <AnimatedCounter target={6} />
                 <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">Modules</p>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl sm:text-6xl font-black text-white mb-2">42</div>
+              </AnimateIn>
+              <AnimateIn delay={0.3} className="text-center">
+                <AnimatedCounter target={42} />
                 <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">Downloadable assets</p>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl sm:text-6xl font-black text-white mb-2">$0</div>
+              </AnimateIn>
+              <AnimateIn delay={0.45} className="text-center">
+                <div className="text-4xl sm:text-6xl font-black text-white mb-2">
+                  <span style={{ backgroundImage: 'linear-gradient(90deg, #30D158, #5AC8FA)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>$0</span>
+                </div>
                 <p className="text-xs sm:text-sm uppercase tracking-wider text-gray-500 font-medium">Always free</p>
-              </div>
+              </AnimateIn>
             </div>
           </div>
         </section>
@@ -208,11 +355,13 @@ export default function Home() {
         {/* ===== DETAILED CURRICULUM ===== */}
         <section
           id="curriculum"
-          className="bg-black py-20 sm:py-28 px-6 sm:px-8"
+          className="relative bg-black py-20 sm:py-28 px-6 sm:px-8"
           aria-labelledby="curriculum-heading"
         >
-          <div className="max-w-7xl mx-auto">
-            <div className="mb-16 sm:mb-20 text-center">
+          <FloatingParticles count={10} color="#5AC8FA" />
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <AnimateIn className="mb-16 sm:mb-20 text-center">
               <h2
                 id="curriculum-heading"
                 className="text-4xl sm:text-6xl font-black text-white tracking-tight mb-4"
@@ -222,7 +371,7 @@ export default function Home() {
               <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto">
                 Six modules. 24 lessons. Each one is 15 minutes and ends with something tangible you&apos;ll actually use.
               </p>
-            </div>
+            </AnimateIn>
 
             {/* Module detail blocks */}
             <div className="space-y-8 sm:space-y-12">
@@ -231,84 +380,93 @@ export default function Home() {
                 const deliverable = MODULE_DELIVERABLES[module.slug] || '';
 
                 return (
-                  <div
-                    key={module.slug}
-                    className="rounded-[28px] overflow-hidden border border-white/10"
-                    style={{
-                      background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
-                    }}
-                  >
-                    <div className="p-8 sm:p-12">
-                      {/* Module header */}
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8">
-                        <div
-                          className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-black text-black flex-shrink-0"
-                          style={{ backgroundColor: color }}
-                        >
-                          {String(idx + 1).padStart(2, '0')}
+                  <AnimateIn key={module.slug} delay={idx * 0.08}>
+                    <div
+                      className="group rounded-[28px] overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-500"
+                      style={{
+                        background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
+                      }}
+                    >
+                      {/* Gradient top bar */}
+                      <div
+                        className="h-1 w-full transition-all duration-500 group-hover:h-1.5"
+                        style={{ background: `linear-gradient(90deg, ${color}, ${color}80)` }}
+                      />
+                      <div className="p-8 sm:p-12">
+                        {/* Module header */}
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8">
+                          <div
+                            className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-black text-black flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+                            style={{ backgroundColor: color, boxShadow: `0 0 30px ${color}40` }}
+                          >
+                            {String(idx + 1).padStart(2, '0')}
+                          </div>
+                          <div>
+                            <h3
+                              className="text-2xl sm:text-3xl font-black tracking-tight transition-colors duration-300"
+                              style={{ color: color }}
+                            >
+                              {module.title}
+                            </h3>
+                            <p className="text-base sm:text-lg text-gray-400 mt-1">
+                              {module.subtitle}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                            {module.title}
-                          </h3>
-                          <p className="text-base sm:text-lg text-gray-400 mt-1">
-                            {module.subtitle}
+
+                        {/* Lesson list */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
+                          {module.lessons.map((lesson) => (
+                            <div
+                              key={lesson.slug}
+                              className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition-all duration-300 hover:translate-x-1"
+                            >
+                              <div
+                                className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5 transition-all duration-300"
+                                style={{
+                                  backgroundColor: `${color}20`,
+                                  color: color,
+                                }}
+                              >
+                                {lesson.globalNumber}
+                              </div>
+                              <div>
+                                <p className="text-white font-semibold text-sm sm:text-base">
+                                  {lesson.title}
+                                </p>
+                                <p className="text-gray-500 text-xs sm:text-sm mt-1">
+                                  {lesson.estimatedMinutes} min
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Deliverable */}
+                        <div
+                          className="flex items-start gap-3 p-4 sm:p-5 rounded-xl border transition-all duration-300 group-hover:scale-[1.01]"
+                          style={{
+                            borderColor: `${color}30`,
+                            backgroundColor: `${color}08`,
+                          }}
+                        >
+                          <svg
+                            className="w-5 h-5 flex-shrink-0 mt-0.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke={color}
+                            strokeWidth="2"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <p className="text-sm sm:text-base text-gray-300">
+                            <span className="font-semibold text-white">What you&apos;ll have:</span>{' '}
+                            {deliverable}
                           </p>
                         </div>
                       </div>
-
-                      {/* Lesson list */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
-                        {module.lessons.map((lesson) => (
-                          <div
-                            key={lesson.slug}
-                            className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] transition-colors"
-                          >
-                            <div
-                              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5"
-                              style={{
-                                backgroundColor: `${color}20`,
-                                color: color,
-                              }}
-                            >
-                              {lesson.globalNumber}
-                            </div>
-                            <div>
-                              <p className="text-white font-semibold text-sm sm:text-base">
-                                {lesson.title}
-                              </p>
-                              <p className="text-gray-500 text-xs sm:text-sm mt-1">
-                                {lesson.estimatedMinutes} min
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Deliverable */}
-                      <div
-                        className="flex items-start gap-3 p-4 sm:p-5 rounded-xl border"
-                        style={{
-                          borderColor: `${color}30`,
-                          backgroundColor: `${color}08`,
-                        }}
-                      >
-                        <svg
-                          className="w-5 h-5 flex-shrink-0 mt-0.5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke={color}
-                          strokeWidth="2"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <p className="text-sm sm:text-base text-gray-300">
-                          <span className="font-semibold text-white">What you&apos;ll have:</span>{' '}
-                          {deliverable}
-                        </p>
-                      </div>
                     </div>
-                  </div>
+                  </AnimateIn>
                 );
               })}
             </div>
@@ -321,7 +479,7 @@ export default function Home() {
           aria-labelledby="journey-heading"
         >
           <div className="max-w-5xl mx-auto">
-            <div className="mb-16 sm:mb-20 text-center">
+            <AnimateIn className="mb-16 sm:mb-20 text-center">
               <h2
                 id="journey-heading"
                 className="text-4xl sm:text-6xl font-black tracking-tight mb-4"
@@ -331,7 +489,7 @@ export default function Home() {
               <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto">
                 Here&apos;s what six weeks looks like when you stop waiting and start building.
               </p>
-            </div>
+            </AnimateIn>
 
             {/* Timeline */}
             <div className="relative">
@@ -347,26 +505,28 @@ export default function Home() {
                   { week: 'Week 5', title: 'Find customers and close the deal', desc: 'Learn outreach that doesn\'t feel sleazy. Have real conversations. Get to the ask. Make your first sale.', color: '#FF453A' },
                   { week: 'Week 6', title: 'Launch and keep going', desc: 'Ship it publicly. Collect feedback. Build the systems that let you grow without burning out.', color: '#30D158' },
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-6 sm:gap-8 items-start">
-                    {/* Dot */}
-                    <div className="flex-shrink-0 relative z-10">
-                      <div
-                        className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-sm"
-                        style={{ backgroundColor: item.color }}
-                      >
-                        {item.week.replace('Week ', 'W')}
+                  <AnimateIn key={i} variant="slide-right" delay={i * 0.1}>
+                    <div className="flex gap-6 sm:gap-8 items-start group">
+                      {/* Dot */}
+                      <div className="flex-shrink-0 relative z-10">
+                        <div
+                          className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+                          style={{ backgroundColor: item.color, boxShadow: `0 0 20px ${item.color}30` }}
+                        >
+                          {item.week.replace('Week ', 'W')}
+                        </div>
+                      </div>
+                      {/* Content */}
+                      <div className="pt-1">
+                        <h3 className="text-xl sm:text-2xl font-black tracking-tight mb-2">
+                          {item.title}
+                        </h3>
+                        <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                          {item.desc}
+                        </p>
                       </div>
                     </div>
-                    {/* Content */}
-                    <div className="pt-1">
-                      <h3 className="text-xl sm:text-2xl font-black tracking-tight mb-2">
-                        {item.title}
-                      </h3>
-                      <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
+                  </AnimateIn>
                 ))}
               </div>
             </div>
@@ -375,11 +535,13 @@ export default function Home() {
 
         {/* ===== BUILT DIFFERENT ===== */}
         <section
-          className="bg-black py-20 sm:py-28 px-6 sm:px-8"
+          className="relative bg-black py-20 sm:py-28 px-6 sm:px-8 overflow-hidden"
           aria-labelledby="different-heading"
         >
-          <div className="max-w-7xl mx-auto">
-            <div className="mb-16 sm:mb-20 text-center">
+          <FloatingParticles count={12} color="#30D158" />
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <AnimateIn className="mb-16 sm:mb-20 text-center">
               <h2
                 id="different-heading"
                 className="text-4xl sm:text-6xl font-black text-white tracking-tight mb-4"
@@ -389,63 +551,69 @@ export default function Home() {
               <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto">
                 There are thousands of entrepreneurship programs. Here&apos;s why this one is different.
               </p>
-            </div>
+            </AnimateIn>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {/* Accessible from scratch */}
-              <div className="rounded-[28px] p-8 sm:p-10 bg-white/[0.04] border border-white/10 hover:border-white/20 transition-colors">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
-                  style={{ background: 'rgba(41, 151, 255, 0.15)' }}
-                >
-                  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="#2997FF" strokeWidth="2">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
+              <AnimateIn delay={0}>
+                <div className="group rounded-[28px] p-8 sm:p-10 bg-white/[0.04] border border-white/10 hover:border-blue-500/40 transition-all duration-500 hover:-translate-y-2 h-full" style={{ boxShadow: 'none' }}>
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+                    style={{ background: 'rgba(41, 151, 255, 0.15)', boxShadow: '0 0 0px rgba(41, 151, 255, 0)' }}
+                  >
+                    <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="#2997FF" strokeWidth="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight">
+                    Accessible from scratch
+                  </h3>
+                  <p className="text-base text-gray-400 leading-relaxed">
+                    Not retrofitted. Not &quot;we added alt text.&quot; Every lesson, every template, every download was built to work with screen readers, magnification, and assistive tech from day one.
+                  </p>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight">
-                  Accessible from scratch
-                </h3>
-                <p className="text-base text-gray-400 leading-relaxed">
-                  Not retrofitted. Not &quot;we added alt text.&quot; Every lesson, every template, every download was built to work with screen readers, magnification, and assistive tech from day one. Because that&apos;s how you build things for your community.
-                </p>
-              </div>
+              </AnimateIn>
 
               {/* CNIB backed */}
-              <div className="rounded-[28px] p-8 sm:p-10 bg-white/[0.04] border border-white/10 hover:border-white/20 transition-colors">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
-                  style={{ background: 'rgba(191, 90, 242, 0.15)' }}
-                >
-                  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="#BF5AF2" strokeWidth="2">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  </svg>
+              <AnimateIn delay={0.15}>
+                <div className="group rounded-[28px] p-8 sm:p-10 bg-white/[0.04] border border-white/10 hover:border-purple-500/40 transition-all duration-500 hover:-translate-y-2 h-full">
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+                    style={{ background: 'rgba(191, 90, 242, 0.15)' }}
+                  >
+                    <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="#BF5AF2" strokeWidth="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight">
+                    Backed by CNIB
+                  </h3>
+                  <p className="text-base text-gray-400 leading-relaxed">
+                    CNIB has served the blind and low-vision community in Canada for over 100 years. This course is part of a larger mission: proving that sight loss is not a barrier to building something real.
+                  </p>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight">
-                  Backed by CNIB
-                </h3>
-                <p className="text-base text-gray-400 leading-relaxed">
-                  CNIB has served the blind and low-vision community in Canada for over 100 years. This course is part of a larger mission: proving that sight loss is not a barrier to building something real. The expertise behind this isn&apos;t theoretical.
-                </p>
-              </div>
+              </AnimateIn>
 
               {/* Free forever */}
-              <div className="rounded-[28px] p-8 sm:p-10 bg-white/[0.04] border border-white/10 hover:border-white/20 transition-colors">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
-                  style={{ background: 'rgba(48, 209, 88, 0.15)' }}
-                >
-                  <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="#30D158" strokeWidth="2">
-                    <path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
-                  </svg>
+              <AnimateIn delay={0.3}>
+                <div className="group rounded-[28px] p-8 sm:p-10 bg-white/[0.04] border border-white/10 hover:border-green-500/40 transition-all duration-500 hover:-translate-y-2 h-full">
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+                    style={{ background: 'rgba(48, 209, 88, 0.15)' }}
+                  >
+                    <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="#30D158" strokeWidth="2">
+                      <path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight">
+                    Free. No catch.
+                  </h3>
+                  <p className="text-base text-gray-400 leading-relaxed">
+                    Not a free trial. Not freemium. Not &quot;free but upgrade for the good stuff.&quot; Every lesson, every template, every asset is yours. No credit card, no paywall, no upsell.
+                  </p>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white mb-3 tracking-tight">
-                  Free. No catch.
-                </h3>
-                <p className="text-base text-gray-400 leading-relaxed">
-                  Not a free trial. Not freemium. Not &quot;free but upgrade for the good stuff.&quot; Every lesson, every template, every asset is yours. No credit card, no paywall, no upsell. Because cost should never be the reason you don&apos;t start.
-                </p>
-              </div>
+              </AnimateIn>
             </div>
           </div>
         </section>
@@ -453,16 +621,18 @@ export default function Home() {
         {/* ===== HOW IT WORKS ===== */}
         <section
           id="how-it-works"
-          className="bg-[#111] py-20 sm:py-28 px-6 sm:px-8"
+          className="relative bg-[#111] py-20 sm:py-28 px-6 sm:px-8 overflow-hidden"
           aria-labelledby="process-heading"
         >
-          <div className="max-w-5xl mx-auto">
-            <h2
-              id="process-heading"
-              className="text-4xl sm:text-6xl font-black text-white tracking-tight text-center mb-16 sm:mb-20"
-            >
-              How it works
-            </h2>
+          <div className="max-w-5xl mx-auto relative z-10">
+            <AnimateIn>
+              <h2
+                id="process-heading"
+                className="text-4xl sm:text-6xl font-black text-white tracking-tight text-center mb-16 sm:mb-20"
+              >
+                How it works
+              </h2>
+            </AnimateIn>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6">
               {[
@@ -470,25 +640,28 @@ export default function Home() {
                 { num: '02', title: 'Learn on your schedule', desc: '15-minute lessons. No live sessions. No group work. Just you and the material, whenever it works.', color: '#c9a800' },
                 { num: '03', title: 'Build something real', desc: 'Every lesson ends with a deliverable. Templates, worksheets, frameworks. Stuff you\'ll use, not busywork.', color: '#30D158' },
                 { num: '04', title: 'Get your first customer', desc: 'The finish line isn\'t a certificate. It\'s a sale.', color: '#BF5AF2' },
-              ].map((step) => (
-                <div key={step.num} className="text-center">
-                  <div
-                    className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 text-lg font-black"
-                    style={{
-                      backgroundColor: `${step.color}15`,
-                      color: step.color,
-                      border: `1px solid ${step.color}30`,
-                    }}
-                  >
-                    {step.num}
+              ].map((step, i) => (
+                <AnimateIn key={step.num} delay={i * 0.12}>
+                  <div className="group text-center">
+                    <div
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 text-lg font-black transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
+                      style={{
+                        backgroundColor: `${step.color}15`,
+                        color: step.color,
+                        border: `1px solid ${step.color}30`,
+                        boxShadow: `0 0 0px ${step.color}00`,
+                      }}
+                    >
+                      {step.num}
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-black text-white mb-2">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-500 leading-relaxed">
+                      {step.desc}
+                    </p>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-black text-white mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-500 leading-relaxed">
-                    {step.desc}
-                  </p>
-                </div>
+                </AnimateIn>
               ))}
             </div>
           </div>
@@ -501,41 +674,52 @@ export default function Home() {
         >
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
-            style={{ opacity: 0.1 }}
+            style={{ opacity: 0.15 }}
           >
             <div
               className="absolute w-[500px] h-[500px] rounded-full"
               style={{
                 background: 'radial-gradient(circle, #2997FF 0%, transparent 70%)',
                 filter: 'blur(80px)',
+                animation: 'pulse-slow 4s ease-in-out infinite',
               }}
             />
           </div>
 
-          <div className="max-w-3xl mx-auto text-center relative z-10">
-            <blockquote>
-              <p
-                id="manifesto-quote"
-                className="text-2xl sm:text-4xl font-black text-white leading-tight tracking-tight mb-8"
-              >
-                &quot;The biggest disability in the world is being told you can&apos;t. This course is for everyone who got{' '}
-                <span className="text-gray-500 font-light">tired of asking</span>{' '}
-                and decided to build their own answer.&quot;
-              </p>
-            </blockquote>
-            <div className="text-gray-500 text-sm sm:text-base">
-              The Venture Collective, a CNIB initiative
+          <AnimateIn variant="scale-in">
+            <div className="max-w-3xl mx-auto text-center relative z-10">
+              <blockquote>
+                <p
+                  id="manifesto-quote"
+                  className="text-2xl sm:text-4xl font-black text-white leading-tight tracking-tight mb-8"
+                >
+                  &quot;The biggest disability in the world is being told you can&apos;t. This course is for everyone who got{' '}
+                  <span
+                    className="font-light"
+                    style={{
+                      backgroundImage: 'linear-gradient(90deg, #5AC8FA, #BF5AF2)',
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      color: 'transparent',
+                    }}
+                  >tired of asking</span>{' '}
+                  and decided to build their own answer.&quot;
+                </p>
+              </blockquote>
+              <div className="text-gray-500 text-sm sm:text-base">
+                The Venture Collective, a CNIB initiative
+              </div>
             </div>
-          </div>
+          </AnimateIn>
         </section>
 
         {/* ===== LESSON PREVIEW ===== */}
         <section
-          className="bg-[#0A0A0A] py-20 sm:py-28 px-6 sm:px-8 border-t border-b border-white/5"
+          className="relative bg-[#0A0A0A] py-20 sm:py-28 px-6 sm:px-8 border-t border-b border-white/5 overflow-hidden"
           aria-labelledby="preview-heading"
         >
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12 sm:mb-16">
+          <div className="max-w-4xl mx-auto relative z-10">
+            <AnimateIn className="text-center mb-12 sm:mb-16">
               <h2
                 id="preview-heading"
                 className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4"
@@ -545,41 +729,47 @@ export default function Home() {
               <p className="text-base sm:text-lg text-gray-500">
                 No signup required to see what you&apos;re getting.
               </p>
-            </div>
+            </AnimateIn>
 
-            <div className="rounded-[28px] overflow-hidden border border-white/10 bg-white/[0.03]">
-              <div className="p-6 sm:p-8 border-b border-white/10 flex items-center gap-4">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold"
-                  style={{ backgroundColor: '#2997FF20', color: '#2997FF' }}
-                >
-                  01
+            <AnimateIn variant="scale-in" delay={0.15}>
+              <div
+                className="group rounded-[28px] overflow-hidden border border-white/10 bg-white/[0.03] hover:border-blue-500/30 transition-all duration-500"
+                style={{ boxShadow: '0 0 0px rgba(41, 151, 255, 0)' }}
+              >
+                <div className="p-6 sm:p-8 border-b border-white/10 flex items-center gap-4">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 group-hover:scale-110"
+                    style={{ backgroundColor: '#2997FF20', color: '#2997FF', boxShadow: '0 0 20px #2997FF20' }}
+                  >
+                    01
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-lg">Who Do You Want to Help?</p>
+                    <p className="text-gray-500 text-sm">Module 1: DISCOVER &middot; 15 minutes</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-white font-bold text-lg">Who Do You Want to Help?</p>
-                  <p className="text-gray-500 text-sm">Module 1: DISCOVER &middot; 15 minutes</p>
+                <div className="p-6 sm:p-10 space-y-5 text-gray-300 leading-relaxed">
+                  <p className="text-base sm:text-lg">
+                    Every business starts with a person. Not a product, not an app, not a website. A person with a problem they&apos;d pay to solve.
+                  </p>
+                  <p className="text-base sm:text-lg">
+                    In this lesson, you&apos;ll stop thinking about &quot;business ideas&quot; and start thinking about people. Specifically: who do you already understand better than most? What community are you part of? What problems have you solved in your own life that other people are still stuck on?
+                  </p>
+                  <p className="text-sm text-gray-500 italic">
+                    The full lesson continues with exercises, examples, and a downloadable worksheet...
+                  </p>
+                </div>
+                <div className="p-6 sm:p-8 border-t border-white/10 flex justify-center">
+                  <Link
+                    href="/auth"
+                    className="group/btn relative px-6 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 text-sm overflow-hidden"
+                  >
+                    <span className="relative z-10">Sign up to read the full lesson</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+                  </Link>
                 </div>
               </div>
-              <div className="p-6 sm:p-10 space-y-5 text-gray-300 leading-relaxed">
-                <p className="text-base sm:text-lg">
-                  Every business starts with a person. Not a product, not an app, not a website. A person with a problem they&apos;d pay to solve.
-                </p>
-                <p className="text-base sm:text-lg">
-                  In this lesson, you&apos;ll stop thinking about &quot;business ideas&quot; and start thinking about people. Specifically: who do you already understand better than most? What community are you part of? What problems have you solved in your own life that other people are still stuck on?
-                </p>
-                <p className="text-sm text-gray-500 italic">
-                  The full lesson continues with exercises, examples, and a downloadable worksheet...
-                </p>
-              </div>
-              <div className="p-6 sm:p-8 border-t border-white/10 flex justify-center">
-                <Link
-                  href="/auth"
-                  className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 text-sm"
-                >
-                  Sign up to read the full lesson
-                </Link>
-              </div>
-            </div>
+            </AnimateIn>
           </div>
         </section>
 
@@ -591,44 +781,93 @@ export default function Home() {
           <div
             className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[800px] h-[800px] rounded-full pointer-events-none"
             style={{
-              background: 'radial-gradient(circle, rgba(41, 151, 255, 0.1) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(41, 151, 255, 0.15) 0%, transparent 70%)',
               filter: 'blur(40px)',
+              animation: 'pulse-slow 5s ease-in-out infinite',
             }}
           />
 
-          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <h2
-              id="final-cta-heading"
-              className="text-4xl sm:text-7xl font-black text-white tracking-tight mb-2"
-            >
-              You&apos;ve waited{' '}
-              <span
-                style={{
-                  backgroundImage: 'linear-gradient(90deg, #2997FF, #5AC8FA)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  color: 'transparent',
-                }}
+          <FloatingParticles count={20} color="#2997FF" />
+
+          <AnimateIn variant="scale-in">
+            <div className="max-w-4xl mx-auto text-center relative z-10">
+              <h2
+                id="final-cta-heading"
+                className="text-4xl sm:text-7xl font-black text-white tracking-tight mb-2"
               >
-                long enough.
-              </span>
-            </h2>
+                You&apos;ve waited{' '}
+                <span
+                  style={{
+                    backgroundImage: 'linear-gradient(90deg, #2997FF, #BF5AF2)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    color: 'transparent',
+                  }}
+                >
+                  long enough.
+                </span>
+              </h2>
 
-            <p className="text-lg sm:text-xl text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
-              24 lessons. 42 downloadable assets. Your first paying customer. All free. The only thing between you and your first dollar is starting.
-            </p>
+              <p className="text-lg sm:text-xl text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
+                24 lessons. 42 downloadable assets. Your first paying customer. All free. The only thing between you and your first dollar is starting.
+              </p>
 
-            <Link
-              href="/auth"
-              className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 text-lg"
-            >
-              Start the course &rarr;
-            </Link>
-          </div>
+              <Link
+                href="/auth"
+                className="group relative inline-block px-8 sm:px-12 py-4 sm:py-5 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 text-lg overflow-hidden"
+              >
+                <span className="relative z-10">Start the course &rarr;</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[length:200%_auto] animate-[gradient-shift_3s_ease_infinite]" />
+              </Link>
+            </div>
+          </AnimateIn>
         </section>
       </main>
 
       <Footer />
+
+      {/* ===== GLOBAL ANIMATION STYLES ===== */}
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes bounce {
+          0%, 100% { transform: translateX(-50%) translateY(0); }
+          50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        @keyframes scroll-dot {
+          0%, 100% { transform: translateY(-4px); opacity: 0; }
+          50% { transform: translateY(4px); opacity: 1; }
+        }
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in-down {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 4px #3b82f6, 0 0 8px #3b82f6; }
+          50% { box-shadow: 0 0 8px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f680; }
+        }
+        @keyframes pulse-slow {
+          0%, 100% { transform: scale(1); opacity: 0.15; }
+          50% { transform: scale(1.1); opacity: 0.25; }
+        }
+        @keyframes gradient-shift {
+          0% { background-position: 0% center; }
+          50% { background-position: 100% center; }
+          100% { background-position: 0% center; }
+        }
+        @keyframes float-particle {
+          0%, 100% { transform: translate(0, 0); opacity: 0.2; }
+          25% { transform: translate(10px, -20px); opacity: 0.4; }
+          50% { transform: translate(-5px, -40px); opacity: 0.2; }
+          75% { transform: translate(15px, -20px); opacity: 0.35; }
+        }
+      `}</style>
     </div>
   );
 }
