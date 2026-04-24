@@ -10,11 +10,19 @@ import { createClient } from '@/lib/supabase';
 // This is a free, open course — no sensitive data to protect.
 const INTERNAL_PW = 'tvc-open-course-2024';
 
+const PROVINCES = [
+  'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick',
+  'Newfoundland and Labrador', 'Nova Scotia', 'Northwest Territories',
+  'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec',
+  'Saskatchewan', 'Yukon',
+];
+
 export default function AuthPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [province, setProvince] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -36,6 +44,7 @@ export default function AuthPage() {
             last_name: lastName,
             full_name: `${firstName} ${lastName}`,
             phone: phone,
+            province: province,
           },
         },
       });
@@ -55,7 +64,6 @@ export default function AuthPage() {
         });
 
         if (signInError) {
-          // If password doesn't match (user signed up with old flow), try updating
           setError('Looks like you already have an account from before. Try signing in with Google below, or contact us for help.');
           setLoading(false);
           return;
@@ -70,7 +78,6 @@ export default function AuthPage() {
         setError(signUpError.message);
       } else {
         // Edge case: signup succeeded but no session (shouldn't happen with email confirm disabled)
-        // Try signing in
         const { error: fallbackError } = await supabase.auth.signInWithPassword({
           email,
           password: INTERNAL_PW,
@@ -224,6 +231,27 @@ export default function AuthPage() {
                     required
                     className="w-full h-[52px] px-4 rounded-lg bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                   />
+                </div>
+
+                <div className="flex flex-col">
+                  <label htmlFor="province" className="text-sm font-semibold text-white mb-2">Province / Territory</label>
+                  <select
+                    id="province"
+                    value={province}
+                    onChange={(e) => setProvince(e.target.value)}
+                    required
+                    className="w-full h-[52px] px-4 rounded-lg bg-gray-900 border border-gray-700 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors appearance-none"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='%239CA3AF'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E")`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'right 16px center',
+                    }}
+                  >
+                    <option value="" disabled className="text-gray-500">Select your province</option>
+                    {PROVINCES.map((prov) => (
+                      <option key={prov} value={prov}>{prov}</option>
+                    ))}
+                  </select>
                 </div>
 
                 {error && (
